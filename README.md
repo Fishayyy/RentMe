@@ -1,3 +1,12 @@
-# Rentme
+# RentMe
 This is the group for COMP350
-Sean Blanchard - Gangsta
+
+Sean Blanchard
+
+Kelsi
+
+Austin Fisher
+
+Roman Sanchez
+
+Charles 
