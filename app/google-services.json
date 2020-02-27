@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "764757545748",
+    "firebase_url": "https://rentme-d24bb.firebaseio.com",
+    "project_id": "rentme-d24bb",
+    "storage_bucket": "rentme-d24bb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:764757545748:android:7a9edee55ad908a2056801",
+        "android_client_info": {
+          "package_name": "com.firebase.rentme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "764757545748-rej1nbc72ii5eupn1gfidj105g58rlrh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCya7B3ig2cKWB43Ckq1DyH2A_IpwpOP2M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "764757545748-rej1nbc72ii5eupn1gfidj105g58rlrh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
