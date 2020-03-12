@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">RentMe</string>
+
+    <string name = "propertyType">Type</string>
+    <string name = "propertyCost">"Cost   $"</string>
+    <string name = "propertyCity">"City     "</string>
+    <string name = "propertyState">"State   "</string>
+
+    <string name = "type0">Apartment</string>
+    <string name = "type1">House</string>
+    <string name = "type2">Room</string>
+
 </resources>

@@ -1,9 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+<?xml version = "1.0" encoding = "utf-8"?>
+<RelativeLayout
+    xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:app = "http://schemas.android.com/apk/res-auto"
+    xmlns:tools = "http://schemas.android.com/tools"
+    android:layout_width = "match_parent"
+    android:layout_height = "match_parent"
+    tools:context = ".MainActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id = "@+id/floatingActionButton"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:layout_below = "@id/frame"
+        android:layout_marginTop = "-80dp"
+        android:layout_marginStart = "320dp"
+        android:onClick = "gotoPostNew"
+        app:backgroundTint = "@color/colorAccent"
+        app:srcCompat = "@android:drawable/ic_input_add">
+
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+    <com.lorentzos.flingswipe.SwipeFlingAdapterView
+        android:id = "@+id/frame"
+        android:layout_width = "match_parent"
+        android:layout_height = "match_parent"
+        app:rotation_degrees = "15.5">
+
+    </com.lorentzos.flingswipe.SwipeFlingAdapterView>
+
+</RelativeLayout>
