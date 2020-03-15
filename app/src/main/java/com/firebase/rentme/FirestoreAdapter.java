@@ -13,11 +13,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class arrayAdapter extends ArrayAdapter {
+public class FirestoreAdapter extends ArrayAdapter {
 
     Context context;
 
-    public arrayAdapter(Context context, int resourceId, List<Property> property)
+    public FirestoreAdapter(Context context, int resourceId, List<Property> property)
     {
         super(context, resourceId, property);
     }

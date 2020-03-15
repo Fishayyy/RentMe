@@ -1,13 +1,61 @@
 <resources>
     <string name="app_name">RentMe</string>
 
-    <string name = "propertyType">Type</string>
-    <string name = "propertyCost">"Cost   $"</string>
-    <string name = "propertyCity">"City     "</string>
-    <string name = "propertyState">"State   "</string>
+<!--    Displaying Property Card-->
+    <string name="propertyType">Type</string>
+    <string name="propertyCost">"Cost   $"</string>
+    <string name="propertyCity">"City     "</string>
+    <string name="propertyState">"State   "</string>
 
-    <string name = "type0">Apartment</string>
-    <string name = "type1">House</string>
-    <string name = "type2">Room</string>
+<!--    Property Owner Info-->
+    <string name = "owner">"Owner:   "</string>
+    <string name = "ownerEmail">"Email:    "</string>
+    <string name = "ownerPhoneNum">"Phone:   "</string>
+
+<!--    Housing Categories-->
+    <string name="type0">Apartment</string>
+    <string name="type1">House</string>
+    <string name="type2">Room</string>
+
+<!--    CreateProfileActivity-->
+
+<!--    TextViews-->
+    <string name="categoryText">"Housing Type"</string>
+    <string name="priceText">"Monthly Rate"</string>
+    <string name="dollarSign">"$"</string>
+    <string name="nameText">"Name"</string>
+    <string name="phoneText">"Phone Number"</string>
+    <string name="emailText">"Email"</string>
+    <string name="addressText">"Address"</string>
+    <string name="cityText">"City"</string>
+    <string name="zipCodeText">"ZIP"</string>
+    <string name="stateText">"State"</string>
+    <string name="bioText">"Property Bio"</string>
+    <string name="PhotoText">"Photo URL"</string>
+
+
+<!--    Buttons-->
+    <string name="upload">"Upload"</string>
+    <string name="choose">"Choose Image"</string>
+    <string name="addProperty">"Add Property"</string>
+
+<!--    Spinner String Array-->
+    <string-array name="categories">
+        <item>Apartment</item>
+        <item>House</item>
+        <item>Room</item>
+    </string-array>
+
+<!--    Edit Text Hints-->
+    <string name="priceHint">"10000.00"</string>
+    <string name="nameHint">"John Smith"</string>
+    <string name="phoneHint">"123–456–7890"</string>
+    <string name="emailHint">"example@email.com"</string>
+    <string name="addressHint">"123 Example St."</string>
+    <string name="cityHint">"e.g. San Francisco"</string>
+    <string name="zipCodeHint">"Zip Code"</string>
+    <string name="stateHint">"e.g. California"</string>
+    <string name="bioHint">"Tell us a little bit about the place!"</string>
+
 
 </resources>
