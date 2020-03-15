@@ -7,10 +7,8 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ViewProperty extends AppCompatActivity
+public class ViewContactCard extends AppCompatActivity
 {
-
-
     private static final String TAG = "ViewProperty";
 
     @Override

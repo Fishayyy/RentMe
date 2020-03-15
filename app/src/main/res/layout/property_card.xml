@@ -8,11 +8,11 @@
 
     <androidx.cardview.widget.CardView
         android:id = "@+id/property_card"
-        android:layout_width = "350dp"
-        android:layout_height = "550dp"
+        android:layout_width = "385dp"
+        android:layout_height = "630dp"
         android:layout_gravity = "top|center"
-        android:layout_marginTop = "35dp"
-        card_view:cardCornerRadius = "4dp">
+        android:layout_marginTop = "5dp"
+        card_view:cardCornerRadius = "8dp">
         <!--android:onClick = "viewProperty"-->
 
         <ImageView
@@ -20,7 +20,6 @@
             android:layout_height = "match_parent"
             android:layout_width = "match_parent"
             android:scaleType = "centerCrop">
-
         </ImageView>
 
         <RelativeLayout
@@ -28,33 +27,24 @@
             android:layout_height = "135dp"
             android:layout_gravity = "bottom">
 
-            <ImageView
-                android:id = "@+id/fade1"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_width = "265dp"
-                android:layout_height = "95dp"
-                android:scaleType = "fitXY"
-                android:src = "@drawable/fade">
+            <androidx.cardview.widget.CardView
+                android:id = "@+id/fadeCard"
+                android:layout_width = "match_parent"
+                android:layout_height = "match_parent"
+                android:layout_gravity = "center"
+                card_view:cardBackgroundColor="@android:color/transparent"
+                card_view:cardElevation="0dp"
+                card_view:cardCornerRadius = "8dp">
 
-            </ImageView>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width = "match_parent"
-            android:layout_height = "135dp"
-            android:layout_gravity = "bottom">
-
-            <ImageView
-                android:id = "@+id/fade0"
-                android:layout_alignParentBottom="true"
-                android:layout_width = "83dp"
-                android:layout_height = "95dp"
-                android:scaleType = "fitXY"
-                android:src = "@drawable/fade">
-
-            </ImageView>
+                <ImageView
+                    android:id = "@+id/fade"
+                    android:layout_alignParentBottom="true"
+                    android:layout_width = "match_parent"
+                    android:layout_height = "match_parent"
+                    android:scaleType = "fitXY"
+                    android:src = "@drawable/fade">
+                </ImageView>
+            </androidx.cardview.widget.CardView>
 
             <ImageView
                 android:id = "@+id/bulletImage0"
@@ -77,7 +67,6 @@
                 android:layout_marginStart = "10dp"
                 android:scaleType = "fitCenter"
                 android:src = "@drawable/circle">
-
             </ImageView>
 
             <ImageView
@@ -89,7 +78,6 @@
                 android:layout_marginStart = "10dp"
                 android:scaleType = "fitCenter"
                 android:src = "@drawable/circle">
-
             </ImageView>
 
             <TextView
@@ -102,7 +90,6 @@
                 android:layout_marginTop="2dp"
                 android:textSize = "29sp"
                 android:text = "@string/propertyType">
-
             </TextView>
 
             <TextView
@@ -117,7 +104,6 @@
                 android:layout_marginStart = "5dp"
                 android:textSize = "23sp"
                 android:text = "@string/propertyCost">
-
             </TextView>
 
             <TextView

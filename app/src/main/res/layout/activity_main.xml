@@ -8,15 +8,16 @@
     tools:context = ".MainActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id = "@+id/floatingActionButton"
-        android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
-        android:layout_below = "@id/frame"
-        android:layout_marginTop = "-80dp"
-        android:layout_marginStart = "320dp"
-        android:onClick = "gotoPostNew"
-        app:backgroundTint = "@color/colorAccent"
-        app:srcCompat = "@android:drawable/ic_input_add">
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/frame"
+        android:layout_marginStart="320dp"
+        android:layout_marginTop="-80dp"
+        android:onClick="gotoPostNew"
+        android:tint="@color/colorAccent"
+        app:backgroundTint="@color/colorPrimary"
+        app:srcCompat="@android:drawable/ic_input_add">
 
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
 

@@ -1,4 +1,4 @@
-package com.firebase.rentme;
+package com.firebase.rentme.models;
 
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
@@ -17,6 +17,7 @@ public class Property
     // 1 - Home
     // 2 - Room
 
+    //Property Attributes
     private int housingCategory = 0;
     private String title;
     private String photoURL;
@@ -26,19 +27,30 @@ public class Property
     private int numRatings;
     private double avgRating;
 
-    // firestore requires there to be an empty constructor
-    public Property() {}
+    //Contact Info
+    private String ownerName;
+    private String ownerCellNum;
+    private String ownerEmail;
 
-    public Property(int housingCategory, String photoURL, double price, String city, String state)
+    // firestore requires there to be an empty constructor
+    public Property()
+    {
+
+    }
+
+    public Property(int housingCategory, String photoURL, double price, String city, String state, String ownerName, String ownerCellNum, String ownerEmail)
     {
         this.housingCategory = housingCategory;
         this.photoURL = photoURL;
         this.price = price;
         this.city = city;
         this.state = state;
+        this.ownerName = ownerName;
+        this.ownerCellNum = ownerCellNum;
+        this.ownerEmail = ownerEmail;
     }
 
-    public Property(String title, int housingCategory, String photoURL, double price, String city, String state, int numRatings, double avgRating)
+    public Property(String title, int housingCategory, String photoURL, double price, String city, String state, int numRatings, double avgRating, String ownerName, String ownerCellNum, String ownerEmail)
     {
         this.housingCategory = housingCategory;
         this.title = title;
@@ -48,6 +60,9 @@ public class Property
         this.state = state;
         this.numRatings = numRatings;
         this.avgRating = avgRating;
+        this.ownerName = ownerName;
+        this.ownerCellNum = ownerCellNum;
+        this.ownerEmail = ownerEmail;
     }
 
     //Get Values
@@ -90,6 +105,12 @@ public class Property
         return avgRating;
     }
 
+    public String getOwnerName() { return ownerName; }
+
+    public String getOwnerCellNum() { return ownerCellNum; }
+
+    public String getOwnerEmail() { return  ownerEmail; }
+
     //Set Values
     public void setHousingCategory(int housingCategory)
     {
@@ -128,4 +149,10 @@ public class Property
     public void setAvgRating(double avgRating) {
         this.avgRating = avgRating;
     }
+
+    public void setOwnerName(String ownerName) { this.ownerName = ownerName; }
+
+    public void setOwnerCellNum(String ownerCellNum) { this.ownerCellNum = ownerCellNum; }
+
+    public void setOwnerEmail(String ownerEmail) { this.ownerEmail = ownerEmail; }
 }
