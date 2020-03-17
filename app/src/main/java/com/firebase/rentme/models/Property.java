@@ -8,22 +8,9 @@ import com.google.firebase.firestore.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class Property implements Parcelable
 {
-    public enum PropertyType
-    {
-        APARTMENT(0), HOUSE(1), ROOM(2);
-
-        private final int value;
-        private PropertyType(int value) {
-            this.value = value;
-        }
-
-        public int getValue() {
-            return value;
-        }
-    }
 
     //Property Attributes
-    private int housingCategory;
+    private String housingCategory;
     private double price;
     private String photoURL;
     private String bio;
@@ -43,9 +30,10 @@ public class Property implements Parcelable
 
     }
 
+    //Parcel is for sending non-Primitive objects by intent
     public Property(Parcel parcel)
     {
-        this.housingCategory = parcel.readInt();
+        this.housingCategory = parcel.readString();
         this.price = parcel.readDouble();
         this.photoURL = parcel.readString();
         this.bio = parcel.readString();
@@ -58,7 +46,8 @@ public class Property implements Parcelable
         this.ownerEmail = parcel.readString();
     }
 
-    public Property(int housingCategory, double price, String photoURL, String bio, String address, String city, String zipCode, String state, String ownerName, String ownerPhoneNum, String ownerEmail)
+    //Standard Constructor
+    public Property(String housingCategory, double price, String photoURL, String bio, String address, String city, String zipCode, String state, String ownerName, String ownerPhoneNum, String ownerEmail)
     {
         this.housingCategory = housingCategory;
         this.price = price;
@@ -94,7 +83,7 @@ public class Property implements Parcelable
     //write object values to parcel for storage
     public void writeToParcel(Parcel dest, int flags)
     {
-        dest.writeInt(housingCategory);
+        dest.writeString(housingCategory);
         dest.writeDouble(price);
         dest.writeString(photoURL);
         dest.writeString(bio);
@@ -114,7 +103,7 @@ public class Property implements Parcelable
     }
 
     //Get Values
-    public int getHousingCategory()
+    public String getHousingCategory()
     {
         return this.housingCategory;
     }
@@ -170,7 +159,7 @@ public class Property implements Parcelable
     }
 
     //Set Values
-    public void setHousingCategory(int housingCategory)
+    public void setHousingCategory(String housingCategory)
     {
         this.housingCategory = housingCategory;
     }

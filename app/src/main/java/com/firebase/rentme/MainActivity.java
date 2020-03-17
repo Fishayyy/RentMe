@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.firebase.rentme.models.Property;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
@@ -22,11 +23,9 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = "MainActivity";
     private static final String PROPERTY = "com.firebase.rentme.PROPERTY";
 
-    private int swipeCount = 0;
-    private boolean newDeck = true;
-
     private FirebaseFirestore db;
     private Query dbQuery;
+    private CollectionReference properties;
 
     private FirestoreAdapter adapter;
     List<Property> rowItems;
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity
         rowItems = new ArrayList<Property>();
         adapter = new FirestoreAdapter(this, R.layout.property_card, rowItems);
 
-        popluationLogic(newDeck);
+        initFirestore();
 
         flingAdapterView = findViewById(R.id.frame);
         flingAdapterView.setAdapter(adapter);
@@ -61,17 +60,12 @@ public class MainActivity extends AppCompatActivity
             public void onLeftCardExit(Object o)
             {
                 Toast.makeText(getApplicationContext(), "Prev", Toast.LENGTH_SHORT).show();
-                swipeCount++;
-//                popluationLogic(!newDeck);
             }
 
             @Override
             public void onRightCardExit(Object o)
             {
                 Toast.makeText(getApplicationContext(), "Next", Toast.LENGTH_SHORT).show();
-                swipeCount++;
-//                popluationLogic(!newDeck);
-
             }
 
             @Override
@@ -100,29 +94,14 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    //Initialize FireStore
     private void initFirestore() {
         db = FirebaseFirestore.getInstance();
 
         dbQuery = db.collection("properties");
     }
 
-    private void popluationLogic(boolean newDeck)
-    {
-        if (swipeCount % 5 == 0)
-        {
-            int addQuantity = 5;
-            if (newDeck)
-            {
-                //Request Array
-//                rowItems.addAll(Arrays.asList(tempArray0).subList(0, addQuantity));
-            }
-
-            //Request Array
-//            rowItems.addAll(Arrays.asList(tempArray1).subList(0, addQuantity));
-        }
-    }
-
-    //Tap-only Methods for External Activities
+    //Add New Property to DB
     public void gotoPostNew(View view)
     {
         Intent intent = new Intent(MainActivity.this, CreatePropertyActivity.class);

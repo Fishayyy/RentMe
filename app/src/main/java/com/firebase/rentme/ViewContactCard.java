@@ -25,7 +25,7 @@ public class ViewContactCard extends AppCompatActivity
 
         //Test Values
         String imageURL0 = "https://specials-images.forbesimg.com/imageserve/1026205392/960x0.jpg?fit=scale";
-        Property testProperty = new Property(Property.PropertyType.HOUSE.getValue(), 100.00, imageURL0, "This place rocks!", "123 Living St.", "Newbury Park", "California", "12345","Austin Fisher", "805-428-9476", "Mr.ATFisher@gmail.com");
+        Property testProperty = new Property("House", 100.00, imageURL0, "This place rocks!", "123 Living St.", "Newbury Park", "California", "12345","Austin Fisher", "805-428-9476", "Mr.ATFisher@gmail.com");
 
         //Get property object from intent and pass it here
         displayCard(testProperty);
