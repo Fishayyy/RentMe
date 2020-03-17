@@ -9,10 +9,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
@@ -42,11 +40,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -63,7 +57,7 @@ public class CreatePropertyActivity extends AppCompatActivity implements Adapter
     private EditText editTextAddress;
     private EditText editTextCity;
     private EditText editTextZipCode;
-    private EditText editTextState;
+    private String state;
     private EditText editTextOwnerName;
     private EditText editTextOwnerPhoneNum;
     private EditText editTextOwnerEmail;
@@ -82,18 +76,23 @@ public class CreatePropertyActivity extends AppCompatActivity implements Adapter
 
         imageButton = findViewById(R.id.addPicButton);
 
-        Spinner spinner = findViewById(R.id.categorySpinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.categories, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
+        Spinner categorySpinner = findViewById(R.id.categorySpinner);
+        ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(this, R.array.categories, android.R.layout.simple_spinner_item);
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorySpinner.setAdapter(categoryAdapter);
+        categorySpinner.setOnItemSelectedListener(this);
+
+        Spinner stateSpinner = findViewById(R.id.stateSpinner);
+        ArrayAdapter<CharSequence> stateAdapter = ArrayAdapter.createFromResource(this, R.array.states, android.R.layout.simple_spinner_item);
+        stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        stateSpinner.setAdapter(stateAdapter);
+        stateSpinner.setOnItemSelectedListener(this);
 
         editTextPrice = findViewById(R.id.edit_text_price);
         editTextBio = findViewById(R.id.edit_text_bio);
         editTextAddress = findViewById(R.id.edit_text_address);
         editTextCity = findViewById(R.id.edit_text_city);
         editTextZipCode = findViewById(R.id.edit_text_zip);
-        editTextState = findViewById(R.id.edit_text_state);
         editTextOwnerName = findViewById(R.id.edit_text_ownerName);
         editTextOwnerPhoneNum = findViewById(R.id.edit_text_ownerPhoneNum);
         editTextOwnerEmail = findViewById(R.id.edit_text_ownerEmail);
@@ -110,9 +109,9 @@ public class CreatePropertyActivity extends AppCompatActivity implements Adapter
 
     public void addProperty(View v)
     {
-        if (housingCategory.equals(getString(R.string.makeSelection)))
+        if (housingCategory.equals(getString(R.string.selectCategory)))
         {
-            Toast.makeText(getApplicationContext(), "Select Housing Category", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Select a Housing Category", Toast.LENGTH_SHORT).show();
         }
         else if (editTextPrice.getText().toString().equals(""))
         {
@@ -134,9 +133,9 @@ public class CreatePropertyActivity extends AppCompatActivity implements Adapter
         {
             Toast.makeText(getApplicationContext(), "Fill in ZIP", Toast.LENGTH_SHORT).show();
         }
-        else if (editTextState.getText().toString().equals(""))
+        else if (state.equals(getString(R.string.selectState)))
         {
-            Toast.makeText(getApplicationContext(), "Fill in State", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Select a State", Toast.LENGTH_SHORT).show();
         }
         else if (editTextOwnerName.getText().toString().equals(""))
         {
@@ -167,7 +166,7 @@ public class CreatePropertyActivity extends AppCompatActivity implements Adapter
                     editTextAddress.getText().toString(),
                     editTextCity.getText().toString(),
                     editTextZipCode.getText().toString(),
-                    editTextState.getText().toString(),
+                    state,
                     editTextOwnerName.getText().toString(),
                     PhoneNumberUtils.formatNumber(editTextOwnerPhoneNum.getText().toString(), Locale.getDefault().getCountry()),
                     editTextOwnerEmail.getText().toString()
@@ -204,7 +203,10 @@ public class CreatePropertyActivity extends AppCompatActivity implements Adapter
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
     {
-        housingCategory = parent.getSelectedItem().toString();
+        if (parent.getId() == R.id.categorySpinner)
+            housingCategory = parent.getSelectedItem().toString();
+        if (parent.getId() == R.id.stateSpinner)
+            state = parent.getSelectedItem().toString();
     }
 
     @Override
