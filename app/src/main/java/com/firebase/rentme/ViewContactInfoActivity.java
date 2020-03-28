@@ -1,7 +1,6 @@
 package com.firebase.rentme;
 
-//This is just a temporary class
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -12,26 +11,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.firebase.rentme.models.Property;
 import com.squareup.picasso.Picasso;
 
-public class ViewContactCard extends AppCompatActivity
+public class ViewContactInfoActivity extends AppCompatActivity
 {
     private static final String TAG = "ViewContactCard";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_contact_card);
 
         Log.d(TAG, "onCreate: started");
 
-        //Test Values
-        String imageURL0 = "https://specials-images.forbesimg.com/imageserve/1026205392/960x0.jpg?fit=scale";
-        Property testProperty = new Property("House", 100.00, imageURL0, "This place rocks!", "123 Living St.", "Newbury Park", "California", "12345","Austin Fisher", "805-428-9476", "Mr.ATFisher@gmail.com");
+        Intent i = getIntent();
+        Property property = i.getParcelableExtra(Property.PARCELABLE_PROPERTY);
 
-        //Get property object from intent and pass it here
-        displayCard(testProperty);
+        displayCard(property);
     }
 
-    //Methods For Current Activity
     private void displayCard(Property property)
     {
         displayCardImage(property);
@@ -42,24 +39,21 @@ public class ViewContactCard extends AppCompatActivity
     {
         ImageView contactImage = findViewById(R.id.contact_image);
         String imageURL = property.getPhotoURL();
-
-        //Loading image using Picasso
         Picasso.with(this).load(imageURL).placeholder(R.drawable.ic_launcher_background).into(contactImage);
     }
 
     private void displayCardText(Property property)
     {
+        TextView address = (TextView) findViewById(R.id.attribute_address);
         TextView owner = (TextView) findViewById(R.id.attribute_owner);
         TextView ownerEmail = (TextView) findViewById(R.id.attribute_owner_email);
         TextView ownerPhone = (TextView) findViewById(R.id.attribute_owner_phone);
+        TextView bio = (TextView) findViewById(R.id.attribute_bio);
 
-        String userResource = getString(R.string.owner);
-        String emailResource = getString(R.string.ownerEmail);
-        String phoneResource = getString(R.string.ownerPhoneNum);
-
-        owner.setText(userResource + property.getOwnerName());          //owner
-        ownerEmail.setText(emailResource + property.getOwnerEmail());   //email
-        ownerPhone.setText(phoneResource + property.getOwnerPhoneNum()); //phone
-
+        address.setText(getApplicationContext().getString(R.string.addressFormat, property.getAddress(), property.getCity(), property.getState(), property.getZipCode()));
+        owner.setText(property.getOwnerName());
+        ownerEmail.setText(property.getOwnerEmail());
+        ownerPhone.setText(property.getOwnerPhoneNum());
+        bio.setText(property.getBio());
     }
 }

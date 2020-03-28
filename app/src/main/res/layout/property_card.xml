@@ -1,140 +1,127 @@
 <?xml version = "1.0" encoding = "utf-8"?>
-<FrameLayout
-    xmlns:android = "http://schemas.android.com/apk/res/android"
-    xmlns:card_view = "http://schemas.android.com/apk/res-auto"
-    android:layout_width = "match_parent"
-    android:layout_height = "match_parent"
-    android:orientation = "vertical">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        android:id = "@+id/property_card"
-        android:layout_width = "385dp"
-        android:layout_height = "630dp"
-        android:layout_gravity = "top|center"
-        android:layout_marginTop = "5dp"
-        card_view:cardCornerRadius = "8dp">
-        <!--android:onClick = "viewProperty"-->
+        android:id="@+id/property_card"
+        android:layout_width="385dp"
+        android:layout_height="630dp"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="5dp"
+        card_view:cardCornerRadius="8dp">
 
         <ImageView
-            android:id = "@+id/cardImage"
-            android:layout_height = "match_parent"
-            android:layout_width = "match_parent"
-            android:scaleType = "centerCrop">
-        </ImageView>
+            android:id="@+id/cardImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
 
         <RelativeLayout
-            android:layout_width = "match_parent"
-            android:layout_height = "135dp"
-            android:layout_gravity = "bottom">
+            android:layout_width="match_parent"
+            android:layout_height="135dp"
+            android:layout_gravity="bottom">
 
             <androidx.cardview.widget.CardView
-                android:id = "@+id/fadeCard"
-                android:layout_width = "match_parent"
-                android:layout_height = "match_parent"
-                android:layout_gravity = "center"
+                android:id="@+id/fadeCard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
                 card_view:cardBackgroundColor="@android:color/transparent"
-                card_view:cardElevation="0dp"
-                card_view:cardCornerRadius = "8dp">
+                card_view:cardCornerRadius="8dp"
+                card_view:cardElevation="0dp">
 
                 <ImageView
-                    android:id = "@+id/fade"
+                    android:id="@+id/fade"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_alignParentBottom="true"
-                    android:layout_width = "match_parent"
-                    android:layout_height = "match_parent"
-                    android:scaleType = "fitXY"
-                    android:src = "@drawable/fade">
-                </ImageView>
+                    android:scaleType="fitXY"
+                    android:src="@drawable/fade" />
+
             </androidx.cardview.widget.CardView>
 
             <ImageView
-                android:id = "@+id/bulletImage0"
-                android:layout_width = "8dp"
-                android:layout_height = "8dp"
-                android:layout_below = "@id/attribute_type"
-                android:layout_marginTop = "10dp"
-                android:layout_marginStart = "10dp"
-                android:scaleType = "fitCenter"
-                android:src = "@drawable/circle">
-
-            </ImageView>
+                android:id="@+id/bulletImage0"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_below="@id/attribute_type"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/circle" />
 
             <ImageView
-                android:id = "@+id/bulletImage1"
-                android:layout_width = "8dp"
-                android:layout_height = "8dp"
-                android:layout_marginTop = "24dp"
-                android:layout_below = "@id/bulletImage0"
-                android:layout_marginStart = "10dp"
-                android:scaleType = "fitCenter"
-                android:src = "@drawable/circle">
-            </ImageView>
+                android:id="@+id/bulletImage1"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_below="@id/bulletImage0"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="24dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/circle" />
 
             <ImageView
-                android:id = "@+id/bulletImage2"
-                android:layout_width = "8dp"
-                android:layout_height = "8dp"
-                android:layout_marginTop = "24dp"
-                android:layout_below = "@id/bulletImage1"
-                android:layout_marginStart = "10dp"
-                android:scaleType = "fitCenter"
-                android:src = "@drawable/circle">
-            </ImageView>
+                android:id="@+id/bulletImage2"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_below="@id/bulletImage1"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="24dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/circle" />
 
             <TextView
-                android:id = "@+id/attribute_type"
+                android:id="@+id/attribute_type"
                 style="@style/AudioFileInfoOverlayText"
-                android:layout_width = "wrap_content"
-                android:layout_height = "wrap_content"
-                android:layout_gravity = "bottom"
-                android:layout_marginStart = "11dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="11dp"
                 android:layout_marginTop="2dp"
-                android:textSize = "29sp"
-                android:text = "@string/propertyType">
-            </TextView>
+                android:text="@string/propertyType"
+                android:textSize="29sp" />
 
             <TextView
-                android:id = "@+id/attribute_cost"
-                style = "@style/Base.TextAppearance.AppCompat.Title"
-                android:layout_width = "wrap_content"
-                android:layout_height = "wrap_content"
-                android:layout_gravity = "bottom"
-                android:layout_below = "@id/attribute_type"
-                android:layout_toEndOf = "@id/bulletImage0"
-                android:layout_marginTop = "-2dp"
-                android:layout_marginStart = "5dp"
-                android:textSize = "23sp"
-                android:text = "@string/propertyCost">
-            </TextView>
+                android:id="@+id/attribute_cost"
+                style="@style/Base.TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_type"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="-2dp"
+                android:layout_toEndOf="@id/bulletImage0"
+                android:text="@string/propertyCost"
+                android:textSize="23sp" />
 
             <TextView
-                android:id = "@+id/attribute_city"
-                style = "@style/Base.TextAppearance.AppCompat.Title"
-                android:layout_width = "wrap_content"
-                android:layout_height = "wrap_content"
-                android:layout_gravity = "bottom"
-                android:layout_below = "@id/attribute_cost"
-                android:layout_toEndOf = "@id/bulletImage0"
-                android:layout_marginTop = "1dp"
-                android:layout_marginStart = "5dp"
-                android:textSize = "23sp"
-                android:text = "@string/propertyCity">
-
-            </TextView>
+                android:id="@+id/attribute_city"
+                style="@style/Base.TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_cost"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="1dp"
+                android:layout_toEndOf="@id/bulletImage0"
+                android:text="@string/propertyCity"
+                android:textSize="23sp" />
 
             <TextView
-                android:id = "@+id/attribute_state"
-                style = "@style/Base.TextAppearance.AppCompat.Title"
-                android:layout_width = "wrap_content"
-                android:layout_height = "wrap_content"
-                android:layout_gravity = "bottom"
-                android:layout_below = "@id/attribute_city"
-                android:layout_toEndOf = "@id/bulletImage0"
-                android:layout_marginTop = "0dp"
-                android:layout_marginStart = "4dp"
-                android:textSize = "23sp"
-                android:text = "@string/propertyState">
-
-            </TextView>
+                android:id="@+id/attribute_state"
+                style="@style/Base.TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_city"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="0dp"
+                android:layout_toEndOf="@id/bulletImage0"
+                android:text="@string/propertyState"
+                android:textSize="23sp" />
 
         </RelativeLayout>
 

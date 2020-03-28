@@ -9,6 +9,8 @@ import com.google.firebase.firestore.IgnoreExtraProperties;
 public class Property implements Parcelable
 {
 
+    public static final String PARCELABLE_PROPERTY = "com.firebase.rentme.PROPERTY";
+
     //Property Attributes
     private String housingCategory;
     private double price;
