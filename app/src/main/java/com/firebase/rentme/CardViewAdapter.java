@@ -35,8 +35,11 @@ public class CardViewAdapter extends ArrayAdapter
         if (!property.getPhotoURL().equals(""))
         {
             ImageView propertyImage = convertView.findViewById(R.id.cardImage);
-            String imageURL = property.getPhotoURL();
-            Picasso.with(getContext()).load(imageURL).placeholder(R.drawable.ic_launcher_background).into(propertyImage);
+            Picasso.get().load(property.getPhotoURL())
+                    .placeholder(R.drawable.animated_loading)
+                    .error(R.drawable.error)
+                    .noFade()
+                    .into(propertyImage);
         }
 
         //Display Card Text

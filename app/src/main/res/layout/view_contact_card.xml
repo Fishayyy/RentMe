@@ -34,6 +34,7 @@
         android:layout_marginEnd="15dp"
         android:layout_toEndOf="@id/title_address"
         android:autoLink="map"
+        android:textColor="@color/black"
         android:textColorLink="@color/hyperlink"
         android:textSize="20sp" />
 
@@ -79,6 +80,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="15dp"
         android:autoLink="email"
+        android:textColor="@color/black"
         android:textColorLink="@color/hyperlink"
         android:textSize="20sp" />
 
@@ -103,6 +105,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="15dp"
         android:autoLink="phone"
+        android:textColor="@color/black"
         android:textColorLink="@color/hyperlink"
         android:textSize="20sp" />
 

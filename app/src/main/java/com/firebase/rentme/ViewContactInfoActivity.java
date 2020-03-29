@@ -38,8 +38,11 @@ public class ViewContactInfoActivity extends AppCompatActivity
     private void displayCardImage(Property property)
     {
         ImageView contactImage = findViewById(R.id.contact_image);
-        String imageURL = property.getPhotoURL();
-        Picasso.with(this).load(imageURL).placeholder(R.drawable.ic_launcher_background).into(contactImage);
+        Picasso.get().load(property.getPhotoURL())
+                .placeholder(R.drawable.animated_loading)
+                .error(R.drawable.error)
+                .noFade()
+                .into(contactImage);
     }
 
     private void displayCardText(Property property)
