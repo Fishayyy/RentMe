@@ -8,15 +8,12 @@ import android.util.Log;
 import android.view.View;
 
 import com.firebase.rentme.models.Property;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
@@ -43,11 +40,8 @@ public class MainActivity extends AppCompatActivity
 
         initFirestore();
 
-        cards = new ArrayList<Property>();
-
+        cards = new ArrayList<>();
         adapter = new CardViewAdapter(this, R.layout.property_card, cards);
-
-        loadProperties();
 
         flingAdapterView = findViewById(R.id.frame);
         flingAdapterView.setAdapter(adapter);
@@ -99,14 +93,8 @@ public class MainActivity extends AppCompatActivity
                         startActivity(intent);
                     }
                 });
-    }
 
-    @Override
-    protected void onStart()
-    {
-        super.onStart();
-
-        properties.addSnapshotListener(this, new EventListener<QuerySnapshot>()
+        properties.addSnapshotListener(new EventListener<QuerySnapshot>()
         {
             @Override
             public void onEvent(QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e)
@@ -121,18 +109,20 @@ public class MainActivity extends AppCompatActivity
                     switch (dc.getType())
                     {
                         case ADDED:
-                            Log.d(TAG, "New city: " + dc.getDocument().getData());
+                            Log.d(TAG, "New property: " + dc.getDocument().getData());
                             cards.add(dc.getDocument().toObject(Property.class));
-                            adapter.notifyDataSetChanged();
                             break;
                         case MODIFIED:
-                            Log.d(TAG, "Modified city: " + dc.getDocument().getData());
+                            Log.d(TAG, "Modified property: " + dc.getDocument().getData());
+                            cards.add(dc.getDocument().toObject(Property.class));
                             break;
                         case REMOVED:
-                            Log.d(TAG, "Removed city: " + dc.getDocument().getData());
+                            Log.d(TAG, "Removed property: " + dc.getDocument().getData());
                             break;
                     }
                 }
+
+                adapter.notifyDataSetChanged();
             }
         });
     }
@@ -142,24 +132,6 @@ public class MainActivity extends AppCompatActivity
     {
         db = FirebaseFirestore.getInstance();
         properties = db.collection("properties");
-    }
-
-    public void loadProperties()
-    {
-        properties.get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
-                {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots)
-                    {
-                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots)
-                        {
-                            Property property = documentSnapshot.toObject(Property.class);
-                            cards.add(property);
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
-                });
     }
 
     //Add New Property to DB

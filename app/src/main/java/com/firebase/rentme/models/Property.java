@@ -68,7 +68,6 @@ public class Property implements Parcelable
     //used when un-parceling our parcel (creating the object)
     public static final Parcelable.Creator<Property> CREATOR = new Parcelable.Creator<Property>()
     {
-
         @Override
         public Property createFromParcel(Parcel parcel)
         {
