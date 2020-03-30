@@ -1,0 +1,135 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/contact_image"
+        android:layout_width="385dp"
+        android:layout_height="270dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="15dp"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/title_address"
+        style="@style/Base.TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/contact_image"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/address"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/attribute_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/contact_image"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="15dp"
+        android:layout_toEndOf="@id/title_address"
+        android:autoLink="map"
+        android:textColor="@color/black"
+        android:textColorLink="@color/hyperlink"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/title_owner"
+        style="@style/Base.TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/attribute_address"
+        android:layout_alignEnd="@+id/title_address"
+        android:layout_marginTop="4dp"
+        android:text="@string/owner"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/attribute_owner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/attribute_address"
+        android:layout_alignStart="@+id/attribute_address"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="15dp"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/title_owner_email"
+        style="@style/Base.TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_owner"
+        android:layout_alignEnd="@id/title_owner"
+        android:layout_marginTop="4dp"
+        android:text="@string/ownerEmail"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/attribute_owner_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/attribute_owner"
+        android:layout_alignStart="@+id/attribute_owner"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="15dp"
+        android:autoLink="email"
+        android:textColor="@color/black"
+        android:textColorLink="@color/hyperlink"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/title_owner_phone"
+        style="@style/Base.TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_owner_email"
+        android:layout_alignEnd="@id/title_owner_email"
+        android:layout_gravity="top"
+        android:layout_marginTop="4dp"
+        android:text="@string/ownerPhoneNum"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/attribute_owner_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/attribute_owner_email"
+        android:layout_alignStart="@+id/attribute_owner_email"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="15dp"
+        android:autoLink="phone"
+        android:textColor="@color/black"
+        android:textColorLink="@color/hyperlink"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/title_bio"
+        style="@style/Base.TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_owner_phone"
+        android:layout_alignEnd="@id/title_owner_phone"
+        android:layout_gravity="top"
+        android:layout_marginTop="4dp"
+        android:text="@string/bio"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/attribute_bio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/attribute_owner_phone"
+        android:layout_alignStart="@+id/attribute_owner_phone"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="15dp"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+</RelativeLayout>
