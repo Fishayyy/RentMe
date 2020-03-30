@@ -80,6 +80,9 @@ vcs.xml
 # lint
 lint/intermediates/
 lint/generated/
+
+# DS_Store for Macs
+.DS_Store
 lint/outputs/
 lint/tmp/
 # lint/reports/
