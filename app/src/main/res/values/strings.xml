@@ -39,7 +39,9 @@
     <string-array name="categories">
         <item>@string/selectCategory</item>
         <item>Apartment</item>
+        <item>Condominium</item>
         <item>House</item>
+        <item>Mobile Home</item>
         <item>Room</item>
     </string-array>
 
@@ -109,5 +111,8 @@
     <string name="zipCodeHint">"Zip Code"</string>
     <string name="stateHint">"e.g. California"</string>
     <string name="bioHint">"Tell us a little bit about the place!"</string>
+
+   <!--    Error Messages-->
+    <string name="categoryError">"You must select a housing category"</string>
 
 </resources>

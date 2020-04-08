@@ -32,7 +32,7 @@ public class CardViewAdapter extends ArrayAdapter
         }
 
         //Display Card Image
-        if (!property.getPhotoURL().equals(""))
+        if (!property.getPhotoURL().isEmpty())
         {
             ImageView propertyImage = convertView.findViewById(R.id.cardImage);
             Picasso.get().load(property.getPhotoURL())
