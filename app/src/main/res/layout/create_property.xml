@@ -19,20 +19,24 @@
             android:layout_height="wrap_content">
 
             <ImageButton
-                android:id="@+id/uploadImage"
-                android:layout_width="380dp"
-                android:layout_height="380dp"
+                android:id="@+id/uploadImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="10dp"
-                android:background="@android:color/transparent"
+                android:maxWidth="380dp"
+                android:maxHeight="380dp"
                 android:onClick="choosePhotoFromGallery"
+                android:padding="2dp"
+                android:background="@drawable/border"
+                android:scaleType="fitXY"
                 android:src="@drawable/add_pic_icon" />
 
             <TextView
                 android:id="@+id/monthlyText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/uploadImage"
+                android:layout_below="@id/uploadImageButton"
                 android:layout_alignStart="@id/edit_text_price"
                 android:text="@string/priceText" />
 
@@ -53,7 +57,7 @@
                 android:layout_below="@id/monthlyText"
                 android:layout_marginBottom="10dp"
                 android:layout_toEndOf="@id/dollarText"
-                android:background="@drawable/edittext_states"
+                android:background="@drawable/multi_state_background"
                 android:hint="@string/priceHint"
                 android:inputType="numberDecimal"
                 android:padding="6dp" />
@@ -85,7 +89,7 @@
                 android:layout_alignStart="@id/nameTextView"
                 android:layout_marginEnd="28dp"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/edittext_states"
+                android:background="@drawable/multi_state_background"
                 android:hint="@string/nameHint"
                 android:inputType="textPersonName"
                 android:padding="6dp" />
@@ -106,7 +110,7 @@
                 android:layout_alignStart="@id/phoneTextView"
                 android:layout_alignEnd="@id/edit_text_ownerName"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/edittext_states"
+                android:background="@drawable/multi_state_background"
                 android:digits="0123456789()-"
                 android:hint="@string/phoneHint"
                 android:inputType="phone"
@@ -129,7 +133,7 @@
                 android:layout_alignStart="@id/emailTextView"
                 android:layout_alignEnd="@id/edit_text_ownerPhoneNum"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/edittext_states"
+                android:background="@drawable/multi_state_background"
                 android:hint="@string/emailHint"
                 android:inputType="textEmailAddress"
                 android:padding="6dp" />
@@ -150,7 +154,7 @@
                 android:layout_alignStart="@id/addressTextView"
                 android:layout_alignEnd="@id/edit_text_ownerEmail"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/edittext_states"
+                android:background="@drawable/multi_state_background"
                 android:hint="@string/addressHint"
                 android:inputType="text"
                 android:padding="6dp" />
@@ -171,7 +175,7 @@
                 android:layout_alignStart="@id/cityTextView"
                 android:layout_alignEnd="@id/edit_text_address"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/edittext_states"
+                android:background="@drawable/multi_state_background"
                 android:hint="@string/cityHint"
                 android:inputType="text"
                 android:padding="6dp" />
@@ -192,7 +196,7 @@
                 android:layout_alignStart="@id/zipCodeTextView"
                 android:layout_alignEnd="@id/edit_text_price"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/edittext_states"
+                android:background="@drawable/multi_state_background"
                 android:hint="@string/zipCodeHint"
                 android:inputType="number"
                 android:maxLength="5"
@@ -233,7 +237,7 @@
                     android:id="@+id/edit_text_bio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/edittext_states"
+                    android:background="@drawable/multi_state_background"
                     android:gravity="top|start"
                     android:hint="@string/bioHint"
                     android:inputType="textMultiLine"
@@ -253,7 +257,7 @@
                 android:layout_alignEnd="@id/textInputLayout"
                 android:background="@color/colorPrimary"
                 android:drawableEnd="@drawable/plus"
-                android:onClick="validateProperty"
+                android:onClick="validatePropertyInformation"
                 android:paddingStart="60dp"
                 android:paddingEnd="60dp"
                 android:text="@string/addProperty"

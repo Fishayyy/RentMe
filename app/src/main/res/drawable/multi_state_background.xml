@@ -4,7 +4,7 @@
     <!-- edit text focused state -->
     <item
         android:state_focused="true"
-        android:drawable="@drawable/edittext_focused_state"/>
+        android:drawable="@drawable/focused_state"/>
 
     <!-- edit text default state -->
     <item

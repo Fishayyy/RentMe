@@ -11,17 +11,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.telephony.PhoneNumberUtils;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.Gravity;
 import android.view.View;
 import android.webkit.MimeTypeMap;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.rentme.models.Property;
@@ -39,53 +42,71 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.Locale;
 
-public class CreateListingActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener
+public class CreateListingActivity extends AppCompatActivity
 {
     private static final String TAG = "MainActivity";
+    private final static int GALLERY = 1, ZIP_CODE_LENGTH = 5, PHONE_NUMBER_LENGTH = 13;
 
-    private FirebaseFirestore db;
+    private FirebaseFirestore database;
     private StorageReference storageReference;
+
+    private Property newProperty;
 
     private Uri imguri;
     private String photoURL = "";
 
-    private String housingCategory;
+    private ImageButton imageButton;
+    private Spinner categorySpinner;
     private EditText editTextPrice;
     private EditText editTextBio;
     private EditText editTextAddress;
     private EditText editTextCity;
     private EditText editTextZipCode;
-    private String state;
+    private Spinner stateSpinner;
     private EditText editTextOwnerName;
     private EditText editTextOwnerPhoneNum;
     private EditText editTextOwnerEmail;
-
-    private final int GALLERY = 1, PHONE_LENGTH = 13;
-
-    private ImageButton imageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_property);
-
+        setContentView(R.layout.create_property);
         initFirestore();
+        initImageUploadInterface();
+        initSpinners();
+        initEditTextFields();
+    }
 
-        imageButton = findViewById(R.id.uploadImage);
+    private void initFirestore()
+    {
+        FirebaseFirestore.setLoggingEnabled(true);
+        database = FirebaseFirestore.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference("Images");
+    }
 
-        Spinner categorySpinner = findViewById(R.id.categorySpinner);
-        ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(this, R.array.categories, android.R.layout.simple_spinner_item);
-        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        categorySpinner.setAdapter(categoryAdapter);
-        categorySpinner.setOnItemSelectedListener(this);
+    private void initImageUploadInterface()
+    {
+        imageButton = findViewById(R.id.uploadImageButton);
+    }
 
-        Spinner stateSpinner = findViewById(R.id.stateSpinner);
-        ArrayAdapter<CharSequence> stateAdapter = ArrayAdapter.createFromResource(this, R.array.states, android.R.layout.simple_spinner_item);
-        stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        stateSpinner.setAdapter(stateAdapter);
-        stateSpinner.setOnItemSelectedListener(this);
+    private void initSpinners()
+    {
+        categorySpinner = findViewById(R.id.categorySpinner);
+        stateSpinner = findViewById(R.id.stateSpinner);
+        populateSpinner(categorySpinner, R.array.categories);
+        populateSpinner(stateSpinner, R.array.states);
+    }
 
+    private void populateSpinner(Spinner spinner, int stringArrayResource)
+    {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, stringArrayResource, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+    }
+
+    private void initEditTextFields()
+    {
         editTextPrice = findViewById(R.id.edit_text_price);
         editTextBio = findViewById(R.id.edit_text_bio);
         editTextAddress = findViewById(R.id.edit_text_address);
@@ -97,133 +118,180 @@ public class CreateListingActivity extends AppCompatActivity implements AdapterV
         editTextOwnerEmail = findViewById(R.id.edit_text_ownerEmail);
     }
 
-    private void initFirestore()
+    public void validatePropertyInformation(View v)
     {
-        FirebaseFirestore.setLoggingEnabled(true);
+        boolean isValid = true;
+        boolean scrollToTop = false;
 
-        db = FirebaseFirestore.getInstance();
-
-        storageReference = FirebaseStorage.getInstance().getReference("Images");
-    }
-
-    public void validateProperty(View v)
-    {
         if (imguri == null)
         {
-            Toast.makeText(getApplicationContext(), "Select a Photo", Toast.LENGTH_SHORT).show();
+            isValid = false;
+            scrollToTop = true;
+            imageButton.setImageResource(R.drawable.error_missing_photo);
+            imageButton.setBackgroundResource(R.drawable.error_background);
         }
-        else if (editTextPrice.getText().toString().equals(""))
+
+        if (editTextPrice.getText().toString().isEmpty())
         {
-            Toast.makeText(getApplicationContext(), "Fill in Price", Toast.LENGTH_SHORT).show();
+            isValid = false;
+            scrollToTop = true;
+            displayError(editTextPrice, "Must declare a price");
         }
-        else if (housingCategory.equals(getString(R.string.selectCategory)))
+
+        if (categorySpinner.getSelectedItemPosition() == 0)
         {
-            Toast.makeText(getApplicationContext(), "Select a Housing Category", Toast.LENGTH_SHORT).show();
+            isValid = false;
+            scrollToTop = true;
+            displayError(categorySpinner, "Must select a category");
         }
-        else if (editTextOwnerName.getText().toString().equals(""))
+
+        if (editTextOwnerName.getText().toString().isEmpty())
         {
-            Toast.makeText(getApplicationContext(), "Fill in Name", Toast.LENGTH_SHORT).show();
+            isValid = false;
+            scrollToTop = true;
+            displayError(editTextOwnerName, "Name is required");
         }
-        else if (editTextOwnerPhoneNum.getText().toString().length() != PHONE_LENGTH)
+
+        if (editTextOwnerPhoneNum.getText().toString().length() != PHONE_NUMBER_LENGTH)
         {
-            Toast.makeText(getApplicationContext(), "Invalid Phone Number", Toast.LENGTH_SHORT).show();
+            isValid = false;
+            scrollToTop = true;
+            String errorMessage = (editTextOwnerPhoneNum.getText().toString().length() == 0) ? "Phone number is required" : "Invalid Phone Number";
+            displayError(editTextOwnerPhoneNum, errorMessage);
         }
-        else if (!isValidEmail(editTextOwnerEmail.getText().toString().trim()))
+
+        if (!isValidEmail(editTextOwnerEmail.getText().toString().trim()))
         {
-            Toast.makeText(getApplicationContext(), "Invalid Email", Toast.LENGTH_SHORT).show();
+            isValid = false;
+            scrollToTop = true;
+            String errorMessage = (editTextOwnerEmail.getText().toString().length() == 0) ? "Email is required" : "Invalid Email";
+            displayError(editTextOwnerEmail, errorMessage);
         }
-        else if (editTextAddress.getText().toString().equals(""))
+
+        if (editTextAddress.getText().toString().isEmpty())
         {
-            Toast.makeText(getApplicationContext(), "Fill in Address", Toast.LENGTH_SHORT).show();
+            isValid = false;
+            displayError(editTextAddress, "Address is required");
         }
-        else if (editTextCity.getText().toString().equals(""))
+
+        if (editTextCity.getText().toString().isEmpty())
         {
-            Toast.makeText(getApplicationContext(), "Fill in City", Toast.LENGTH_SHORT).show();
+            isValid = false;
+            displayError(editTextCity, "City is required");
         }
-        else if (editTextZipCode.getText().toString().equals(""))
+
+        if (editTextZipCode.getText().toString().length() != ZIP_CODE_LENGTH)
         {
-            Toast.makeText(getApplicationContext(), "Fill in ZIP", Toast.LENGTH_SHORT).show();
+            isValid = false;
+            String errorMessage = (editTextZipCode.getText().toString().length() == 0) ? "ZIP is required" : "Invalid ZIP";
+            displayError(editTextZipCode, errorMessage);
         }
-        else if (state.equals(getString(R.string.selectState)))
+
+        if (stateSpinner.getSelectedItemPosition() == 0)
         {
-            Toast.makeText(getApplicationContext(), "Select a State", Toast.LENGTH_SHORT).show();
+            isValid = false;
+            displayError(stateSpinner, "Must select a state");
         }
-        else if (editTextBio.getText().toString().equals(""))
+
+        if(scrollToTop)
         {
-            Toast.makeText(getApplicationContext(), "Fill in Bio", Toast.LENGTH_SHORT).show();
+            scrollToTop();
         }
-        else
+
+        if(isValid)
         {
-            //Upload picture to Firebase Storage
-            fileUploader();
+            uploadImage();
         }
     }
 
     public void uploadProperty()
     {
-        Button button = findViewById(R.id.add_property_button);
+        initializeNewProperty();
 
-        button.setEnabled(false);
-        button.setBackgroundColor(Color.GREEN);
-        button.setText(R.string.propertyAdded);
-        button.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.checkmark, 0);
-
-        Property newProperty = new Property(
-                housingCategory,
-                Double.parseDouble(editTextPrice.getText().toString()),
-                photoURL,
-                editTextBio.getText().toString(),
-                editTextAddress.getText().toString(),
-                editTextCity.getText().toString(),
-                editTextZipCode.getText().toString(),
-                state,
-                editTextOwnerName.getText().toString(),
-                PhoneNumberUtils.formatNumber(editTextOwnerPhoneNum.getText().toString(), Locale.getDefault().getCountry()),
-                editTextOwnerEmail.getText().toString()
-        );
-
-        // Get a reference to the properties collection
-        CollectionReference properties = db.collection("properties");
-
-        properties.add(newProperty).addOnSuccessListener(new OnSuccessListener<DocumentReference>()
-        {
-            @Override
-            public void onSuccess(DocumentReference documentReference)
-            {
-                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-            }
-        })
+        database.collection("properties")
+                .add(newProperty)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>()
+                {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference)
+                    {
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
                 .addOnFailureListener(new OnFailureListener()
                 {
                     @Override
                     public void onFailure(@NonNull Exception e)
                     {
-                        Toast toast = Toast.makeText(CreateListingActivity.this, "Failed to Create Listing", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.BOTTOM, 0, 0);
-                        toast.show();
+                        Toast.makeText(CreateListingActivity.this, "Failed to Create Listing", Toast.LENGTH_SHORT).show();
                         Log.w(TAG, "Error adding document", e);
                     }
                 });
     }
 
-    public static boolean isValidEmail(String emailInput)
+    private void initializeNewProperty()
+    {
+        newProperty = new Property();
+        newProperty.setHousingCategory(categorySpinner.getSelectedItem().toString());
+        newProperty.setPrice(Double.parseDouble(editTextPrice.getText().toString()));
+        newProperty.setPhotoURL(photoURL);
+        newProperty.setBio(editTextBio.getText().toString());
+        newProperty.setAddress(editTextAddress.getText().toString());
+        newProperty.setCity(editTextCity.getText().toString());
+        newProperty.setZipCode(editTextZipCode.getText().toString());
+        newProperty.setState(stateSpinner.getSelectedItem().toString());
+        newProperty.setOwnerName(editTextOwnerName.getText().toString());
+        newProperty.setOwnerPhoneNum(PhoneNumberUtils.formatNumber(editTextOwnerPhoneNum.getText().toString(), Locale.getDefault().getCountry()));
+        newProperty.setOwnerEmail(editTextOwnerEmail.getText().toString());
+    }
+
+    private void displayError(View viewObject, String errorMessage)
+    {
+            if(viewObject instanceof EditText)
+            {
+                final EditText textEntry = (EditText) viewObject;
+                textEntry.setError(errorMessage);
+                textEntry.setBackgroundResource(R.drawable.error_background);
+                textEntry.addTextChangedListener(new TextWatcher()  {
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    }
+
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s)  {
+                        textEntry.setError(null);
+                        textEntry.setBackgroundResource(R.drawable.multi_state_background);
+                    }
+                });
+            }
+            else if(viewObject instanceof Spinner)
+            {
+                Spinner spinner = (Spinner) viewObject;
+                TextView errorTextView = (TextView) spinner.getSelectedView();
+                errorTextView.setError(errorMessage);
+                errorTextView.setTextColor(getColor(R.color.error));
+            }
+    }
+
+    public void scrollToTop()
+    {
+        final ScrollView scrollView = findViewById(R.id.scrollView);
+
+        scrollView.post(new Runnable() {
+            public void run() {
+                scrollView.fullScroll(scrollView.FOCUS_UP);
+            }
+        });
+    }
+
+    public boolean isValidEmail(String emailInput)
     {
         return !emailInput.equals("") && Patterns.EMAIL_ADDRESS.matcher(emailInput).matches();
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-    {
-        if (parent.getId() == R.id.categorySpinner)
-            housingCategory = parent.getSelectedItem().toString();
-        if (parent.getId() == R.id.stateSpinner)
-            state = parent.getSelectedItem().toString();
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent)
-    {
-
     }
 
     public void choosePhotoFromGallery(View v)
@@ -238,6 +306,8 @@ public class CreateListingActivity extends AppCompatActivity implements AdapterV
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_CANCELED)
         {
+            imageButton.setImageResource(R.drawable.add_pic_icon);
+            imageButton.setBackgroundResource(R.drawable.border);
             return;
         }
         if (requestCode == GALLERY)
@@ -246,6 +316,7 @@ public class CreateListingActivity extends AppCompatActivity implements AdapterV
             {
                 imguri = data.getData();
                 imageButton.setImageURI(imguri);
+                imageButton.setBackgroundResource(R.color.colorPrimary);
             }
         }
     }
@@ -258,7 +329,7 @@ public class CreateListingActivity extends AppCompatActivity implements AdapterV
         return mimeTypeMap.getExtensionFromMimeType(cr.getType(uri));
     }
 
-    private void fileUploader()
+    private void uploadImage()
     {
         //giving our file a name with time and extension to avoid redundancy and duplication
         StorageReference Ref = storageReference.child(System.currentTimeMillis() + "." + getExtension(imguri));
@@ -279,8 +350,10 @@ public class CreateListingActivity extends AppCompatActivity implements AdapterV
                 photoURL = downloadUrl.toString();
 
                 uploadProperty();
-
+                indicateUploadSuccess();
+                createDelay(2000);
                 pd.dismiss();
+                //Closes the activity
             }
         })
                 .addOnFailureListener(new OnFailureListener()
@@ -292,5 +365,28 @@ public class CreateListingActivity extends AppCompatActivity implements AdapterV
                         Toast.makeText(CreateListingActivity.this, "Error", Toast.LENGTH_LONG).show();
                     }
                 });
+    }
+
+    private void indicateUploadSuccess()
+    {
+        Button button = findViewById(R.id.add_property_button);
+
+        button.setEnabled(false);
+        button.setBackgroundColor(Color.GREEN);
+        button.setText(R.string.propertyAdded);
+        button.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.checkmark, 0);
+    }
+
+    private void createDelay(int millis)
+    {
+        try
+        {
+            Thread.sleep(millis);
+            finish();
+        }
+        catch (InterruptedException e)
+        {
+            System.err.println(e.getMessage());
+        }
     }
 }

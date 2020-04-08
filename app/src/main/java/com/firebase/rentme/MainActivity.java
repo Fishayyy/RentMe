@@ -23,11 +23,11 @@ public class MainActivity extends AppCompatActivity
 {
     private static final String TAG = "MainActivity";
 
-    private FirebaseFirestore db;
-    private CollectionReference properties;
-    private CardViewAdapter adapter;
+    private FirebaseFirestore database;
+    private CollectionReference propertiesCollection;
+    private CardViewAdapter cardAdapter;
 
-    List<Property> cards;
+    List<Property> propertyCardList;
     SwipeFlingAdapterView flingAdapterView;
 
     @Override
@@ -40,11 +40,11 @@ public class MainActivity extends AppCompatActivity
 
         initFirestore();
 
-        cards = new ArrayList<>();
-        adapter = new CardViewAdapter(this, R.layout.property_card, cards);
+        propertyCardList = new ArrayList<>();
+        cardAdapter = new CardViewAdapter(this, R.layout.property_card, propertyCardList);
 
         flingAdapterView = findViewById(R.id.frame);
-        flingAdapterView.setAdapter(adapter);
+        flingAdapterView.setAdapter(cardAdapter);
         flingAdapterView.setFlingListener(new SwipeFlingAdapterView.onFlingListener()
         {
             Property property;
@@ -52,9 +52,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void removeFirstObjectInAdapter()
             {
-                property = cards.remove(0);
-                cards.add(property);
-                adapter.notifyDataSetChanged();
+                property = propertyCardList.remove(0);
+                propertyCardList.add(property);
+                cardAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -89,12 +89,12 @@ public class MainActivity extends AppCompatActivity
                     public void onItemClicked(int i, Object o)
                     {
                         Intent intent = new Intent(MainActivity.this, ViewContactInfoActivity.class);
-                        intent.putExtra(Property.PARCELABLE_PROPERTY, cards.get(0));
+                        intent.putExtra(Property.PARCELABLE_PROPERTY, propertyCardList.get(0));
                         startActivity(intent);
                     }
                 });
 
-        properties.addSnapshotListener(new EventListener<QuerySnapshot>()
+        propertiesCollection.addSnapshotListener(new EventListener<QuerySnapshot>()
         {
             @Override
             public void onEvent(QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e)
@@ -110,11 +110,11 @@ public class MainActivity extends AppCompatActivity
                     {
                         case ADDED:
                             Log.d(TAG, "New property: " + dc.getDocument().getData());
-                            cards.add(dc.getDocument().toObject(Property.class));
+                            propertyCardList.add(dc.getDocument().toObject(Property.class));
                             break;
                         case MODIFIED:
                             Log.d(TAG, "Modified property: " + dc.getDocument().getData());
-                            cards.add(dc.getDocument().toObject(Property.class));
+                            propertyCardList.add(dc.getDocument().toObject(Property.class));
                             break;
                         case REMOVED:
                             Log.d(TAG, "Removed property: " + dc.getDocument().getData());
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
 
-                adapter.notifyDataSetChanged();
+                cardAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -130,8 +130,8 @@ public class MainActivity extends AppCompatActivity
     //Initialize FireStore
     private void initFirestore()
     {
-        db = FirebaseFirestore.getInstance();
-        properties = db.collection("properties");
+        database = FirebaseFirestore.getInstance();
+        propertiesCollection = database.collection("properties");
     }
 
     //Add New Property to DB
