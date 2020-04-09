@@ -3,9 +3,9 @@ package com.firebase.rentme;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,11 +15,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
-import android.view.Gravity;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
@@ -32,7 +30,6 @@ import com.firebase.rentme.models.Property;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -41,31 +38,37 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 
 public class CreateListingActivity extends AppCompatActivity
 {
     private static final String TAG = "MainActivity";
     private final static int GALLERY = 1, ZIP_CODE_LENGTH = 5, PHONE_NUMBER_LENGTH = 13;
+    private final static long DELAY = 1500L;
 
     private FirebaseFirestore database;
     private StorageReference storageReference;
 
     private Property newProperty;
 
-    private Uri imguri;
+    private Uri imgURI;
     private String photoURL = "";
 
     private ImageButton imageButton;
-    private Spinner categorySpinner;
     private EditText editTextPrice;
-    private EditText editTextBio;
+    private Spinner categorySpinner;
+    private EditText editTextOwnerName;
+    private EditText editTextOwnerPhoneNum;
+    private EditText editTextOwnerEmail;
     private EditText editTextAddress;
     private EditText editTextCity;
     private EditText editTextZipCode;
     private Spinner stateSpinner;
-    private EditText editTextOwnerName;
-    private EditText editTextOwnerPhoneNum;
-    private EditText editTextOwnerEmail;
+    private EditText editTextBio;
+    private CircularProgressButton addPropertyButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -73,7 +76,7 @@ public class CreateListingActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_property);
         initFirestore();
-        initImageUploadInterface();
+        initButtons();
         initSpinners();
         initEditTextFields();
     }
@@ -85,9 +88,10 @@ public class CreateListingActivity extends AppCompatActivity
         storageReference = FirebaseStorage.getInstance().getReference("Images");
     }
 
-    private void initImageUploadInterface()
+    private void initButtons()
     {
         imageButton = findViewById(R.id.uploadImageButton);
+        addPropertyButton = findViewById(R.id.add_property_button);
     }
 
     private void initSpinners()
@@ -118,12 +122,41 @@ public class CreateListingActivity extends AppCompatActivity
         editTextOwnerEmail = findViewById(R.id.edit_text_ownerEmail);
     }
 
+    public void choosePhotoFromGallery(View v)
+    {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(galleryIntent, GALLERY);
+    }
+
+    //Results from choosePhotoFromGallery
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_CANCELED)
+        {
+            imgURI = null;
+            imageButton.setImageResource(R.drawable.add_pic_icon);
+            imageButton.setBackgroundResource(R.drawable.border);
+            return;
+        }
+        if (requestCode == GALLERY)
+        {
+            if (data != null)
+            {
+                imgURI = data.getData();
+                imageButton.setImageURI(imgURI);
+                imageButton.setBackgroundResource(R.color.colorPrimary);
+            }
+        }
+    }
+
     public void validatePropertyInformation(View v)
     {
         boolean isValid = true;
         boolean scrollToTop = false;
 
-        if (imguri == null)
+        if (imgURI == null)
         {
             isValid = false;
             scrollToTop = true;
@@ -193,15 +226,129 @@ public class CreateListingActivity extends AppCompatActivity
             displayError(stateSpinner, "Must select a state");
         }
 
-        if(scrollToTop)
+        if (scrollToTop)
         {
             scrollToTop();
         }
 
-        if(isValid)
+        if (isValid)
         {
+            addPropertyButton.startAnimation();
             uploadImage();
         }
+    }
+
+    public void scrollToTop()
+    {
+        final ScrollView scrollView = findViewById(R.id.scrollView);
+
+        scrollView.post(new Runnable()
+        {
+            public void run()
+            {
+                scrollView.fullScroll(scrollView.FOCUS_UP);
+            }
+        });
+    }
+
+    public boolean isValidEmail(String emailInput)
+    {
+        return !emailInput.equals("") && Patterns.EMAIL_ADDRESS.matcher(emailInput).matches();
+    }
+
+    private void displayError(View viewObject, String errorMessage)
+    {
+        if (viewObject instanceof EditText)
+        {
+            editTextError((EditText) viewObject, errorMessage);
+        }
+        else if (viewObject instanceof Spinner)
+        {
+            spinnerError((Spinner) viewObject, errorMessage);
+        }
+    }
+
+    private void editTextError(final EditText textEntry, String errorMessage)
+    {
+        textEntry.setError(errorMessage);
+        textEntry.setBackgroundResource(R.drawable.error_background);
+        textEntry.addTextChangedListener(new TextWatcher()
+        {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)
+            {
+                textEntry.setError(null);
+                textEntry.setBackgroundResource(R.drawable.multi_state_background);
+            }
+        });
+    }
+
+    private void spinnerError(Spinner spinner, String errorMessage)
+    {
+        TextView errorTextView = (TextView) spinner.getSelectedView();
+        errorTextView.setError(errorMessage);
+        errorTextView.setTextColor(getColor(R.color.error));
+    }
+
+    private void uploadImage()
+    {
+        storageReference.child(System.currentTimeMillis() + "." + getExtension(imgURI))
+                .putFile(imgURI)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
+                {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
+                    {
+                        retrieveImageURL(taskSnapshot.getStorage().getDownloadUrl());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener()
+                {
+                    @Override
+                    public void onFailure(@NonNull Exception exception)
+                    {
+                        Toast.makeText(CreateListingActivity.this, "Error Uploading Image", Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    //Get the file extension so we can store the file with extension
+    private String getExtension(Uri uri)
+    {
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+    private void retrieveImageURL(final Task<Uri> urlTask)
+    {
+        urlTask.addOnSuccessListener(new OnSuccessListener<Uri>()
+        {
+            @Override
+            public void onSuccess(Uri uri)
+            {
+                photoURL = uri.toString();
+                uploadProperty();
+            }
+        }).addOnFailureListener(new OnFailureListener()
+        {
+            @Override
+            public void onFailure(@NonNull Exception exception)
+            {
+                retrieveImageURL(urlTask);
+            }
+        });
     }
 
     public void uploadProperty()
@@ -216,6 +363,8 @@ public class CreateListingActivity extends AppCompatActivity
                     public void onSuccess(DocumentReference documentReference)
                     {
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        addPropertyButton.doneLoadingAnimation(Color.GREEN, BitmapFactory.decodeResource(getResources(), R.drawable.checkmark));
+                        exitAfterDelay();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener()
@@ -223,8 +372,8 @@ public class CreateListingActivity extends AppCompatActivity
                     @Override
                     public void onFailure(@NonNull Exception e)
                     {
-                        Toast.makeText(CreateListingActivity.this, "Failed to Create Listing", Toast.LENGTH_SHORT).show();
                         Log.w(TAG, "Error adding document", e);
+                        Toast.makeText(CreateListingActivity.this, "Failed to Create Listing", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -245,148 +394,15 @@ public class CreateListingActivity extends AppCompatActivity
         newProperty.setOwnerEmail(editTextOwnerEmail.getText().toString());
     }
 
-    private void displayError(View viewObject, String errorMessage)
+    private void exitAfterDelay()
     {
-            if(viewObject instanceof EditText)
+        TimerTask task = new TimerTask() {
+            public void run()
             {
-                final EditText textEntry = (EditText) viewObject;
-                textEntry.setError(errorMessage);
-                textEntry.setBackgroundResource(R.drawable.error_background);
-                textEntry.addTextChangedListener(new TextWatcher()  {
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    }
-
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s)  {
-                        textEntry.setError(null);
-                        textEntry.setBackgroundResource(R.drawable.multi_state_background);
-                    }
-                });
+                finish();
             }
-            else if(viewObject instanceof Spinner)
-            {
-                Spinner spinner = (Spinner) viewObject;
-                TextView errorTextView = (TextView) spinner.getSelectedView();
-                errorTextView.setError(errorMessage);
-                errorTextView.setTextColor(getColor(R.color.error));
-            }
-    }
-
-    public void scrollToTop()
-    {
-        final ScrollView scrollView = findViewById(R.id.scrollView);
-
-        scrollView.post(new Runnable() {
-            public void run() {
-                scrollView.fullScroll(scrollView.FOCUS_UP);
-            }
-        });
-    }
-
-    public boolean isValidEmail(String emailInput)
-    {
-        return !emailInput.equals("") && Patterns.EMAIL_ADDRESS.matcher(emailInput).matches();
-    }
-
-    public void choosePhotoFromGallery(View v)
-    {
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(galleryIntent, GALLERY);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_CANCELED)
-        {
-            imageButton.setImageResource(R.drawable.add_pic_icon);
-            imageButton.setBackgroundResource(R.drawable.border);
-            return;
-        }
-        if (requestCode == GALLERY)
-        {
-            if (data != null)
-            {
-                imguri = data.getData();
-                imageButton.setImageURI(imguri);
-                imageButton.setBackgroundResource(R.color.colorPrimary);
-            }
-        }
-    }
-
-    //Get the file extension so we can store the file with extension
-    private String getExtension(Uri uri)
-    {
-        ContentResolver cr = getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(cr.getType(uri));
-    }
-
-    private void uploadImage()
-    {
-        //giving our file a name with time and extension to avoid redundancy and duplication
-        StorageReference Ref = storageReference.child(System.currentTimeMillis() + "." + getExtension(imguri));
-
-        final ProgressDialog pd = new ProgressDialog(this);
-        pd.setMessage("Uploading");
-        pd.show();
-
-        Ref.putFile(imguri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
-        {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
-            {
-                // Get a URL to the uploaded content
-                Task uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                while (!uriTask.isSuccessful()) ;
-                Uri downloadUrl = (Uri) uriTask.getResult();
-                photoURL = downloadUrl.toString();
-
-                uploadProperty();
-                indicateUploadSuccess();
-                createDelay(2000);
-                pd.dismiss();
-                //Closes the activity
-            }
-        })
-                .addOnFailureListener(new OnFailureListener()
-                {
-                    @Override
-                    public void onFailure(@NonNull Exception exception)
-                    {
-                        // Handle unsuccessful uploads
-                        Toast.makeText(CreateListingActivity.this, "Error", Toast.LENGTH_LONG).show();
-                    }
-                });
-    }
-
-    private void indicateUploadSuccess()
-    {
-        Button button = findViewById(R.id.add_property_button);
-
-        button.setEnabled(false);
-        button.setBackgroundColor(Color.GREEN);
-        button.setText(R.string.propertyAdded);
-        button.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.checkmark, 0);
-    }
-
-    private void createDelay(int millis)
-    {
-        try
-        {
-            Thread.sleep(millis);
-            finish();
-        }
-        catch (InterruptedException e)
-        {
-            System.err.println(e.getMessage());
-        }
+        };
+        Timer timer = new Timer();
+        timer.schedule(task, DELAY);
     }
 }

@@ -24,11 +24,11 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="10dp"
+                android:background="@drawable/border"
                 android:maxWidth="380dp"
                 android:maxHeight="380dp"
                 android:onClick="choosePhotoFromGallery"
                 android:padding="2dp"
-                android:background="@drawable/border"
                 android:scaleType="fitXY"
                 android:src="@drawable/add_pic_icon" />
 
@@ -248,14 +248,14 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
+            <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
                 android:id="@+id/add_property_button"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="60dp"
                 android:layout_below="@id/textInputLayout"
-                android:layout_alignStart="@id/textInputLayout"
-                android:layout_alignEnd="@id/textInputLayout"
-                android:background="@color/colorPrimary"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="6dp"
+                android:background="@drawable/morphing_button"
                 android:drawableEnd="@drawable/plus"
                 android:onClick="validatePropertyInformation"
                 android:paddingStart="60dp"
@@ -263,7 +263,9 @@
                 android:text="@string/addProperty"
                 android:textAllCaps="true"
                 android:textColor="#ffffff"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                app:spinning_bar_color="#ffffff"
+                app:spinning_bar_padding="4dp" />
 
         </RelativeLayout>
 

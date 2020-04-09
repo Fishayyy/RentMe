@@ -40,9 +40,27 @@ public class MainActivity extends AppCompatActivity
 
         initFirestore();
 
+        initCardArray();
+
+        initCardFlingAdapterView();
+
+        initRealTimeListener();
+    }
+
+    private void initFirestore()
+    {
+        database = FirebaseFirestore.getInstance();
+        propertiesCollection = database.collection("properties");
+    }
+
+    private void initCardArray()
+    {
         propertyCardList = new ArrayList<>();
         cardAdapter = new CardViewAdapter(this, R.layout.property_card, propertyCardList);
+    }
 
+    private void initCardFlingAdapterView()
+    {
         flingAdapterView = findViewById(R.id.frame);
         flingAdapterView.setAdapter(cardAdapter);
         flingAdapterView.setFlingListener(new SwipeFlingAdapterView.onFlingListener()
@@ -82,18 +100,20 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        flingAdapterView.setOnItemClickListener
-                (new SwipeFlingAdapterView.OnItemClickListener()
-                {
-                    @Override
-                    public void onItemClicked(int i, Object o)
-                    {
-                        Intent intent = new Intent(MainActivity.this, ViewContactInfoActivity.class);
-                        intent.putExtra(Property.PARCELABLE_PROPERTY, propertyCardList.get(0));
-                        startActivity(intent);
-                    }
-                });
+        flingAdapterView.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClicked(int i, Object o)
+            {
+                Intent intent = new Intent(MainActivity.this, ViewContactInfoActivity.class);
+                intent.putExtra(Property.PARCELABLE_PROPERTY, propertyCardList.get(0));
+                startActivity(intent);
+            }
+        });
+    }
 
+    private void initRealTimeListener()
+    {
         propertiesCollection.addSnapshotListener(new EventListener<QuerySnapshot>()
         {
             @Override
@@ -127,14 +147,6 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    //Initialize FireStore
-    private void initFirestore()
-    {
-        database = FirebaseFirestore.getInstance();
-        propertiesCollection = database.collection("properties");
-    }
-
-    //Add New Property to DB
     public void createListing(View view)
     {
         Intent intent = new Intent(MainActivity.this, CreateListingActivity.class);

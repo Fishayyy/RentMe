@@ -31,18 +31,28 @@ public class CardViewAdapter extends ArrayAdapter
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.property_card, parent, false);
         }
 
-        //Display Card Image
         if (!property.getPhotoURL().isEmpty())
         {
-            ImageView propertyImage = convertView.findViewById(R.id.cardImage);
-            Picasso.get().load(property.getPhotoURL())
-                    .placeholder(R.drawable.animated_loading)
-                    .error(R.drawable.error)
-                    .noFade()
-                    .into(propertyImage);
+           displayCardImage(property, convertView);
         }
 
-        //Display Card Text
+        displayText(property, convertView);
+
+        return convertView;
+    }
+
+    private void displayCardImage(Property property, View convertView)
+    {
+        ImageView propertyImage = convertView.findViewById(R.id.cardImage);
+        Picasso.get().load(property.getPhotoURL())
+                .placeholder(R.drawable.animated_loading)
+                .error(R.drawable.error)
+                .noFade()
+                .into(propertyImage);
+    }
+
+    private void displayText(Property property, View convertView)
+    {
         TextView propertyType = (TextView) convertView.findViewById(R.id.attribute_type);
         TextView propertyCost = (TextView) convertView.findViewById(R.id.attribute_cost);
         TextView propertyCity = (TextView) convertView.findViewById(R.id.attribute_city);
@@ -51,8 +61,5 @@ public class CardViewAdapter extends ArrayAdapter
         propertyCost.setText(getContext().getString(R.string.propertyCost, property.getPrice()));
         propertyCity.setText(getContext().getString(R.string.propertyCity, property.getCity()));
         propertyState.setText(getContext().getString(R.string.propertyState, property.getState()));
-
-        return convertView;
     }
-
 }
