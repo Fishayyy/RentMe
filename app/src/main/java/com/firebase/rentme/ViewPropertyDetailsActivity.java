@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.firebase.rentme.models.Property;
 import com.squareup.picasso.Picasso;
 
-public class ViewContactInfoActivity extends AppCompatActivity
+public class ViewPropertyDetailsActivity extends AppCompatActivity
 {
     private static final String TAG = "ViewContactCard";
 
@@ -19,7 +19,7 @@ public class ViewContactInfoActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_contact_card);
+        setContentView(R.layout.property_card_detials);
 
         Log.d(TAG, "onCreate: started");
 
@@ -37,24 +37,24 @@ public class ViewContactInfoActivity extends AppCompatActivity
 
     private void displayCardImage(Property property)
     {
-        ImageView contactImage = findViewById(R.id.contact_image);
+        ImageView propertyImage = findViewById(R.id.property_image);
         Picasso.get().load(property.getPhotoURL())
                 .placeholder(R.drawable.animated_loading)
                 .error(R.drawable.error)
                 .noFade()
-                .into(contactImage);
+                .into(propertyImage);
     }
 
     private void displayCardText(Property property)
     {
         TextView address = (TextView) findViewById(R.id.attribute_address);
-        TextView owner = (TextView) findViewById(R.id.attribute_owner);
-        TextView ownerEmail = (TextView) findViewById(R.id.attribute_owner_email);
-        TextView ownerPhone = (TextView) findViewById(R.id.attribute_owner_phone);
+        TextView ownerName = (TextView) findViewById(R.id.attribute_name);
+        TextView ownerEmail = (TextView) findViewById(R.id.attribute_email);
+        TextView ownerPhone = (TextView) findViewById(R.id.attribute_phone);
         TextView bio = (TextView) findViewById(R.id.attribute_bio);
 
         address.setText(getApplicationContext().getString(R.string.addressFormat, property.getAddress(), property.getCity(), property.getState(), property.getZipCode()));
-        owner.setText(property.getOwnerName());
+        ownerName.setText(property.getOwnerName());
         ownerEmail.setText(property.getOwnerEmail());
         ownerPhone.setText(property.getOwnerPhoneNum());
         bio.setText(property.getBio());

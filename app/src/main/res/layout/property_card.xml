@@ -85,7 +85,20 @@
                 android:textSize="29sp" />
 
             <TextView
-                android:id="@+id/attribute_cost"
+                android:id="@+id/attribute_location"
+                style="@style/AudioFileInfoOverlayText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="3dp"
+                android:layout_toEndOf="@+id/attribute_type"
+                android:layout_alignBottom="@id/attribute_type"
+                android:text="@string/location"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/title_rate"
                 style="@style/Base.TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -94,22 +107,69 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="-2dp"
                 android:layout_toEndOf="@id/bulletImage0"
-                android:text="@string/propertyCost"
+                android:text="@string/rate"
                 android:textSize="23sp" />
 
             <TextView
-                android:id="@+id/attribute_city"
+                android:id="@+id/attribute_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_type"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="-2dp"
+                android:layout_marginEnd="-2dp"
+                android:layout_toEndOf="@+id/title_bedrooms"
+                android:textSize="23sp" />
+
+            <TextView
+                android:id="@+id/title_bedrooms"
                 style="@style/Base.TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/attribute_cost"
+                android:layout_below="@id/title_rate"
                 android:layout_gravity="bottom"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="1dp"
                 android:layout_toEndOf="@id/bulletImage0"
-                android:text="@string/propertyCity"
+                android:text="@string/bedrooms"
                 android:textSize="23sp" />
 
+            <TextView
+                android:id="@+id/attribute_bedrooms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_rate"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="-2dp"
+                android:layout_toEndOf="@+id/title_bedrooms"
+                android:textSize="23sp" />
+
+            <TextView
+                android:id="@+id/title_bathrooms"
+                style="@style/Base.TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title_bedrooms"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="1dp"
+                android:layout_toEndOf="@id/bulletImage0"
+                android:text="@string/bathrooms"
+                android:textSize="23sp" />
+
+            <TextView
+                android:id="@+id/attribute_bathrooms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_bedrooms"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="-2dp"
+                android:layout_toEndOf="@+id/title_bedrooms"
+                android:textSize="23sp" />
+
+            <!--
             <TextView
                 android:id="@+id/attribute_state"
                 style="@style/Base.TextAppearance.AppCompat.Title"
@@ -121,7 +181,7 @@
                 android:layout_marginTop="0dp"
                 android:layout_toEndOf="@id/bulletImage0"
                 android:text="@string/propertyState"
-                android:textSize="23sp" />
+                android:textSize="23sp" /> -->
 
         </RelativeLayout>
 

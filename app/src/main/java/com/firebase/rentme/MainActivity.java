@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClicked(int i, Object o)
             {
-                Intent intent = new Intent(MainActivity.this, ViewContactInfoActivity.class);
+                Intent intent = new Intent(MainActivity.this, ViewPropertyDetailsActivity.class);
                 intent.putExtra(Property.PARCELABLE_PROPERTY, propertyCardList.get(0));
                 startActivity(intent);
             }
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity
 
     public void createListing(View view)
     {
-        Intent intent = new Intent(MainActivity.this, CreateListingActivity.class);
+        Intent intent = new Intent(MainActivity.this, CreatePropertyActivity.class);
         startActivity(intent);
     }
 }

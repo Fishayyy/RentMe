@@ -43,7 +43,7 @@ import java.util.TimerTask;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 
-public class CreateListingActivity extends AppCompatActivity
+public class CreatePropertyActivity extends AppCompatActivity
 {
     private static final String TAG = "MainActivity";
     private final static int GALLERY = 1, ZIP_CODE_LENGTH = 5, PHONE_NUMBER_LENGTH = 13;
@@ -318,7 +318,7 @@ public class CreateListingActivity extends AppCompatActivity
                     @Override
                     public void onFailure(@NonNull Exception exception)
                     {
-                        Toast.makeText(CreateListingActivity.this, "Error Uploading Image", Toast.LENGTH_LONG).show();
+                        Toast.makeText(CreatePropertyActivity.this, "Error Uploading Image", Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -373,7 +373,7 @@ public class CreateListingActivity extends AppCompatActivity
                     public void onFailure(@NonNull Exception e)
                     {
                         Log.w(TAG, "Error adding document", e);
-                        Toast.makeText(CreateListingActivity.this, "Failed to Create Listing", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreatePropertyActivity.this, "Failed to Create Listing", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

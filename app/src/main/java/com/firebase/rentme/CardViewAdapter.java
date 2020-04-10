@@ -54,12 +54,15 @@ public class CardViewAdapter extends ArrayAdapter
     private void displayText(Property property, View convertView)
     {
         TextView propertyType = (TextView) convertView.findViewById(R.id.attribute_type);
-        TextView propertyCost = (TextView) convertView.findViewById(R.id.attribute_cost);
-        TextView propertyCity = (TextView) convertView.findViewById(R.id.attribute_city);
-        TextView propertyState = (TextView) convertView.findViewById(R.id.attribute_state);
+        TextView propertyLocation = (TextView) convertView.findViewById(R.id.attribute_location);
+        TextView propertyRate = (TextView) convertView.findViewById(R.id.attribute_rate);
+        TextView propertyBedrooms = (TextView) convertView.findViewById(R.id.attribute_bedrooms);
+        TextView propertyBathrooms = (TextView) convertView.findViewById(R.id.attribute_bathrooms);
+
         propertyType.setText(property.getHousingCategory());
-        propertyCost.setText(getContext().getString(R.string.propertyCost, property.getPrice()));
-        propertyCity.setText(getContext().getString(R.string.propertyCity, property.getCity()));
-        propertyState.setText(getContext().getString(R.string.propertyState, property.getState()));
+        propertyLocation.setText(getContext().getString(R.string.location) + getContext().getString(R.string.locationFormat, property.getCity(), property.getState()));
+        propertyRate.setText(getContext().getString(R.string.rateMonthFormat, property.getPrice()));
+        //propertyBedrooms.setText(getContext().getString(R.string.bedrooms, property.getBedrooms()));    <-- METHODS DON'T EXIST YET
+        //propertyBathrooms.setText(getContext().getString(R.string.bathrooms, property.getBathrooms()));
     }
 }
