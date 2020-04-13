@@ -146,7 +146,7 @@ public class CreateListingActivity extends AppCompatActivity
             {
                 imgURI = data.getData();
                 imageButton.setImageURI(imgURI);
-                imageButton.setBackgroundResource(R.color.colorPrimary);
+                imageButton.setBackgroundResource(R.color.primary);
             }
         }
     }
@@ -363,7 +363,7 @@ public class CreateListingActivity extends AppCompatActivity
                     public void onSuccess(DocumentReference documentReference)
                     {
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                        addPropertyButton.doneLoadingAnimation(Color.GREEN, BitmapFactory.decodeResource(getResources(), R.drawable.checkmark));
+                        addPropertyButton.doneLoadingAnimation(getColor(R.color.success), BitmapFactory.decodeResource(getResources(), R.drawable.checkmark));
                         exitAfterDelay();
                     }
                 })
@@ -373,6 +373,7 @@ public class CreateListingActivity extends AppCompatActivity
                     public void onFailure(@NonNull Exception e)
                     {
                         Log.w(TAG, "Error adding document", e);
+                        addPropertyButton.doneLoadingAnimation(getColor(R.color.error), BitmapFactory.decodeResource(getResources(), R.drawable.error);
                         Toast.makeText(CreateListingActivity.this, "Failed to Create Listing", Toast.LENGTH_SHORT).show();
                     }
                 });

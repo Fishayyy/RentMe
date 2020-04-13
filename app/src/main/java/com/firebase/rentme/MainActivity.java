@@ -1,11 +1,12 @@
 package com.firebase.rentme;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.content.Intent;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
+import androidx.appcompat.widget.Toolbar;
 
 import com.firebase.rentme.models.Property;
 import com.google.firebase.firestore.CollectionReference;
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity
         initCardFlingAdapterView();
 
         initRealTimeListener();
+
+        initToolbar();
     }
 
     private void initFirestore()
@@ -145,6 +148,18 @@ public class MainActivity extends AppCompatActivity
                 cardAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    private void initToolbar()
+    {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.maintoolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.main_toolbar, menu);
+        return true;
     }
 
     public void createListing(View view)
