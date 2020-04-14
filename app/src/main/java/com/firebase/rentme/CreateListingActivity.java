@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
@@ -363,7 +362,7 @@ public class CreateListingActivity extends AppCompatActivity
                     public void onSuccess(DocumentReference documentReference)
                     {
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                        addPropertyButton.doneLoadingAnimation(getColor(R.color.success), BitmapFactory.decodeResource(getResources(), R.drawable.checkmark));
+                        addPropertyButton.doneLoadingAnimation(getColor(R.color.success), BitmapFactory.decodeResource(getResources(), R.drawable.house_checkmark));
                         exitAfterDelay();
                     }
                 })
@@ -373,7 +372,7 @@ public class CreateListingActivity extends AppCompatActivity
                     public void onFailure(@NonNull Exception e)
                     {
                         Log.w(TAG, "Error adding document", e);
-                        addPropertyButton.doneLoadingAnimation(getColor(R.color.error), BitmapFactory.decodeResource(getResources(), R.drawable.error);
+                        addPropertyButton.doneLoadingAnimation(getColor(R.color.error), BitmapFactory.decodeResource(getResources(), R.drawable.house_x));
                         Toast.makeText(CreateListingActivity.this, "Failed to Create Listing", Toast.LENGTH_SHORT).show();
                     }
                 });
