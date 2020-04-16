@@ -23,8 +23,8 @@ public class ViewContactInfoActivity extends AppCompatActivity
 
         Log.d(TAG, "onCreate: started");
 
-        Intent i = getIntent();
-        Property property = i.getParcelableExtra(Property.PARCELABLE_PROPERTY);
+        Intent intent = getIntent();
+        Property property = intent.getParcelableExtra(Property.PARCELABLE_PROPERTY);
 
         displayCard(property);
     }

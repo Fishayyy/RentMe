@@ -4,17 +4,22 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -24,6 +29,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.rentme.models.PriceInputFilter;
 import com.firebase.rentme.models.Property;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -74,10 +80,32 @@ public class CreateListingActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_property);
+
         initFirestore();
         initButtons();
         initSpinners();
         initEditTextFields();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event)
+    {
+        if (event.getAction() == MotionEvent.ACTION_DOWN)
+        {
+            View v = getCurrentFocus();
+            if (v instanceof EditText)
+            {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY()))
+                {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event);
     }
 
     private void initFirestore()
@@ -111,6 +139,7 @@ public class CreateListingActivity extends AppCompatActivity
     private void initEditTextFields()
     {
         editTextPrice = findViewById(R.id.edit_text_price);
+        editTextPrice.setFilters(new InputFilter[]{new PriceInputFilter(8, 2)});
         editTextBio = findViewById(R.id.edit_text_bio);
         editTextAddress = findViewById(R.id.edit_text_address);
         editTextCity = findViewById(R.id.edit_text_city);
@@ -239,13 +268,13 @@ public class CreateListingActivity extends AppCompatActivity
 
     public void scrollToTop()
     {
-        final ScrollView scrollView = findViewById(R.id.scrollView);
+        final ScrollView scrollView = findViewById(R.id.createListingScrollView);
 
         scrollView.post(new Runnable()
         {
             public void run()
             {
-                scrollView.fullScroll(scrollView.FOCUS_UP);
+                scrollView.fullScroll(ScrollView.FOCUS_UP);
             }
         });
     }
@@ -396,7 +425,8 @@ public class CreateListingActivity extends AppCompatActivity
 
     private void exitAfterDelay()
     {
-        TimerTask task = new TimerTask() {
+        TimerTask task = new TimerTask()
+        {
             public void run()
             {
                 finish();
@@ -404,5 +434,10 @@ public class CreateListingActivity extends AppCompatActivity
         };
         Timer timer = new Timer();
         timer.schedule(task, DELAY);
+    }
+
+    public void exitWithNoDelay(View view)
+    {
+        finish();
     }
 }

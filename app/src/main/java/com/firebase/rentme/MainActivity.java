@@ -4,9 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
-import androidx.appcompat.widget.Toolbar;
 
 import com.firebase.rentme.models.Property;
 import com.google.firebase.firestore.CollectionReference;
@@ -64,7 +62,7 @@ public class MainActivity extends AppCompatActivity
 
     private void initCardFlingAdapterView()
     {
-        flingAdapterView = findViewById(R.id.frame);
+        flingAdapterView = findViewById(R.id.cardFrame);
         flingAdapterView.setAdapter(cardAdapter);
         flingAdapterView.setFlingListener(new SwipeFlingAdapterView.onFlingListener()
         {
@@ -152,19 +150,18 @@ public class MainActivity extends AppCompatActivity
 
     private void initToolbar()
     {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.maintoolbar);
-        setSupportActionBar(toolbar);
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.main_toolbar, menu);
-        return true;
     }
 
     public void createListing(View view)
     {
         Intent intent = new Intent(MainActivity.this, CreateListingActivity.class);
+        startActivity(intent);
+    }
+
+    public void filterProperties(View view)
+    {
+        Intent intent = new Intent(MainActivity.this, CreatePropertyFilterActivity.class);
         startActivity(intent);
     }
 }

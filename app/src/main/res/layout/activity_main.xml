@@ -8,25 +8,45 @@
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/maintoolbar"
+        android:id="@+id/mainToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        app:titleTextColor="@android:color/white" />
+        app:titleTextColor="@android:color/white">
+
+        <RelativeLayout
+            android:id="@+id/mainToolbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <Button
+                android:id="@+id/filterButton"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentStart="true"
+                android:background="@color/transparent"
+                android:drawableStart="@drawable/filter_list"
+                android:onClick="filterProperties" />
+
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
 
     <com.lorentzos.flingswipe.SwipeFlingAdapterView
-        android:id="@+id/frame"
+        android:id="@+id/cardFrame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/maintoolbar"
+        android:layout_below="@id/mainToolbar"
         app:rotation_degrees="15.5" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/frame"
+        android:layout_below="@id/cardFrame"
         android:layout_marginStart="320dp"
         android:layout_marginTop="-80dp"
         android:onClick="createListing"

@@ -20,6 +20,15 @@ public class Property implements Parcelable
     private String city;
     private String zipCode;
     private String state;
+    private int bedrooms;
+    private double bathrooms;
+    private boolean petsAllowed;
+    private boolean smokingAllowed;
+    private boolean parkingAvailable;
+    private boolean hasPool;
+    private boolean hasBackyard;
+    private boolean hasLaundry;
+    private boolean isHandicapAccessible;
 
     //Contact Info
     private String ownerName;
@@ -35,17 +44,26 @@ public class Property implements Parcelable
     //Parcel is for sending non-Primitive objects by intent
     public Property(Parcel parcel)
     {
-        this.housingCategory = parcel.readString();
-        this.price = parcel.readDouble();
-        this.photoURL = parcel.readString();
-        this.bio = parcel.readString();
-        this.address = parcel.readString();
-        this.city = parcel.readString();
-        this.zipCode = parcel.readString();
-        this.state = parcel.readString();
-        this.ownerName = parcel.readString();
-        this.ownerPhoneNum = parcel.readString();
-        this.ownerEmail = parcel.readString();
+        housingCategory = parcel.readString();
+        price = parcel.readDouble();
+        photoURL = parcel.readString();
+        bio = parcel.readString();
+        address = parcel.readString();
+        city = parcel.readString();
+        zipCode = parcel.readString();
+        state = parcel.readString();
+        ownerName = parcel.readString();
+        ownerPhoneNum = parcel.readString();
+        ownerEmail = parcel.readString();
+        bedrooms = parcel.readInt();
+        bathrooms = parcel.readDouble();
+        petsAllowed = parcel.readBoolean();
+        smokingAllowed = parcel.readBoolean();
+        parkingAvailable = parcel.readBoolean();
+        hasPool = parcel.readBoolean();
+        hasBackyard = parcel.readBoolean();
+        hasLaundry = parcel.readBoolean();
+        isHandicapAccessible = parcel.readBoolean();
     }
 
     //Standard Constructor
@@ -95,6 +113,15 @@ public class Property implements Parcelable
         dest.writeString(ownerName);
         dest.writeString(ownerPhoneNum);
         dest.writeString(ownerEmail);
+        dest.writeInt(bedrooms);
+        dest.writeDouble(bathrooms);
+        dest.writeBoolean(petsAllowed);
+        dest.writeBoolean(smokingAllowed);
+        dest.writeBoolean(parkingAvailable);
+        dest.writeBoolean(hasPool);
+        dest.writeBoolean(hasBackyard);
+        dest.writeBoolean(hasLaundry);
+        dest.writeBoolean(isHandicapAccessible);
     }
 
     //Return hashcode of object
@@ -159,11 +186,26 @@ public class Property implements Parcelable
         return ownerEmail;
     }
 
+    public int getBedrooms() { return bedrooms; }
+
+    public double getBathrooms() { return bathrooms; }
+
+    public boolean isPetsAllowed() { return petsAllowed; }
+
+    public boolean isSmokingAllowed() { return smokingAllowed; }
+
+    public boolean hasParking() { return parkingAvailable; }
+
+    public boolean hasPool() { return hasPool; }
+
+    public boolean hasBackyard() { return hasBackyard; }
+
+    public boolean hasLaundry() { return hasLaundry; }
+
+    public boolean isHandicapAccessible() { return isHandicapAccessible; }
+
     //Set Values
-    public void setHousingCategory(String housingCategory)
-    {
-        this.housingCategory = housingCategory;
-    }
+    public void setHousingCategory(String housingCategory) { this.housingCategory = housingCategory; }
 
     public void setPrice(double price)
     {
@@ -214,4 +256,22 @@ public class Property implements Parcelable
     {
         this.ownerEmail = ownerEmail;
     }
+
+    public void setBedrooms(int bedrooms) { this.bedrooms = bedrooms; }
+
+    public void setBathrooms(double bathrooms) { this.bathrooms = bathrooms; }
+
+    public void setPetsAllowed(boolean petsAllowed) { this.petsAllowed = petsAllowed; }
+
+    public void setSmokingAllowed(boolean smokingAllowed) { this.smokingAllowed = smokingAllowed; }
+
+    public void setParkingAvailable(boolean parkingAvailable) { this.parkingAvailable = parkingAvailable; }
+
+    public void setHasPool(boolean hasPool) { this.hasPool = hasPool; }
+
+    public void setHasBackyard(boolean hasBackyard) { this.hasBackyard = hasBackyard; }
+
+    public void setHasLaundry(boolean hasLaundry) { this.hasLaundry = hasLaundry; }
+
+    public void setHandicapAccessible(boolean handicapAccessible) { isHandicapAccessible = handicapAccessible; }
 }

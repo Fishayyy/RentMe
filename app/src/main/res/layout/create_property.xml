@@ -4,14 +4,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="15dp"
     tools:context=".CreateListingActivity">
 
-    <ScrollView
-        android:id="@+id/scrollView"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/createListingToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true">
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:titleTextColor="@android:color/white">
+
+        <RelativeLayout
+            android:id="@+id/filterPropertiesToolbarLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/filterPropertiesBackButton"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentStart="true"
+                android:background="@color/transparent"
+                android:drawableStart="@drawable/back_arrow"
+                android:onClick="exitWithNoDelay" />
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_toEndOf="@id/filterPropertiesBackButton"
+                android:text="@string/add_property_title"
+                android:textColor="@color/white" />
+
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <ScrollView
+        android:id="@+id/createListingScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/createListingToolbar"
+        android:layout_centerHorizontal="true"
+        android:padding="15dp">
 
         <RelativeLayout
             android:id="@+id/innerRelativeLayout"
@@ -48,7 +85,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="2dp"
                 android:text="@string/dollarSign"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/edit_text_price"
@@ -263,7 +300,7 @@
                 android:text="@string/addProperty"
                 android:textAllCaps="true"
                 android:textColor="#ffffff"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 app:spinning_bar_color="#ffffff"
                 app:spinning_bar_padding="4dp" />
 

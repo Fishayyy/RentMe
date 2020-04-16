@@ -1,5 +1,58 @@
 <resources>
     <string name="app_name">RentMe</string>
+    <string name="add_property_title">Add Property</string>
+    <string name="filter_properties_title">Filters</string>
+
+    <!--    Filter Properties Strings-->
+    <string name="minTextView">Min $</string>
+    <string name="toMaxTextView">to Max $</string>
+    <string name="bedroomsTextView">Bedrooms</string>
+    <string name="bathroomsTextView">Bathrooms</string>
+    <string name="propertyTypeTextView">Property Type</string>
+    <string name="rentalAmenitiesTextView">Rental Amenities</string>
+    <string name="rentalRulesTextView">Rental Rules</string>
+    <string name="petAmenityTextView">Pets Allowed</string>
+    <string name="smokingAmenityTextView">Smoking Allowed</string>
+    <string name="parkingAmenityTextView">Parking Available</string>
+    <string name="poolAmenityTextView">Pool Available</string>
+    <string name="backyardAmenityTextView">Backyard</string>
+    <string name="laundryTextView">In-home Laundry</string>
+    <string name="handicapTextView">Handicap Accessible</string>
+    <string name="resetFilters">Reset</string>
+    <string name="applyFilters">Apply</string>
+
+    <string-array name="bedroomsRange">
+        <item>Studio</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5+</item>
+    </string-array>
+
+    <string-array name="bathroomsRange">
+        <item>1</item>
+        <item>1.5</item>
+        <item>2</item>
+        <item>2.5</item>
+        <item>3</item>
+        <item>4+</item>
+    </string-array>
+
+    <string-array name="filterCategories">
+        <item>Any</item>
+        <item>Apartment</item>
+        <item>Condominium</item>
+        <item>House</item>
+        <item>Mobile Home</item>
+        <item>Room</item>
+    </string-array>
+
+    <string-array name="rules">
+        <item>Any</item>
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
 
     <!--    Property Card Text Views-->
     <string name="propertyType">Type</string>
@@ -31,10 +84,11 @@
 
     <!--    Create Profile Buttons-->
     <string name="propertyAdded">Success</string>
-    <string name="addProperty">"Add Property"</string>
+    <string name="addProperty">Add Property</string>
+    <string name="filterButton">Filters</string>
 
     <!--    Create Profile Spinner String Arrays-->
-    <string name="selectCategory">— Select Category —</string>
+    <string name="selectCategory">— Category —</string>
 
     <string-array name="categories">
         <item>@string/selectCategory</item>
@@ -45,7 +99,7 @@
         <item>Room</item>
     </string-array>
 
-    <string name="selectState">— Select State —</string>
+    <string name="selectState">— State —</string>
 
     <string-array name="states">
         <item>@string/selectState</item>
@@ -112,7 +166,7 @@
     <string name="stateHint">"e.g. California"</string>
     <string name="bioHint">"Tell us a little bit about the place!"</string>
 
-   <!--    Error Messages-->
+    <!--    Error Messages-->
     <string name="categoryError">"You must select a housing category"</string>
 
 </resources>
