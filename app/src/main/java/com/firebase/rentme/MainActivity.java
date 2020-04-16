@@ -1,12 +1,15 @@
 package com.firebase.rentme;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 
 import com.firebase.rentme.models.Property;
+import com.firebase.rentme.models.ResultsFilter;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
@@ -16,7 +19,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -24,10 +26,13 @@ public class MainActivity extends AppCompatActivity
 
     private FirebaseFirestore database;
     private CollectionReference propertiesCollection;
-    private CardViewAdapter cardAdapter;
 
-    List<Property> propertyCardList;
+    private CardViewAdapter cardAdapter;
+    ArrayList<Property> propertyCardList;
+    ArrayList<Property> unfilteredProperties;
     SwipeFlingAdapterView flingAdapterView;
+
+    ResultsFilter propertiesFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,13 +44,15 @@ public class MainActivity extends AppCompatActivity
 
         initFirestore();
 
+        initToolbar();
+
         initCardArray();
+
+        initFilter();
 
         initCardFlingAdapterView();
 
         initRealTimeListener();
-
-        initToolbar();
     }
 
     private void initFirestore()
@@ -54,10 +61,21 @@ public class MainActivity extends AppCompatActivity
         propertiesCollection = database.collection("properties");
     }
 
+    private void initToolbar()
+    {
+
+    }
+
     private void initCardArray()
     {
         propertyCardList = new ArrayList<>();
+        unfilteredProperties = new ArrayList<>();
         cardAdapter = new CardViewAdapter(this, R.layout.property_card, propertyCardList);
+    }
+
+    private void initFilter()
+    {
+        propertiesFilter = new ResultsFilter(unfilteredProperties);
     }
 
     private void initCardFlingAdapterView()
@@ -131,11 +149,11 @@ public class MainActivity extends AppCompatActivity
                     {
                         case ADDED:
                             Log.d(TAG, "New property: " + dc.getDocument().getData());
-                            propertyCardList.add(dc.getDocument().toObject(Property.class));
+                            unfilteredProperties.add(dc.getDocument().toObject(Property.class));
                             break;
                         case MODIFIED:
                             Log.d(TAG, "Modified property: " + dc.getDocument().getData());
-                            propertyCardList.add(dc.getDocument().toObject(Property.class));
+                            unfilteredProperties.add(dc.getDocument().toObject(Property.class));
                             break;
                         case REMOVED:
                             Log.d(TAG, "Removed property: " + dc.getDocument().getData());
@@ -148,11 +166,6 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private void initToolbar()
-    {
-
-    }
-
     public void createListing(View view)
     {
         Intent intent = new Intent(MainActivity.this, CreateListingActivity.class);
@@ -162,6 +175,24 @@ public class MainActivity extends AppCompatActivity
     public void filterProperties(View view)
     {
         Intent intent = new Intent(MainActivity.this, CreatePropertyFilterActivity.class);
-        startActivity(intent);
+        intent.putExtra(ResultsFilter.PARCELABLE_FILTER, propertiesFilter);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1)
+        {
+            if (resultCode == RESULT_OK)
+            {
+                propertiesFilter = data.getParcelableExtra("result");
+                if(propertiesFilter.getFilteredResults() != null)
+                {
+                    propertyCardList.addAll(propertiesFilter.getFilteredResults());
+                }
+            }
+        }
     }
 }

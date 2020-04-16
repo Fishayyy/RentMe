@@ -11,7 +11,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ScrollView;
@@ -40,8 +39,6 @@ public class CreatePropertyFilterActivity extends AppCompatActivity
     private CheckBox backyardAvailableCheckBox;
     private CheckBox laundryCheckBox;
     private CheckBox handicapAccessibleCheckBox;
-    private Button resetFiltersButton;
-    private Button applyFiltersButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -168,8 +165,17 @@ public class CreatePropertyFilterActivity extends AppCompatActivity
     {
         minPrice = resultsFilter.getMinPrice();
         maxPrice = resultsFilter.getMaxPrice();
-        minPriceEditText.setText(String.format("%8.2f", minPrice));
-        maxPriceEditText.setText(String.format("%8.2f", maxPrice));
+
+        if(minPrice != 0)
+        {
+            minPriceEditText.setText(String.format("%8.2f", minPrice));
+        }
+
+        if(maxPrice != Double.MAX_VALUE)
+        {
+            maxPriceEditText.setText(String.format("%8.2f", maxPrice));
+        }
+
         bedroomsRangeBar.setProgress(resultsFilter.getBedroomsMinValueProgress(), resultsFilter.getBedroomsMaxValueProgress());
         bathroomsRangeBar.setProgress(resultsFilter.getBathroomsMinValueProgress(), resultsFilter.getBathroomsMaxValueProgress());
         categorySpinner.setSelection(getSpinnerPosition(resultsFilter.getHousingCategory(), R.array.filterCategories));
@@ -219,8 +225,16 @@ public class CreatePropertyFilterActivity extends AppCompatActivity
     {
         if(validateMinMaxPrice())
         {
-            resultsFilter.setMinPrice(Double.parseDouble(minPriceEditText.getText().toString()));
-            resultsFilter.setMaxPrice(Double.parseDouble(maxPriceEditText.getText().toString()));
+            if(!minPriceEditText.getText().toString().equals(""))
+            {
+                resultsFilter.setMinPrice(Double.parseDouble(minPriceEditText.getText().toString()));
+            }
+
+            if(!maxPriceEditText.getText().toString().equals(""))
+            {
+                resultsFilter.setMaxPrice(Double.parseDouble(maxPriceEditText.getText().toString()));
+            }
+
             resultsFilter.setBedroomsMinValue(bedroomsRangeBar.getLeftSeekBar());
             resultsFilter.setBedroomsMaxValue(bedroomsRangeBar.getRightSeekBar());
             resultsFilter.setBathroomsMinValue(bathroomsRangeBar.getLeftSeekBar());
@@ -233,6 +247,11 @@ public class CreatePropertyFilterActivity extends AppCompatActivity
             resultsFilter.setBackyardFilter(backyardAvailableCheckBox.isChecked());
             resultsFilter.setLaundryFilter(laundryCheckBox.isChecked());
             resultsFilter.setHandicapAccessible(handicapAccessibleCheckBox.isChecked());
+
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("result", resultsFilter);
+            setResult(RESULT_OK, resultIntent);
+            finish();
         }
         else
         {
