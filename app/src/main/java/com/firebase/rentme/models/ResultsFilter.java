@@ -17,11 +17,6 @@ public class ResultsFilter implements Parcelable
     private static final int YES = 1;
     private static final int NO = 2;
 
-    private ArrayList<Property> unfilteredProperties;
-    private ArrayList<Property> results;
-
-    private boolean isFiltered;
-
     private double minPrice;
     private double maxPrice;
     private int bedroomsMinValue;
@@ -39,9 +34,6 @@ public class ResultsFilter implements Parcelable
 
     public ResultsFilter(Parcel parcel)
     {
-        isFiltered = parcel.readBoolean();
-        unfilteredProperties = parcel.readArrayList(null);
-        results = parcel.readArrayList(null);
         minPrice = parcel.readDouble();
         maxPrice = parcel.readDouble();
         bedroomsMinValue = parcel.readInt();
@@ -58,9 +50,8 @@ public class ResultsFilter implements Parcelable
         isHandicapAccessible = parcel.readBoolean();
     }
 
-    public ResultsFilter(ArrayList<Property> propertiesByLocation)
+    public ResultsFilter()
     {
-        unfilteredProperties = new ArrayList<>(propertiesByLocation);
         setDefaultFilter();
     }
 
@@ -84,9 +75,6 @@ public class ResultsFilter implements Parcelable
     //write object values to parcel for storage
     public void writeToParcel(Parcel dest, int flags)
     {
-        dest.writeBoolean(isFiltered);
-        dest.writeList(unfilteredProperties);
-        dest.writeList(results);
         dest.writeDouble(minPrice);
         dest.writeDouble(maxPrice);
         dest.writeInt(bedroomsMinValue);
@@ -111,8 +99,6 @@ public class ResultsFilter implements Parcelable
 
     public void setDefaultFilter()
     {
-        isFiltered = false;
-        results = new ArrayList<>(unfilteredProperties);
         minPrice = 0.0;
         maxPrice = Double.MAX_VALUE;
         bedroomsMinValue = bedroomValue[0];
@@ -129,81 +115,81 @@ public class ResultsFilter implements Parcelable
         isHandicapAccessible = false;
     }
 
-    public ArrayList<Property> getFilteredResults()
+    public ArrayList<Property> getFilteredResults(ArrayList<Property> unfilteredProperties)
     {
-        if(!isFiltered)
-        {
-            if (minPrice != 0.0 || maxPrice != Double.MAX_VALUE)
-            {
-                filterByPrice();
-            }
-            if (bedroomsMinValue != bedroomValue[0] || bedroomsMaxValue != bedroomValue[bedroomValue.length - 1])
-            {
-                filterByBedrooms();
-            }
-            if (bathroomsMinValue != bathroomValue[0] || bathroomsMaxValue != bathroomValue[bathroomValue.length - 1])
-            {
-                filterByBathrooms();
-            }
-            if (!housingCategory.equals("Any"))
-            {
-                filterByHousingCategory();
-            }
-            if (petsAllowed != ANY)
-            {
-                filterByPetsAllowed();
-            }
-            if (smokingAllowed != ANY)
-            {
-                filterBySmokingAllowed();
-            }
-            if (hasParkingAvailable)
-            {
-                filterByParkingAvailable();
-            }
-            if (hasPool)
-            {
-                filterByPool();
-            }
-            if (hasBackyard)
-            {
-                filterByBackyard();
-            }
-            if (hasLaundry)
-            {
-                filterByLaundry();
-            }
-            if (isHandicapAccessible)
-            {
-                filterByHandicapAccessible();
-            }
+        ArrayList<Property> results = new ArrayList<>(unfilteredProperties);
 
-            isFiltered = true;
+        if (minPrice != 0.0 || maxPrice != Double.MAX_VALUE && results.size() != 0)
+        {
+            filterByPrice(results);
+        }
+        if (bedroomsMinValue != bedroomValue[0] || bedroomsMaxValue != bedroomValue[bedroomValue.length - 1] && results.size() != 0)
+        {
+            filterByBedrooms(results);
+        }
+        if (bathroomsMinValue != bathroomValue[0] || bathroomsMaxValue != bathroomValue[bathroomValue.length - 1] && results.size() != 0)
+        {
+            filterByBathrooms(results);
+        }
+        if (!housingCategory.equals("Any") && results.size() != 0)
+        {
+            filterByHousingCategory(results);
+        }
+        if (petsAllowed != ANY && results.size() != 0)
+        {
+            filterByPetsAllowed(results);
+        }
+        if (smokingAllowed != ANY && results.size() != 0)
+        {
+            filterBySmokingAllowed(results);
+        }
+        if (hasParkingAvailable && results.size() != 0)
+        {
+            filterByParkingAvailable(results);
+        }
+        if (hasPool && results.size() != 0)
+        {
+            filterByPool(results);
+        }
+        if (hasBackyard && results.size() != 0)
+        {
+            filterByBackyard(results);
+        }
+        if (hasLaundry && results.size() != 0)
+        {
+            filterByLaundry(results);
+        }
+        if (isHandicapAccessible && results.size() != 0)
+        {
+            filterByHandicapAccessible(results);
         }
 
         return results;
     }
 
-    private void filterByPrice()
+    private void filterByPrice(ArrayList<Property> results)
     {
-        Property[] properties = (Property[]) results.toArray();
-
-        for (Property property : properties)
+        if(results.size() != 0)
         {
-            double price = property.getPrice();
+            ArrayList<Property> temp = new ArrayList<>(results);
 
-            if (price < minPrice || price > maxPrice)
+            for (Property property : temp)
             {
-                results.remove(property);
+                double price = property.getPrice();
+
+                if (price < minPrice || price > maxPrice)
+                {
+                    results.remove(property);
+                }
             }
         }
     }
 
-    private void filterByBedrooms()
+    private void filterByBedrooms(ArrayList<Property> results)
     {
-        Property[] properties = (Property[]) results.toArray();
+        ArrayList<Property> temp = new ArrayList<>(results);
 
-        for (Property property : properties)
+        for (Property property : temp)
         {
             int bedrooms = property.getBedrooms();
 
@@ -214,11 +200,11 @@ public class ResultsFilter implements Parcelable
         }
     }
 
-    private void filterByBathrooms()
+    private void filterByBathrooms(ArrayList<Property> results)
     {
-        Property[] properties = (Property[]) results.toArray();
+        ArrayList<Property> temp = new ArrayList<>(results);
 
-        for (Property property : properties)
+        for (Property property : temp)
         {
             double bathrooms = property.getBathrooms();
 
@@ -229,11 +215,11 @@ public class ResultsFilter implements Parcelable
         }
     }
 
-    private void filterByHousingCategory()
+    private void filterByHousingCategory(ArrayList<Property> results)
     {
-        Property[] properties = (Property[]) results.toArray();
+        ArrayList<Property> temp = new ArrayList<>(results);
 
-        for (Property property : properties)
+        for (Property property : temp)
         {
             String type = property.getHousingCategory();
 
@@ -244,11 +230,11 @@ public class ResultsFilter implements Parcelable
         }
     }
 
-    private void filterByPetsAllowed()
+    private void filterByPetsAllowed(ArrayList<Property> results)
     {
-        Property[] properties = (Property[]) results.toArray();
+        ArrayList<Property> temp = new ArrayList<>(results);
 
-        for (Property property : properties)
+        for (Property property : temp)
         {
             if ((petsAllowed == YES && !property.isPetsAllowed()) || (petsAllowed == NO && property.isPetsAllowed()))
             {
@@ -257,11 +243,11 @@ public class ResultsFilter implements Parcelable
         }
     }
 
-    private void filterBySmokingAllowed()
+    private void filterBySmokingAllowed(ArrayList<Property> results)
     {
-        Property[] properties = (Property[]) results.toArray();
+        ArrayList<Property> temp = new ArrayList<>(results);
 
-        for (Property property : properties)
+        for (Property property : temp)
         {
             if ((smokingAllowed == YES && !property.isSmokingAllowed()) || (smokingAllowed == NO && property.isSmokingAllowed()))
             {
@@ -270,11 +256,11 @@ public class ResultsFilter implements Parcelable
         }
     }
 
-    private void filterByParkingAvailable()
+    private void filterByParkingAvailable(ArrayList<Property> results)
     {
-        Property[] properties = (Property[]) results.toArray();
+        ArrayList<Property> temp = new ArrayList<>(results);
 
-        for (Property property : properties)
+        for (Property property : temp)
         {
             if (!property.hasParking())
             {
@@ -283,11 +269,11 @@ public class ResultsFilter implements Parcelable
         }
     }
 
-    private void filterByPool()
+    private void filterByPool(ArrayList<Property> results)
     {
-        Property[] properties = (Property[]) results.toArray();
+        ArrayList<Property> temp = new ArrayList<>(results);
 
-        for (Property property : properties)
+        for (Property property : temp)
         {
             if (!property.hasPool())
             {
@@ -296,11 +282,11 @@ public class ResultsFilter implements Parcelable
         }
     }
 
-    private void filterByBackyard()
+    private void filterByBackyard(ArrayList<Property> results)
     {
-        Property[] properties = (Property[]) results.toArray();
+        ArrayList<Property> temp = new ArrayList<>(results);
 
-        for (Property property : properties)
+        for (Property property : temp)
         {
             if (!property.hasBackyard())
             {
@@ -309,11 +295,11 @@ public class ResultsFilter implements Parcelable
         }
     }
 
-    private void filterByLaundry()
+    private void filterByLaundry(ArrayList<Property> results)
     {
-        Property[] properties = (Property[]) results.toArray();
+        ArrayList<Property> temp = new ArrayList<>(results);
 
-        for (Property property : properties)
+        for (Property property : temp)
         {
             if (!property.hasLaundry())
             {
@@ -322,22 +308,20 @@ public class ResultsFilter implements Parcelable
         }
     }
 
-    private void filterByHandicapAccessible()
+    private void filterByHandicapAccessible(ArrayList<Property> results)
     {
-        Property[] properties = (Property[]) results.toArray();
+            ArrayList<Property> temp = new ArrayList<>(results);
 
-        for (Property property : properties)
-        {
-            if (!property.isHandicapAccessible())
+            for (Property property : temp)
             {
-                results.remove(property);
+                if (!property.isHandicapAccessible())
+                {
+                    results.remove(property);
+                }
             }
-        }
     }
 
     //Get Values
-    public ArrayList<Property> getUnfilteredProperties() { return unfilteredProperties; }
-
     public double getMinPrice()
     {
         return minPrice;

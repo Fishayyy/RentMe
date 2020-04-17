@@ -25,6 +25,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.android.libraries.places:places:2.2.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.github.Jay-Goo:RangeSeekBar:v3.0.0'

@@ -7,39 +7,66 @@
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/mainToolbar"
+    <LinearLayout
+        android:id="@+id/container_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        app:titleTextColor="@android:color/white">
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/mainToolbarLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/mainToolbar"
+            android:layout_width="409dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            app:titleTextColor="@android:color/white">
 
             <Button
                 android:id="@+id/filterButton"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_alignParentStart="true"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="8dp"
                 android:background="@color/transparent"
                 android:drawableStart="@drawable/filter_list"
                 android:onClick="filterProperties" />
 
-        </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/mainToolbarLayout"
+                android:layout_width="300dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/search_background">
 
-    </androidx.appcompat.widget.Toolbar>
+                <fragment
+                    android:id="@+id/autocomplete_fragment"
+                    android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/currentLocationButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@color/transparent"
+                android:drawableStart="@drawable/location_unpressed"
+                android:onClick="setCurrentLocation" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </LinearLayout>
 
 
     <com.lorentzos.flingswipe.SwipeFlingAdapterView
         android:id="@+id/cardFrame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/mainToolbar"
+        android:layout_below="@id/container_toolbar"
         app:rotation_degrees="15.5" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
