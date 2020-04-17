@@ -33,7 +33,7 @@ public class CardViewAdapter extends ArrayAdapter
 
         if (!property.getPhotoURL().isEmpty())
         {
-           displayCardImage(property, convertView);
+            displayCardImage(property, convertView);
         }
 
         displayText(property, convertView);

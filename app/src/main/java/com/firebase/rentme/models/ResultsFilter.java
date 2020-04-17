@@ -169,7 +169,7 @@ public class ResultsFilter implements Parcelable
 
     private void filterByPrice(ArrayList<Property> results)
     {
-        if(results.size() != 0)
+        if (results.size() != 0)
         {
             ArrayList<Property> temp = new ArrayList<>(results);
 
@@ -310,15 +310,15 @@ public class ResultsFilter implements Parcelable
 
     private void filterByHandicapAccessible(ArrayList<Property> results)
     {
-            ArrayList<Property> temp = new ArrayList<>(results);
+        ArrayList<Property> temp = new ArrayList<>(results);
 
-            for (Property property : temp)
+        for (Property property : temp)
+        {
+            if (!property.isHandicapAccessible())
             {
-                if (!property.isHandicapAccessible())
-                {
-                    results.remove(property);
-                }
+                results.remove(property);
             }
+        }
     }
 
     //Get Values

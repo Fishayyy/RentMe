@@ -57,20 +57,24 @@ public class CreatePropertyFilterActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+    public boolean dispatchTouchEvent(MotionEvent event)
+    {
+        if (event.getAction() == MotionEvent.ACTION_DOWN)
+        {
             View v = getCurrentFocus();
-            if ( v instanceof EditText) {
+            if (v instanceof EditText)
+            {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY()))
+                {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         }
-        return super.dispatchTouchEvent( event );
+        return super.dispatchTouchEvent(event);
     }
 
     private void initEditTexts()
@@ -166,12 +170,12 @@ public class CreatePropertyFilterActivity extends AppCompatActivity
         minPrice = resultsFilter.getMinPrice();
         maxPrice = resultsFilter.getMaxPrice();
 
-        if(minPrice != 0)
+        if (minPrice != 0)
         {
             minPriceEditText.setText(String.format("%8.2f", minPrice));
         }
 
-        if(maxPrice != Double.MAX_VALUE)
+        if (maxPrice != Double.MAX_VALUE)
         {
             maxPriceEditText.setText(String.format("%8.2f", maxPrice));
         }
@@ -194,7 +198,7 @@ public class CreatePropertyFilterActivity extends AppCompatActivity
         String[] spinnerArray = getResources().getStringArray(stringArrayId);
         for (int i = 0; i < spinnerArray.length; ++i)
         {
-            if(spinnerValue.equals(spinnerArray[i]))
+            if (spinnerValue.equals(spinnerArray[i]))
             {
                 index = i;
             }
@@ -223,14 +227,14 @@ public class CreatePropertyFilterActivity extends AppCompatActivity
 
     public void applyFilters(View view)
     {
-        if(validateMinMaxPrice())
+        if (validateMinMaxPrice())
         {
-            if(!minPriceEditText.getText().toString().equals(""))
+            if (!minPriceEditText.getText().toString().equals(""))
             {
                 resultsFilter.setMinPrice(Double.parseDouble(minPriceEditText.getText().toString()));
             }
 
-            if(!maxPriceEditText.getText().toString().equals(""))
+            if (!maxPriceEditText.getText().toString().equals(""))
             {
                 resultsFilter.setMaxPrice(Double.parseDouble(maxPriceEditText.getText().toString()));
             }
