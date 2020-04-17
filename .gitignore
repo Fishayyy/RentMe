@@ -4,6 +4,9 @@
 *.ap_
 *.aab
 
+# Protect the API Keys
+apikey.properties
+
 # Files for the ART/Dalvik VM
 *.dex
 

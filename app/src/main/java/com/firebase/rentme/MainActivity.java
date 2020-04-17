@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity
     private void initGooglePlaces()
     {
         // Initialize the SDK
-        Places.initialize(getApplicationContext(), "AIzaSyCBA05ovJVpdTOpMe_bU0TSqfTZfigXIao");
+        Places.initialize(getApplicationContext(), BuildConfig.GOOGLE_API_KEY);
 
         // Create a new Places client instance
         placesClient = Places.createClient(this);
