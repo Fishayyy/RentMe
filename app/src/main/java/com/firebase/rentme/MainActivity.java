@@ -61,15 +61,11 @@ public class MainActivity extends AppCompatActivity
 
         initGooglePlaces();
 
-        System.out.println("Test 1");
-
         initCardArray();
 
         initCardFlingAdapterView();
 
         initFilter();
-
-        System.out.println("Test 2");
     }
 
     private void initFirestore()
@@ -101,8 +97,6 @@ public class MainActivity extends AppCompatActivity
                 new LatLng(-33.858754, 151.229596)));
         autocompleteFragment.setCountries("US");
 
-        System.out.println("Test 3");
-
         // Specify the types of place data to return.
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
 
@@ -126,8 +120,6 @@ public class MainActivity extends AppCompatActivity
 
     private void initCardArray()
     {
-        System.out.println("Test 4");
-
         propertyCardList = new ArrayList<>();
         unfilteredProperties = new ArrayList<>();
         cardAdapter = new CardViewAdapter(this, R.layout.property_card, propertyCardList);
@@ -135,8 +127,6 @@ public class MainActivity extends AppCompatActivity
 
     private void initCardFlingAdapterView()
     {
-        System.out.println("Test 5");
-
         flingAdapterView = findViewById(R.id.cardFrame);
         flingAdapterView.setAdapter(cardAdapter);
         flingAdapterView.setFlingListener(new SwipeFlingAdapterView.onFlingListener()
@@ -146,7 +136,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void removeFirstObjectInAdapter()
             {
-                System.out.println("Test 6");
                 property = propertyCardList.remove(0);
                 propertyCardList.add(property);
                 cardAdapter.notifyDataSetChanged();
@@ -192,8 +181,6 @@ public class MainActivity extends AppCompatActivity
 
     private void initRealTimeListener()
     {
-        System.out.println("Test 7");
-
         if (registration != null)
         {
             registration.remove();
@@ -213,8 +200,6 @@ public class MainActivity extends AppCompatActivity
 
     public static boolean isNumeric(String string)
     {
-        System.out.println("Test 8");
-
         if (string == null)
         {
             return false;
@@ -232,8 +217,6 @@ public class MainActivity extends AppCompatActivity
 
     public void queryByZip()
     {
-        System.out.println("Test 9");
-
         registration = propertiesCollection.whereEqualTo("zipCode", locationQuery).addSnapshotListener(new EventListener<QuerySnapshot>()
         {
             @Override
@@ -269,8 +252,6 @@ public class MainActivity extends AppCompatActivity
 
     public void queryByCity()
     {
-        System.out.println("Test 10");
-
         registration = propertiesCollection.whereEqualTo("city", locationQuery).addSnapshotListener(new EventListener<QuerySnapshot>()
         {
             @Override
@@ -318,8 +299,6 @@ public class MainActivity extends AppCompatActivity
 
     public void filterProperties(View view)
     {
-        System.out.println("Test 11");
-
         Intent intent = new Intent(MainActivity.this, CreatePropertyFilterActivity.class);
         intent.putExtra(ResultsFilter.PARCELABLE_FILTER, propertiesFilter);
         startActivityForResult(intent, 1);
@@ -333,7 +312,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
     {
-        System.out.println("Test 12");
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1)
         {
