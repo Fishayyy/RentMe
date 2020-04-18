@@ -7,13 +7,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import com.firebase.rentme.models.Property;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
-public class ViewPropertyDetailsActivity extends AppCompatActivity
+public class ViewPropertyDetailsActivity extends FragmentActivity implements OnMapReadyCallback
 {
     private static final String TAG = "ViewPropertyDetails";
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -26,7 +34,21 @@ public class ViewPropertyDetailsActivity extends AppCompatActivity
         Intent intent = getIntent();
         Property property = intent.getParcelableExtra(Property.PARCELABLE_PROPERTY);
 
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        //mapFragment.getMapAsync(this);
+
         displayCard(property);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // Add a marker in Sydney and move the camera
+        LatLng sydney = new LatLng(-34, 151);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
     private void displayCard(Property property)

@@ -26,6 +26,7 @@
                 android:layout_marginTop="15dp"
                 android:scaleType="center" />
 
+            <!--
             <TextView
                 android:id="@+id/map"
                 android:layout_width="wrap_content"
@@ -34,15 +35,15 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="12dp"
             android:layout_alignParentEnd="true"
-            android:textSize="18sp" />
-            <!--
+            android:textSize="18sp" /> -->
+
             <fragment
                 android:name="com.google.android.gms.maps.MapFragment"
                 android:id="@+id/map"
                 android:layout_centerInParent="true"
                 android:layout_below="@id/property_image"
                 android:layout_width="385dp"
-                android:layout_height="135dp" /> -->
+                android:layout_height="135dp" />
             <!--map:cameraZoom="13"
             map:mapType="normal"
             map:liteMode="true" -->
