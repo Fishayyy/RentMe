@@ -90,7 +90,7 @@
                 android:id="@+id/monthlyTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/priceText"
+                android:text="@string/rate"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -143,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/minEditText"
                 android:layout_marginTop="15dp"
-                android:text="@string/bedroomsTextView"
+                android:text="@string/bedrooms"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -175,7 +175,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/bedroomRangeSeek"
                 android:layout_marginTop="15dp"
-                android:text="@string/bathroomsTextView"
+                android:text="@string/bathrooms"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -237,7 +237,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rentalRules"
                 android:layout_marginTop="10dp"
-                android:text="@string/petAmenityTextView"
+                android:text="@string/petsAllowed"
                 android:textColor="@color/primary_text" />
 
             <Spinner
@@ -359,7 +359,7 @@
                 android:layout_below="@id/laundryAmenity"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/handicapTextView"
+                android:text="@string/assistedLiving"
                 android:textColor="@color/primary_text"
                 android:textSize="18sp" />
 

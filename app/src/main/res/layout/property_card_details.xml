@@ -1,0 +1,421 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:context=".ViewPropertyDetailsActivity">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true">
+
+        <RelativeLayout
+            android:id="@+id/innerRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/property_image"
+                android:layout_width="385dp"
+                android:layout_height="270dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="15dp"
+                android:scaleType="center" />
+
+            <TextView
+                android:id="@+id/map"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/property_image"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="12dp"
+            android:layout_alignParentEnd="true"
+            android:textSize="18sp" />
+            <!--
+            <fragment
+                android:name="com.google.android.gms.maps.MapFragment"
+                android:id="@+id/map"
+                android:layout_centerInParent="true"
+                android:layout_below="@id/property_image"
+                android:layout_width="385dp"
+                android:layout_height="135dp" /> -->
+            <!--map:cameraZoom="13"
+            map:mapType="normal"
+            map:liteMode="true" -->
+
+            <TextView
+                android:id="@+id/title_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/map"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/rate"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/attribute_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/map"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="12dp"
+                android:layout_alignParentEnd="true"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/title_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_rate"
+                android:layout_alignStart="@id/title_rate"
+                android:layout_marginTop="4dp"
+                android:text="@string/address"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/attribute_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_rate"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="12dp"
+                android:layout_alignParentEnd="true"
+                android:autoLink="map"
+                android:textColor="@color/black"
+                android:textColorLink="@color/hyperlink"
+                android:textSize="18sp" />
+
+            <!-- Contact Information -->
+            <TextView
+                android:id="@+id/title_contactInfo"
+                style="@style/Base.TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_address"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="6dp"
+                android:text="@string/contactInfo"
+                android:textSize="21sp" />
+
+            <TextView
+                android:id="@+id/title_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title_contactInfo"
+                android:layout_alignStart="@id/title_contactInfo"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="1dp"
+                android:text="@string/name"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/attribute_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title_contactInfo"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="12dp"
+                android:layout_alignParentEnd="true"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/title_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_name"
+                android:layout_alignStart="@id/title_name"
+                android:layout_marginTop="6dp"
+                android:text="@string/phone"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/attribute_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_name"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="12dp"
+                android:layout_alignParentEnd="true"
+                android:autoLink="phone"
+                android:textColor="@color/black"
+                android:textColorLink="@color/hyperlink"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/title_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_phone"
+                android:layout_alignStart="@id/title_name"
+                android:layout_marginTop="6dp"
+                android:text="@string/email"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/attribute_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_phone"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="12dp"
+                android:autoLink="email"
+                android:textColor="@color/black"
+                android:textColorLink="@color/hyperlink"
+                android:textSize="18sp" />
+
+            <!-- Attributes -->
+            <TextView
+                android:id="@+id/title_attributes"
+                style="@style/Base.TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_email"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="6dp"
+                android:text="@string/attributes"
+                android:textSize="21sp" />
+
+            <TextView
+                android:id="@+id/title_bedrooms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title_attributes"
+                android:layout_alignStart="@id/title_name"
+                android:layout_marginTop="1dp"
+                android:text="@string/bedrooms"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/attribute_bedrooms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title_attributes"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="12dp"
+                android:layout_alignParentEnd="true"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/title_bathrooms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_bedrooms"
+                android:layout_alignStart="@id/title_name"
+                android:layout_marginTop="6dp"
+                android:text="@string/bathrooms"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/attribute_bathrooms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_bedrooms"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="12dp"
+                android:layout_alignParentEnd="true"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/title_parking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_bathrooms"
+                android:layout_alignStart="@id/title_name"
+                android:layout_marginTop="6dp"
+                android:text="@string/parkingSpaces"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/attribute_parking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_bathrooms"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="12dp"
+                android:layout_alignParentEnd="true"
+                android:textSize="18sp" />
+
+            <!-- Amenities -->
+            <TextView
+                android:id="@+id/title_amenities"
+                style="@style/Base.TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_parking"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="6dp"
+                android:text="@string/amenities"
+                android:textSize="21sp" />
+
+            <TextView
+                android:id="@+id/title_yard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title_amenities"
+                android:layout_alignStart="@id/title_name"
+                android:layout_marginTop="1dp"
+                android:text="@string/yard"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/attribute_yard"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_below="@id/title_amenities"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="12dp"
+                android:layout_alignParentEnd="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_cancel_red_24dp"/>
+
+            <TextView
+                android:id="@+id/title_pool"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_yard"
+                android:layout_alignStart="@id/title_name"
+                android:layout_marginTop="3dp"
+                android:text="@string/pool"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/attribute_pool"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_below="@id/attribute_yard"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="12dp"
+                android:layout_alignParentEnd="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_cancel_red_24dp"/>
+
+            <TextView
+                android:id="@+id/title_laundry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_pool"
+                android:layout_alignStart="@id/title_name"
+                android:layout_marginTop="3dp"
+                android:text="@string/laundry"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/attribute_laundry"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_below="@id/attribute_pool"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="12dp"
+                android:layout_alignParentEnd="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_cancel_red_24dp"/>
+
+            <TextView
+                android:id="@+id/title_assistedLiving"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_laundry"
+                android:layout_alignStart="@id/title_name"
+                android:layout_marginTop="3dp"
+                android:text="@string/assistedLiving"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/attribute_assistedLiving"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_below="@id/attribute_laundry"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="12dp"
+                android:layout_alignParentEnd="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_cancel_red_24dp"/>
+
+            <!-- Conditions -->
+            <TextView
+                android:id="@+id/title_conditions"
+                style="@style/Base.TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_assistedLiving"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="6dp"
+                android:text="@string/conditions"
+                android:textSize="21sp" />
+
+            <TextView
+                android:id="@+id/title_nonSmoking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title_conditions"
+                android:layout_alignStart="@id/title_name"
+                android:layout_marginTop="1dp"
+                android:text="@string/nonSmoking"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/attribute_nonSmoking"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_below="@id/title_conditions"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="12dp"
+                android:layout_alignParentEnd="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_cancel_red_24dp"/>
+
+            <TextView
+                android:id="@+id/title_petsAllowed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_nonSmoking"
+                android:layout_alignStart="@id/title_name"
+                android:layout_marginTop="3dp"
+                android:text="@string/petsAllowed"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/attribute_petsAllowed"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_below="@id/attribute_nonSmoking"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="12dp"
+                android:layout_alignParentEnd="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_cancel_red_24dp"/>
+
+            <TextView
+                android:id="@+id/title_bio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_petsAllowed"
+                android:layout_gravity="top"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/bio"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/attribute_bio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title_bio"
+                android:layout_alignStart="@+id/title_bio"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="15dp"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+
+</RelativeLayout>

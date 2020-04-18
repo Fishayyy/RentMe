@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateListingActivity">
+    tools:context=".CreatePropertyActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/createListingToolbar"
@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/uploadImageButton"
                 android:layout_alignStart="@id/edit_text_price"
-                android:text="@string/priceText" />
+                android:text="@string/rate" />
 
             <TextView
                 android:id="@+id/dollarText"
@@ -116,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/edit_text_price"
                 android:layout_alignStart="@id/edit_text_price"
-                android:text="@string/nameText" />
+                android:text="@string/name" />
 
             <EditText
                 android:id="@+id/edit_text_ownerName"
@@ -137,7 +137,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/edit_text_ownerName"
                 android:layout_alignStart="@id/edit_text_ownerName"
-                android:text="@string/phoneText" />
+                android:text="@string/phone" />
 
             <EditText
                 android:id="@+id/edit_text_ownerPhoneNum"
@@ -160,7 +160,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/edit_text_ownerPhoneNum"
                 android:layout_alignStart="@id/edit_text_ownerPhoneNum"
-                android:text="@string/emailText" />
+                android:text="@string/email" />
 
             <EditText
                 android:id="@+id/edit_text_ownerEmail"
@@ -181,7 +181,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/edit_text_ownerEmail"
                 android:layout_alignStart="@id/edit_text_ownerEmail"
-                android:text="@string/addressText" />
+                android:text="@string/address" />
 
             <EditText
                 android:id="@+id/edit_text_address"
@@ -202,7 +202,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/edit_text_address"
                 android:layout_alignStart="@id/edit_text_address"
-                android:text="@string/cityText" />
+                android:text="@string/city" />
 
             <EditText
                 android:id="@+id/edit_text_city"
@@ -223,7 +223,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/edit_text_city"
                 android:layout_alignStart="@id/edit_text_city"
-                android:text="@string/zipCodeText" />
+                android:text="@string/zipCode" />
 
             <EditText
                 android:id="@+id/edit_text_zip"
@@ -256,7 +256,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/edit_text_zip"
                 android:layout_alignStart="@id/edit_text_zip"
-                android:text="@string/bioText" />
+                android:text="@string/bio" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout"
