@@ -75,7 +75,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/uploadImageButton"
                 android:layout_alignStart="@id/edit_text_price"
-                android:text="@string/priceText" />
+                android:text="@string/priceText"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/dollarText"
@@ -85,7 +88,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="2dp"
                 android:text="@string/dollarSign"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/edit_text_price"
@@ -108,15 +111,97 @@
                 android:layout_alignEnd="@id/edit_text_ownerName"
                 android:layout_marginStart="12dp"
                 android:layout_marginBottom="10dp"
-                android:layout_toEndOf="@id/edit_text_price" />
+                android:layout_toEndOf="@id/edit_text_price"
+                android:backgroundTint="@color/primary"
+                android:textAlignment="center" />
+
+            <RelativeLayout
+                android:id="@+id/bedroomsButtonLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/edit_text_price"
+                android:layout_alignStart="@id/edit_text_price"
+                android:layout_alignEnd="@id/categorySpinner"
+                android:layout_marginBottom="10dp">
+
+                <Button
+                    android:id="@+id/bedroomsButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="@color/transparent"
+                    android:gravity="start|center_vertical"
+                    android:text="@string/selectBedroomsButtonText"
+                    android:textAllCaps="false"
+                    android:textColor="@color/primary_text"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/bedroomsTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@id/bedroomsButton"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/black" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/bedroomsButton"
+                    android:background="@drawable/underline_button" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/bathroomsButtonLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/bedroomsButtonLayout"
+                android:layout_alignStart="@id/edit_text_price"
+                android:layout_alignEnd="@id/categorySpinner"
+                android:layout_marginBottom="10dp">
+
+                <Button
+                    android:id="@+id/bathroomsButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="@color/transparent"
+                    android:gravity="start|center_vertical"
+                    android:text="@string/selectBathroomsButtonText"
+                    android:textAllCaps="false"
+                    android:textColor="@color/primary_text"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/bathroomsTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@id/bathroomsButton"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/black" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/bathroomsButton"
+                    android:background="@drawable/underline_button" />
+
+            </RelativeLayout>
+
 
             <TextView
                 android:id="@+id/nameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/edit_text_price"
+                android:layout_below="@id/bathroomsButtonLayout"
                 android:layout_alignStart="@id/edit_text_price"
-                android:text="@string/nameText" />
+                android:text="@string/nameText"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/edit_text_ownerName"
@@ -137,7 +222,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/edit_text_ownerName"
                 android:layout_alignStart="@id/edit_text_ownerName"
-                android:text="@string/phoneText" />
+                android:text="@string/phoneText"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/edit_text_ownerPhoneNum"
@@ -160,7 +248,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/edit_text_ownerPhoneNum"
                 android:layout_alignStart="@id/edit_text_ownerPhoneNum"
-                android:text="@string/emailText" />
+                android:text="@string/emailText"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/edit_text_ownerEmail"
@@ -181,7 +272,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/edit_text_ownerEmail"
                 android:layout_alignStart="@id/edit_text_ownerEmail"
-                android:text="@string/addressText" />
+                android:text="@string/addressText"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/edit_text_address"
@@ -202,7 +296,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/edit_text_address"
                 android:layout_alignStart="@id/edit_text_address"
-                android:text="@string/cityText" />
+                android:text="@string/cityText"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/edit_text_city"
@@ -223,7 +320,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/edit_text_city"
                 android:layout_alignStart="@id/edit_text_city"
-                android:text="@string/zipCodeText" />
+                android:text="@string/zipCodeText"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/edit_text_zip"
@@ -248,15 +348,177 @@
                 android:layout_alignEnd="@id/edit_text_ownerName"
                 android:layout_marginStart="12dp"
                 android:layout_marginBottom="10dp"
-                android:layout_toEndOf="@id/edit_text_zip" />
+                android:layout_toEndOf="@id/edit_text_zip"
+                android:backgroundTint="@color/primary"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/rulesTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/edit_text_zip"
+                android:layout_alignStart="@id/edit_text_zip"
+                android:text="@string/rentalRulesTextView"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/petRulesTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rulesTextView"
+                android:layout_alignStart="@id/rulesTextView"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/petAmenityTextView"
+                android:textColor="@color/primary_text" />
+
+            <CheckBox
+                android:id="@+id/petRulesCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/petRulesTextView"
+                android:layout_alignEnd="@id/stateSpinner"
+                android:layout_marginEnd="10dp" />
+
+            <TextView
+                android:id="@+id/smokingRulesTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/petRulesTextView"
+                android:layout_alignStart="@id/rulesTextView"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/smokingAmenityTextView"
+                android:textColor="@color/primary_text" />
+
+            <CheckBox
+                android:id="@+id/smokingRulesCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/smokingRulesTextView"
+                android:layout_alignEnd="@id/stateSpinner"
+                android:layout_marginEnd="10dp" />
+
+            <TextView
+                android:id="@+id/amenitiesTextView"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/smokingRulesTextView"
+                android:layout_alignStart="@id/rulesTextView"
+                android:text="@string/rentalAmenitiesTextView"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/parkingAmenityTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/amenitiesTextView"
+                android:layout_alignStart="@id/amenitiesTextView"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/parkingAmenityTextView"
+                android:textColor="@color/primary_text" />
+
+            <CheckBox
+                android:id="@+id/parkingAmenityCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/parkingAmenityTextView"
+                android:layout_alignEnd="@id/stateSpinner"
+                android:layout_marginEnd="10dp" />
+
+            <TextView
+                android:id="@+id/poolAmenityTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/parkingAmenityCheckBox"
+                android:layout_alignStart="@id/amenitiesTextView"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/poolAmenityTextView"
+                android:textColor="@color/primary_text" />
+
+            <CheckBox
+                android:id="@+id/poolAmenityCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/poolAmenityTextView"
+                android:layout_alignEnd="@id/stateSpinner"
+                android:layout_marginEnd="10dp" />
+
+            <TextView
+                android:id="@+id/backyardAmenityTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/poolAmenityTextView"
+                android:layout_alignStart="@id/amenitiesTextView"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/backyardAmenityTextView"
+                android:textColor="@color/primary_text" />
+
+            <CheckBox
+                android:id="@+id/backyardAmenityCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/backyardAmenityTextView"
+                android:layout_alignEnd="@id/stateSpinner"
+                android:layout_marginEnd="10dp" />
+
+            <TextView
+                android:id="@+id/laundryAmenityTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/backyardAmenityTextView"
+                android:layout_alignStart="@id/amenitiesTextView"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/laundryTextView"
+                android:textColor="@color/primary_text" />
+
+            <CheckBox
+                android:id="@+id/laundryAmenityCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/laundryAmenityTextView"
+                android:layout_alignEnd="@id/stateSpinner"
+                android:layout_marginEnd="10dp" />
+
+            <TextView
+                android:id="@+id/handicapAmenityTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/laundryAmenityTextView"
+                android:layout_alignStart="@id/amenitiesTextView"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/handicapTextView"
+                android:textColor="@color/primary_text" />
+
+            <CheckBox
+                android:id="@+id/handicapAmenityCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/handicapAmenityTextView"
+                android:layout_alignEnd="@id/stateSpinner"
+                android:layout_marginEnd="10dp" />
 
             <TextView
                 android:id="@+id/bioTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/edit_text_zip"
-                android:layout_alignStart="@id/edit_text_zip"
-                android:text="@string/bioText" />
+                android:layout_below="@id/handicapAmenityTextView"
+                android:layout_alignStart="@id/amenitiesTextView"
+                android:text="@string/bioText"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout"
@@ -300,7 +562,7 @@
                 android:text="@string/addProperty"
                 android:textAllCaps="true"
                 android:textColor="#ffffff"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 app:spinning_bar_color="#ffffff"
                 app:spinning_bar_padding="4dp" />
 

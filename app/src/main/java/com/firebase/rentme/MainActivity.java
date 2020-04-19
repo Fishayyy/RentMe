@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 
+import com.firebase.rentme.models.CardViewAdapter;
 import com.firebase.rentme.models.Property;
 import com.firebase.rentme.models.ResultsFilter;
 import com.google.android.gms.common.api.Status;

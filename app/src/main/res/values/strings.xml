@@ -72,6 +72,10 @@
     <string name="priceText">"Monthly Rate"</string>
     <string name="dollarSign">"$"</string>
     <string name="nameText">"Name"</string>
+    <string name="selectBedrooms">"Select Bedrooms"</string>
+    <string name="selectBathrooms">"Select Bathrooms"</string>
+    <string name="selectBedroomsButtonText">Bedrooms</string>
+    <string name="selectBathroomsButtonText">Bathrooms</string>
     <string name="phoneText">"Phone Number"</string>
     <string name="emailText">"Email"</string>
     <string name="addressText">"Address"</string>
