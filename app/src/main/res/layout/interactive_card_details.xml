@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:card_view="http://schemas.android.com/apk/res-auto"
-android:layout_width="385dp"
-android:layout_height="395dp"
-android:orientation="vertical">
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="385dp"
+    android:layout_height="395dp"
+    xmlns:map="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+        <fragment
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:id="@+id/map"
+            android:layout_centerInParent="true"
+            android:layout_below="@id/property_image"
+            android:layout_marginTop="-20dp"
+            android:layout_width="385dp"
+            android:layout_height="145dp"
+            map:cameraZoom="13"
+            map:mapType=""
+            map:liteMode="true" />
 
         <ImageView
             android:id="@+id/property_image"
@@ -11,14 +24,5 @@ android:orientation="vertical">
             android:layout_height="270dp"
             android:layout_alignParentTop="true"
             android:scaleType="center" />
-
-        <fragment
-            android:name="com.google.android.gms.maps.MapFragment"
-            android:id="@+id/map"
-            android:layout_centerInParent="true"
-            android:layout_below="@id/property_image"
-            android:layout_marginTop="-10dp"
-            android:layout_width="385dp"
-            android:layout_height="135dp" />
 
 </RelativeLayout>

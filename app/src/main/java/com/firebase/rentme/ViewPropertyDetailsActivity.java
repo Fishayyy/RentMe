@@ -36,8 +36,11 @@ public class ViewPropertyDetailsActivity extends FragmentActivity implements OnM
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        if (mapFragment != null) {
+        System.out.println("Test Map1");
+        if (mapFragment != null)
+        {
             mapFragment.getMapAsync(this);
+            System.out.println("Test Map2");
         }
 
         displayCard(property);
@@ -47,6 +50,8 @@ public class ViewPropertyDetailsActivity extends FragmentActivity implements OnM
     public void onMapReady(GoogleMap googleMap)
     {
         mMap = googleMap;
+
+        System.out.println("Test Map3");
 
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
