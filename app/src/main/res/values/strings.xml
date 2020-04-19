@@ -16,13 +16,13 @@
     <string name="state">"State"</string>
     <string name="bedrooms">"Bedrooms"</string>
     <string name="bathrooms">"Bathrooms"</string>
-    <string name="parkingSpaces">"Parking Spaces"</string>
+    <string name="parkingSpaces">"Parking"</string>
     <string name="amenities">"Amenities"</string>           <!--    Property Amenities-->
     <string name="yard">"Yard"</string>
     <string name="pool">"Pool"</string>
     <string name="laundry">"Laundry"</string>
     <string name="assistedLiving">"Handicap Accessible"</string>
-    <string name="conditions">"Conditions"</string>         <!--    Conditions-->
+    <string name="rules">"Rules"</string>                   <!--    Rules-->
     <string name="rate">"Rate"</string>
     <string name="nonSmoking">"Non-Smoking"</string>
     <string name="petsAllowed">"Pets Allowed"</string>

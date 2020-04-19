@@ -85,18 +85,19 @@ public class ViewPropertyDetailsActivity extends FragmentActivity implements OnM
     private void displayPropertyStrings(Property property)
     {
 
+        TextView type = (TextView) findViewById(R.id.attribute_type);
         TextView rate = (TextView) findViewById(R.id.attribute_rate);
-        TextView address = (TextView) findViewById(R.id.attribute_address);
+        //TextView address = (TextView) findViewById(R.id.attribute_address);
         TextView ownerName = (TextView) findViewById(R.id.attribute_name);
         TextView ownerPhone = (TextView) findViewById(R.id.attribute_phone);
         TextView ownerEmail = (TextView) findViewById(R.id.attribute_email);
         TextView bedrooms = (TextView) findViewById(R.id.attribute_bedrooms);
         TextView bathrooms = (TextView) findViewById(R.id.attribute_bathrooms);
-        //TextView parkingSpaces = (TextView) findViewById(R.id.attribute_parking);
         TextView bio = (TextView) findViewById(R.id.attribute_bio);
 
+        type.setText(property.getHousingCategory());
         rate.setText(getApplicationContext().getString(R.string.rateMonthFormat, property.getPrice()));
-        address.setText(getApplicationContext().getString(R.string.addressFormat, property.getAddress(), property.getCity(), property.getState(), property.getZipCode()));
+        //address.setText(getApplicationContext().getString(R.string.addressFormat, property.getAddress(), property.getCity(), property.getState(), property.getZipCode()));
         ownerName.setText(property.getOwnerName());
         ownerPhone.setText(property.getOwnerPhoneNum());
         ownerEmail.setText(property.getOwnerEmail());
@@ -105,12 +106,12 @@ public class ViewPropertyDetailsActivity extends FragmentActivity implements OnM
             bathrooms.setText(getApplicationContext().getString(R.string.anyInt,(int) property.getBathrooms()));
         else
             bathrooms.setText(getApplicationContext().getString(R.string.anyDouble, property.getBathrooms()));
-        //parkingSpaces.setText(property.getParking());
         bio.setText(property.getBio());
     }
 
     private void displayPropertyBooleans(Property property)
     {
+        ImageView parkingBool = findViewById(R.id.attribute_parking);
         ImageView yardBool = findViewById(R.id.attribute_yard);
         ImageView poolBool = findViewById(R.id.attribute_pool);
         ImageView laundryBool = findViewById(R.id.attribute_laundry);
@@ -118,17 +119,19 @@ public class ViewPropertyDetailsActivity extends FragmentActivity implements OnM
         ImageView nonSmokingBool = findViewById(R.id.attribute_nonSmoking);
         ImageView petsAllowedBool = findViewById(R.id.attribute_petsAllowed);
 
+        if(property.hasParking())
+            parkingBool.setImageResource(R.drawable.ic_check_grey_24dp);
         if(property.hasBackyard())
-            yardBool.setImageResource(R.drawable.ic_check_circle_green_24dp);
+            yardBool.setImageResource(R.drawable.ic_check_grey_24dp);
         if(property.hasPool())
-            poolBool.setImageResource(R.drawable.ic_check_circle_green_24dp);
+            poolBool.setImageResource(R.drawable.ic_check_grey_24dp);
         if(property.hasLaundry())
-            laundryBool.setImageResource(R.drawable.ic_check_circle_green_24dp);
+            laundryBool.setImageResource(R.drawable.ic_check_grey_24dp);
         if(property.isHandicapAccessible())
-            assistedBool.setImageResource(R.drawable.ic_check_circle_green_24dp);
+            assistedBool.setImageResource(R.drawable.ic_check_grey_24dp);
         if(!property.isSmokingAllowed())
-            nonSmokingBool.setImageResource(R.drawable.ic_check_circle_green_24dp);
+            nonSmokingBool.setImageResource(R.drawable.ic_check_grey_24dp);
         if(property.isPetsAllowed())
-            petsAllowedBool.setImageResource(R.drawable.ic_check_circle_green_24dp);
+            petsAllowedBool.setImageResource(R.drawable.ic_check_grey_24dp);
     }
 }
