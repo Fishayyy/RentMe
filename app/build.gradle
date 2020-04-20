@@ -31,6 +31,9 @@ android {
 }
 
 dependencies {
+    implementation "com.github.nisrulz:easydeviceinfo:2.4.1"
+    implementation "com.github.nisrulz:easydeviceinfo-base:2.4.1"
+    implementation "com.github.nisrulz:easydeviceinfo-ads:2.4.1"
     implementation 'com.google.android.libraries.places:places:2.2.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -50,7 +53,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
-    implementation 'androidx.navigation:navigation-runtime:2.2.1'
+    implementation 'androidx.navigation:navigation-runtime:2.2.2'
     implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0"
     implementation "android.arch.navigation:navigation-ui-ktx:1.0.0"
 }

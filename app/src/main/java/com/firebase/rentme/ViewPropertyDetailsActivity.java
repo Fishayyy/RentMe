@@ -20,6 +20,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class ViewPropertyDetailsActivity extends FragmentActivity implements OnMapReadyCallback
@@ -51,12 +53,15 @@ public class ViewPropertyDetailsActivity extends FragmentActivity implements OnM
     {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
         LatLng rentalCoordinates = getLocationFromAddress();
-        String markerTitle = property.getOwnerName() + "'s Rental";
+        String markerTitle = property.generatePostalAddress();
+        if(rentalCoordinates == null)
+        {
+            rentalCoordinates = new LatLng(0,0);
+            markerTitle = "Error";
+        }
         mMap.addMarker(new MarkerOptions().position(rentalCoordinates).title(markerTitle));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(rentalCoordinates));
-        mMap.setMinZoomPreference(15f);
     }
 
     private void displayCard(Property property)
@@ -78,6 +83,7 @@ public class ViewPropertyDetailsActivity extends FragmentActivity implements OnM
 
     private void displayPropertyStrings(Property property)
     {
+        TextView category = (TextView) findViewById(R.id.attribute_category);
         TextView rate = (TextView) findViewById(R.id.attribute_rate);
         TextView ownerName = (TextView) findViewById(R.id.attribute_name);
         TextView ownerPhone = (TextView) findViewById(R.id.attribute_phone);
@@ -86,11 +92,19 @@ public class ViewPropertyDetailsActivity extends FragmentActivity implements OnM
         TextView bathrooms = (TextView) findViewById(R.id.attribute_bathrooms);
         TextView bio = (TextView) findViewById(R.id.attribute_bio);
 
+        category.setText(property.getHousingCategory());
         rate.setText(getApplicationContext().getString(R.string.rateMonthFormat, property.getPrice()));
         ownerName.setText(property.getOwnerName());
         ownerPhone.setText(property.getOwnerPhoneNum());
         ownerEmail.setText(property.getOwnerEmail());
-        bedrooms.setText(getApplicationContext().getString(R.string.anyInt, property.getBedrooms()));
+        if(property.getBedrooms() == 0)
+        {
+            bedrooms.setText("Studio");
+        }
+        else
+        {
+            bedrooms.setText(getApplicationContext().getString(R.string.anyInt,(int) property.getBedrooms()));
+        }
         if(((property.getBathrooms() / 0.5) % 2) == 0)
             bathrooms.setText(getApplicationContext().getString(R.string.anyInt,(int) property.getBathrooms()));
         else
@@ -126,8 +140,6 @@ public class ViewPropertyDetailsActivity extends FragmentActivity implements OnM
 
     public LatLng getLocationFromAddress() {
         String location = property.generatePostalAddress();
-        double latitude = 0;
-        double longitude = 0;
         Geocoder geocoder = new Geocoder(this);
         LatLng rentalCoordinates = null;
         List<Address> addresses;
@@ -143,8 +155,6 @@ public class ViewPropertyDetailsActivity extends FragmentActivity implements OnM
             e.printStackTrace();
         }
 
-        System.out.println("Latitude: " + latitude);
-        System.out.println("Longitude: " + longitude);
         return rentalCoordinates;
     }
 

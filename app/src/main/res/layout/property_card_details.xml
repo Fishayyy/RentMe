@@ -42,20 +42,11 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <ImageView
-        android:id="@+id/property_image"
-        android:layout_width="match_parent"
-        android:layout_height="270dp"
-        android:layout_below="@id/propertyDetailsToolbar"
-        android:layout_centerHorizontal="true"
-        android:scaleType="centerCrop"
-        android:src="@color/primary" />
-
     <ScrollView
         android:id="@+id/propertyDetailsScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/property_image"
+        android:layout_below="@id/propertyDetailsToolbar"
         android:layout_centerHorizontal="true">
 
         <RelativeLayout
@@ -63,19 +54,65 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <fragment
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
+            <ImageView
+                android:id="@+id/property_image"
+                android:layout_width="match_parent"
+                android:layout_height="270dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="centerCrop"
+                android:src="@color/primary" />
+
+            <FrameLayout
+                android:id="@+id/mapContainer"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                tools:context="com.example.mapwithmarker.MapsMarkerActivity" />
+                android:layout_below="@id/property_image"
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                android:background="@drawable/border">
+
+                <fragment
+                    android:id="@+id/map"
+                    xmlns:map="http://schemas.android.com/apk/res-auto"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:context="com.example.mapwithmarker.MapsMarkerActivity"
+                    map:cameraZoom="16"
+                    map:mapType="normal"
+                    map:liteMode="true"/>
+
+            </FrameLayout>
+
 
             <!-- Quick Information -->
+            <TextView
+                android:id="@+id/title_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/mapContainer"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/propertyTypeTextView"
+                android:textColor="@color/primary"
+                android:textSize="21sp" />
+
+            <TextView
+                android:id="@+id/attribute_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/mapContainer"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="12dp"
+                android:textColor="@color/primary"
+                android:textSize="21sp" />
+
             <TextView
                 android:id="@+id/title_rate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/map"
+                android:layout_below="@id/title_category"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="4dp"
                 android:text="@string/rate"
@@ -86,7 +123,7 @@
                 android:id="@+id/attribute_rate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/map"
+                android:layout_below="@id/attribute_category"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="12dp"
@@ -99,7 +136,7 @@
                 style="@style/Base.TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/attribute_rate"
+                android:layout_below="@id/title_rate"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="4dp"
                 android:text="@string/contactInfo"
@@ -420,6 +457,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="1dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginBottom="10dp"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 

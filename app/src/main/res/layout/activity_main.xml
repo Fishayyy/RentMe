@@ -49,13 +49,11 @@
 
             </LinearLayout>
 
-            <Button
+            <ImageButton
                 android:id="@+id/currentLocationButton"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@color/transparent"
-                android:drawableStart="@drawable/location_unpressed"
-                android:onClick="setCurrentLocation" />
+                android:background="@drawable/location_unpressed" />
 
         </androidx.appcompat.widget.Toolbar>
 

@@ -1,25 +1,26 @@
 package com.firebase.rentme;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.firebase.rentme.models.CardViewAdapter;
 import com.firebase.rentme.models.Property;
 import com.firebase.rentme.models.ResultsFilter;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.CancellationToken;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.RectangularBounds;
 import com.google.android.libraries.places.api.model.TypeFilter;
-import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
@@ -32,9 +33,13 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
+
+import github.nisrulz.easydeviceinfo.base.EasyLocationMod;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -43,10 +48,12 @@ public class MainActivity extends AppCompatActivity
     private FirebaseFirestore database;
     private CollectionReference propertiesCollection;
     private ListenerRegistration registration;
-    private PlacesClient placesClient;
     private AutocompleteSupportFragment autocompleteFragment;
     private String locationQuery;
     private ResultsFilter propertiesFilter;
+
+    private ImageButton getCurrentLocationButton;
+    private boolean isPressed;
 
     private CardViewAdapter cardAdapter;
     private ArrayList<Property> propertyCardList;
@@ -71,6 +78,8 @@ public class MainActivity extends AppCompatActivity
         initCardFlingAdapterView();
 
         initFilter();
+
+        initToggleButton();
     }
 
     private void initFirestore()
@@ -85,7 +94,7 @@ public class MainActivity extends AppCompatActivity
         Places.initialize(getApplicationContext(), BuildConfig.GOOGLE_API_KEY);
 
         // Create a new Places client instance
-        placesClient = Places.createClient(this);
+        PlacesClient placesClient = Places.createClient(this);
 
         initAutoComplete();
     }
@@ -309,9 +318,55 @@ public class MainActivity extends AppCompatActivity
         startActivityForResult(intent, 1);
     }
 
-    public void setCurrentLocation(View view)
+    public void initToggleButton()
     {
+        getCurrentLocationButton = findViewById(R.id.currentLocationButton);
+        isPressed = false;
+        getCurrentLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                if(isPressed)
+                {
+                    getCurrentLocationButton.setBackgroundResource(R.drawable.location_unpressed);
+                    isPressed = false;
+                }
+                else
+                {
+                    getCurrentLocationButton.setBackgroundResource(R.drawable.location_pressed);
+                    autocompleteFragment.setText("");
+                    findCurrentLocation();
+                    isPressed = true;
+                }
+            }
+        });
+        getCurrentLocationButton.performClick();
+    }
 
+    public void findCurrentLocation()
+    {
+        EasyLocationMod easyLocationMod = new EasyLocationMod(getApplicationContext());
+        double[] coordinates = easyLocationMod.getLatLong();
+
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try
+        {
+            List<Address> addresses = geocoder.getFromLocation(coordinates[0], coordinates[1], 1);
+            if (addresses.size() > 0)
+            {
+                Address currentLocation = addresses.get(0);
+                locationQuery = currentLocation.getPostalCode();
+                initRealTimeListener();
+            }
+            else
+            {
+                Toast.makeText(this, "Location Not Found", Toast.LENGTH_SHORT).show();
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override

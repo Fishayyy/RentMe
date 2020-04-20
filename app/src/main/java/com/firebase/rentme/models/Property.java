@@ -142,7 +142,7 @@ public class Property implements Parcelable
 
     public String generatePostalAddress()
     {
-        return address + " " + city;
+        return address + ", " + city + ", " + state;
     }
 
     //Return hashcode of object
