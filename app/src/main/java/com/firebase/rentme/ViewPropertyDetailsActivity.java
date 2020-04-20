@@ -119,13 +119,13 @@ public class ViewPropertyDetailsActivity extends FragmentActivity implements OnM
         ImageView nonSmokingBool = findViewById(R.id.attribute_nonSmoking);
         ImageView petsAllowedBool = findViewById(R.id.attribute_petsAllowed);
 
-        if(property.hasParking())
+        if(property.isParkingAvailable())
             parkingBool.setImageResource(R.drawable.ic_check_grey_24dp);
-        if(property.hasBackyard())
+        if(property.isBackyardAvailable())
             yardBool.setImageResource(R.drawable.ic_check_grey_24dp);
-        if(property.hasPool())
+        if(property.isPoolAvailable())
             poolBool.setImageResource(R.drawable.ic_check_grey_24dp);
-        if(property.hasLaundry())
+        if(property.isLaundryAvailable())
             laundryBool.setImageResource(R.drawable.ic_check_grey_24dp);
         if(property.isHandicapAccessible())
             assistedBool.setImageResource(R.drawable.ic_check_grey_24dp);

@@ -11,8 +11,8 @@ public class ResultsFilter implements Parcelable
 {
     public static final String PARCELABLE_FILTER = "com.firebase.rentme.FILTER";
 
-    private static final double[] bathroomValue = {1.0, 1.5, 2.0, 2.5, 3.0, 4.0};
-    private static final int[] bedroomValue = {0, 1, 2, 3, 4, 5};
+    private static final int[] BEDROOM_VALUES = {0, 1, 2, 3, 4, 5};
+    private static final double[] BATHROOM_VALUES = {1.0, 1.5, 2.0, 2.5, 3.0, 4.0};
     private static final int ANY = 0;
     private static final int YES = 1;
     private static final int NO = 2;
@@ -101,10 +101,10 @@ public class ResultsFilter implements Parcelable
     {
         minPrice = 0.0;
         maxPrice = Double.MAX_VALUE;
-        bedroomsMinValue = bedroomValue[0];
-        bedroomsMaxValue = bedroomValue[bedroomValue.length - 1];
-        bathroomsMinValue = bathroomValue[0];
-        bathroomsMaxValue = bathroomValue[bedroomValue.length - 1];
+        bedroomsMinValue = BEDROOM_VALUES[0];
+        bedroomsMaxValue = BEDROOM_VALUES[BEDROOM_VALUES.length - 1];
+        bathroomsMinValue = BATHROOM_VALUES[0];
+        bathroomsMaxValue = BATHROOM_VALUES[BEDROOM_VALUES.length - 1];
         housingCategory = "Any";
         petsAllowed = ANY;
         smokingAllowed = ANY;
@@ -123,11 +123,11 @@ public class ResultsFilter implements Parcelable
         {
             filterByPrice(results);
         }
-        if (bedroomsMinValue != bedroomValue[0] || bedroomsMaxValue != bedroomValue[bedroomValue.length - 1] && results.size() != 0)
+        if (bedroomsMinValue != BEDROOM_VALUES[0] || bedroomsMaxValue != BEDROOM_VALUES[BEDROOM_VALUES.length - 1] && results.size() != 0)
         {
             filterByBedrooms(results);
         }
-        if (bathroomsMinValue != bathroomValue[0] || bathroomsMaxValue != bathroomValue[bathroomValue.length - 1] && results.size() != 0)
+        if (bathroomsMinValue != BATHROOM_VALUES[0] || bathroomsMaxValue != BATHROOM_VALUES[BATHROOM_VALUES.length - 1] && results.size() != 0)
         {
             filterByBathrooms(results);
         }
@@ -193,7 +193,7 @@ public class ResultsFilter implements Parcelable
         {
             int bedrooms = property.getBedrooms();
 
-            if (bedrooms < bedroomsMinValue || (bedrooms > bedroomsMaxValue && bedroomsMaxValue != bedroomValue[bedroomValue.length - 1]))
+            if (bedrooms < bedroomsMinValue || (bedrooms > bedroomsMaxValue && bedroomsMaxValue != BEDROOM_VALUES[BEDROOM_VALUES.length - 1]))
             {
                 results.remove(property);
             }
@@ -208,7 +208,7 @@ public class ResultsFilter implements Parcelable
         {
             double bathrooms = property.getBathrooms();
 
-            if (bathrooms < bathroomsMinValue || (bathrooms > bathroomsMaxValue && bathroomsMaxValue != bathroomValue[bathroomValue.length - 1]))
+            if (bathrooms < bathroomsMinValue || (bathrooms > bathroomsMaxValue && bathroomsMaxValue != BATHROOM_VALUES[BATHROOM_VALUES.length - 1]))
             {
                 results.remove(property);
             }
@@ -262,7 +262,7 @@ public class ResultsFilter implements Parcelable
 
         for (Property property : temp)
         {
-            if (!property.hasParking())
+            if (!property.isParkingAvailable())
             {
                 results.remove(property);
             }
@@ -275,7 +275,7 @@ public class ResultsFilter implements Parcelable
 
         for (Property property : temp)
         {
-            if (!property.hasPool())
+            if (!property.isPoolAvailable())
             {
                 results.remove(property);
             }
@@ -288,7 +288,7 @@ public class ResultsFilter implements Parcelable
 
         for (Property property : temp)
         {
-            if (!property.hasBackyard())
+            if (!property.isBackyardAvailable())
             {
                 results.remove(property);
             }
@@ -301,7 +301,7 @@ public class ResultsFilter implements Parcelable
 
         for (Property property : temp)
         {
-            if (!property.hasLaundry())
+            if (!property.isLaundryAvailable())
             {
                 results.remove(property);
             }
@@ -327,45 +327,34 @@ public class ResultsFilter implements Parcelable
         return minPrice;
     }
 
-    public double getMaxPrice()
-    {
-        return maxPrice;
-    }
+    public double getMaxPrice() { return maxPrice; }
 
-    public float getBedroomsMinValueProgress()
-    {
-        int index = 0;
-        while (index < bedroomValue.length && bedroomsMinValue != bedroomValue[index])
-            index++;
+    public float getBedroomsMinValueProgress() { return convertIndexToProgress(findBedroomIndex(bedroomsMinValue), BEDROOM_VALUES.length);}
 
-        return index * 20;
-    }
+    public float getBedroomsMaxValueProgress() { return convertIndexToProgress(findBedroomIndex(bedroomsMaxValue), BEDROOM_VALUES.length);}
 
-    public float getBedroomsMaxValueProgress()
+    public float getBathroomsMinValueProgress() { return convertIndexToProgress(findBathroomIndex(bathroomsMinValue), BATHROOM_VALUES.length);}
+
+    public float getBathroomsMaxValueProgress() { return convertIndexToProgress(findBathroomIndex(bathroomsMaxValue), BATHROOM_VALUES.length);}
+
+    private float convertIndexToProgress(int index, int arraySize) { return index * (100f / (arraySize - 1)); }
+
+    private int findBedroomIndex(int value)
     {
         int index = 0;
-        while (index < bedroomValue.length && bedroomsMaxValue != bedroomValue[index])
+        while (index < BEDROOM_VALUES.length && value != BEDROOM_VALUES[index])
             index++;
 
-        return index * 20;
+        return index;
     }
 
-    public float getBathroomsMinValueProgress()
+    private int findBathroomIndex(double value)
     {
         int index = 0;
-        while (index < bedroomValue.length && bathroomsMinValue != bathroomValue[index])
+        while (index < BATHROOM_VALUES.length && value != BATHROOM_VALUES[index])
             index++;
 
-        return index * 20;
-    }
-
-    public float getBathroomsMaxValueProgress()
-    {
-        int index = 0;
-        while (index < bedroomValue.length && bathroomsMaxValue != bathroomValue[index])
-            index++;
-
-        return index * 20;
+        return index;
     }
 
     public String getHousingCategory()
@@ -414,33 +403,15 @@ public class ResultsFilter implements Parcelable
 
     public void setMaxPrice(double maxPrice) { this.maxPrice = maxPrice; }
 
-    public void setBedroomsMinValue(SeekBar leftBar)
-    {
-        float progress = leftBar.getProgress();
-        int progressIndex = (int) (progress / 20);
-        bedroomsMinValue = bedroomValue[progressIndex];
-    }
+    public void setBedroomsMinValue(SeekBar leftBar) { bedroomsMinValue = BEDROOM_VALUES[convertProgressToIndex(leftBar.getProgress(), BEDROOM_VALUES.length)]; }
 
-    public void setBedroomsMaxValue(SeekBar rightBar)
-    {
-        float progress = rightBar.getProgress();
-        int progressIndex = (int) (progress / 20);
-        bedroomsMaxValue = bedroomValue[progressIndex];
-    }
+    public void setBedroomsMaxValue(SeekBar rightBar) { bedroomsMaxValue = BEDROOM_VALUES[convertProgressToIndex(rightBar.getProgress(), BEDROOM_VALUES.length)]; }
 
-    public void setBathroomsMinValue(SeekBar leftBar)
-    {
-        float progress = leftBar.getProgress();
-        int progressIndex = (int) (progress / 20);
-        bathroomsMinValue = bathroomValue[progressIndex];
-    }
+    public void setBathroomsMinValue(SeekBar leftBar) { bathroomsMinValue = BATHROOM_VALUES[convertProgressToIndex(leftBar.getProgress(), BATHROOM_VALUES.length)]; }
 
-    public void setBathroomsMaxValue(SeekBar rightBar)
-    {
-        float progress = rightBar.getProgress();
-        int progressIndex = (int) (progress / 20);
-        bathroomsMaxValue = bathroomValue[progressIndex];
-    }
+    public void setBathroomsMaxValue(SeekBar rightBar) { bathroomsMaxValue = BATHROOM_VALUES[convertProgressToIndex(rightBar.getProgress(), BATHROOM_VALUES.length)]; }
+
+    private int convertProgressToIndex(float progress, int arraySize) { return (int) (progress / (100f / (arraySize - 1))); }
 
     public void setHousingCategoryFilter(String housingCategory) { this.housingCategory = housingCategory; }
 

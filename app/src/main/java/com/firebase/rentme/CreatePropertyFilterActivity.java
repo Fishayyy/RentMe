@@ -184,8 +184,12 @@ public class CreatePropertyFilterActivity extends AppCompatActivity
             maxPriceEditText.setText(String.format("%8.2f", maxPrice));
         }
 
-        bedroomsRangeBar.setProgress(resultsFilter.getBedroomsMinValueProgress(), resultsFilter.getBedroomsMaxValueProgress());
-        bathroomsRangeBar.setProgress(resultsFilter.getBathroomsMinValueProgress(), resultsFilter.getBathroomsMaxValueProgress());
+        bedroomsRangeBar.setProgress(
+                resultsFilter.getBedroomsMinValueProgress(),
+                resultsFilter.getBedroomsMaxValueProgress());
+        bathroomsRangeBar.setProgress(
+                resultsFilter.getBathroomsMinValueProgress(),
+                resultsFilter.getBathroomsMaxValueProgress());
         categorySpinner.setSelection(getSpinnerPosition(resultsFilter.getHousingCategory(), R.array.filterCategories));
         petsAllowedSpinner.setSelection(resultsFilter.getPetsAllowed());
         smokingAllowedSpinner.setSelection(resultsFilter.getSmokingAllowed());

@@ -1,4 +1,4 @@
-package com.firebase.rentme;
+package com.firebase.rentme.models;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.firebase.rentme.R;
 import com.firebase.rentme.models.Property;
 import com.squareup.picasso.Picasso;
 

@@ -7,6 +7,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +23,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
@@ -29,6 +32,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.rentme.dialogs.SelectBathroomsDialog;
+import com.firebase.rentme.dialogs.SelectBedroomsDialog;
 import com.firebase.rentme.models.PriceInputFilter;
 import com.firebase.rentme.models.Property;
 
@@ -48,7 +53,7 @@ import java.util.TimerTask;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 
-public class CreatePropertyActivity extends AppCompatActivity
+public class CreatePropertyActivity extends AppCompatActivity implements SelectBathroomsDialog.SelectBathroomsDialogListener, SelectBedroomsDialog.SelectBedroomsDialogListener
 {
     private static final String TAG = "CreatePropertyActivity";
 
@@ -66,6 +71,12 @@ public class CreatePropertyActivity extends AppCompatActivity
     private ImageButton imageButton;
     private EditText editTextPrice;
     private Spinner categorySpinner;
+    private TextView textViewBedrooms;
+    private TextView textViewBathrooms;
+    private Button buttonSelectBedrooms;
+    private int bedrooms = 0;
+    private Button buttonSelectBathrooms;
+    private double bathrooms = 1.0;
     private EditText editTextOwnerName;
     private EditText editTextOwnerPhoneNum;
     private EditText editTextOwnerEmail;
@@ -73,8 +84,29 @@ public class CreatePropertyActivity extends AppCompatActivity
     private EditText editTextCity;
     private EditText editTextZipCode;
     private Spinner stateSpinner;
+    private CheckBox petsAllowedCheckBox;
+    private CheckBox smokingAllowedCheckBox;
+    private CheckBox parkingAvailableCheckBox;
+    private CheckBox poolAvailableCheckBox;
+    private CheckBox backyardAvailableCheckBox;
+    private CheckBox laundryCheckBox;
+    private CheckBox handicapAccessibleCheckBox;
     private EditText editTextBio;
     private CircularProgressButton addPropertyButton;
+
+    @Override
+    public void applyBedroomValues(String bedroomsText, int bedroomsValue)
+    {
+        bedrooms = bedroomsValue;
+        textViewBedrooms.setText(bedroomsText);
+    }
+
+    @Override
+    public void applyBathroomValues(String bathroomText, double bathroomValue)
+    {
+        bathrooms = bathroomValue;
+        textViewBathrooms.setText(bathroomText);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -86,8 +118,10 @@ public class CreatePropertyActivity extends AppCompatActivity
 
         initFirestore();
         initButtons();
+        initTextViews();
         initSpinners();
         initEditTextFields();
+        initCheckBoxes();
     }
 
     @Override
@@ -121,7 +155,45 @@ public class CreatePropertyActivity extends AppCompatActivity
     private void initButtons()
     {
         imageButton = findViewById(R.id.uploadImageButton);
+        buttonSelectBedrooms = findViewById(R.id.bedroomsButton);
+        buttonSelectBedrooms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDialog(view);
+            }
+        });
+        buttonSelectBathrooms = findViewById(R.id.bathroomsButton);
+        buttonSelectBathrooms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDialog(view);
+            }
+        });
         addPropertyButton = findViewById(R.id.add_property_button);
+    }
+
+    public void openDialog(View view)
+    {
+        if(view.getId() == R.id.bedroomsButton)
+        {
+            buttonSelectBedrooms.setTextColor(Color.BLACK);
+            buttonSelectBedrooms.setError(null);
+            SelectBedroomsDialog bedroomsDialog = new SelectBedroomsDialog(bedrooms);
+            bedroomsDialog.show(getSupportFragmentManager(), "bedrooms_dialog");
+        }
+        else if(view.getId() == R.id.bathroomsButton)
+        {
+            buttonSelectBathrooms.setTextColor(Color.BLACK);
+            buttonSelectBathrooms.setError(null);
+            SelectBathroomsDialog bathroomsDialog = new SelectBathroomsDialog(bathrooms);
+            bathroomsDialog.show(getSupportFragmentManager(), "bathrooms_dialog");
+        }
+    }
+
+    private void initTextViews()
+    {
+        textViewBedrooms = findViewById(R.id.bedroomsTextView);
+        textViewBathrooms = findViewById(R.id.bathroomsTextView);
     }
 
     private void initSpinners()
@@ -151,6 +223,17 @@ public class CreatePropertyActivity extends AppCompatActivity
         editTextOwnerPhoneNum = findViewById(R.id.edit_text_ownerPhoneNum);
         editTextOwnerPhoneNum.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
         editTextOwnerEmail = findViewById(R.id.edit_text_ownerEmail);
+    }
+
+    private void initCheckBoxes()
+    {
+        petsAllowedCheckBox = findViewById(R.id.petRulesCheckBox);
+        smokingAllowedCheckBox = findViewById(R.id.smokingRulesCheckBox);
+        parkingAvailableCheckBox = findViewById(R.id.parkingAmenityCheckBox);
+        poolAvailableCheckBox = findViewById(R.id.poolAmenityCheckBox);
+        backyardAvailableCheckBox = findViewById(R.id.backyardAmenityCheckBox);
+        laundryCheckBox = findViewById(R.id.laundryAmenityCheckBox);
+        handicapAccessibleCheckBox = findViewById(R.id.handicapAmenityCheckBox);
     }
 
     public void choosePhotoFromGallery(View v)
@@ -207,6 +290,20 @@ public class CreatePropertyActivity extends AppCompatActivity
             isValid = false;
             scrollToTop = true;
             displayError(categorySpinner, "Must select a category");
+        }
+
+        if (textViewBedrooms.getText().toString().equals(""))
+        {
+            isValid = false;
+            scrollToTop = true;
+            displayError(buttonSelectBedrooms, "Must select number of bedrooms");
+        }
+
+        if (textViewBathrooms.getText().toString().equals(""))
+        {
+            isValid = false;
+            scrollToTop = true;
+            displayError(buttonSelectBathrooms, "Must select number of bathrooms");
         }
 
         if (editTextOwnerName.getText().toString().isEmpty())
@@ -297,6 +394,10 @@ public class CreatePropertyActivity extends AppCompatActivity
         {
             spinnerError((Spinner) viewObject, errorMessage);
         }
+        else if (viewObject instanceof Button)
+        {
+            buttonError((Button) viewObject, errorMessage);
+        }
     }
 
     private void editTextError(final EditText textEntry, String errorMessage)
@@ -330,6 +431,12 @@ public class CreatePropertyActivity extends AppCompatActivity
         TextView errorTextView = (TextView) spinner.getSelectedView();
         errorTextView.setError(errorMessage);
         errorTextView.setTextColor(getColor(R.color.error));
+    }
+
+    private void buttonError(Button button, String errorMessage)
+    {
+        button.setError(errorMessage);
+        button.setTextColor(Color.RED);
     }
 
     private void uploadImage()
@@ -424,6 +531,15 @@ public class CreatePropertyActivity extends AppCompatActivity
         newProperty.setOwnerName(editTextOwnerName.getText().toString());
         newProperty.setOwnerPhoneNum(PhoneNumberUtils.formatNumber(editTextOwnerPhoneNum.getText().toString(), Locale.getDefault().getCountry()));
         newProperty.setOwnerEmail(editTextOwnerEmail.getText().toString());
+        newProperty.setBedrooms(bedrooms);
+        newProperty.setBathrooms(bathrooms);
+        newProperty.setPetsAllowed(petsAllowedCheckBox.isChecked());
+        newProperty.setSmokingAllowed(smokingAllowedCheckBox.isChecked());
+        newProperty.setParkingAvailable(parkingAvailableCheckBox.isChecked());
+        newProperty.setPoolAvailable(poolAvailableCheckBox.isChecked());
+        newProperty.setBackyardAvailable(backyardAvailableCheckBox.isChecked());
+        newProperty.setLaundryAvailable(laundryCheckBox.isChecked());
+        newProperty.setHandicapAccessible(laundryCheckBox.isChecked());
     }
 
     private void exitAfterDelay()

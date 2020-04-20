@@ -173,13 +173,13 @@ public class Property implements Parcelable
 
     public boolean isSmokingAllowed() { return smokingAllowed; }
 
-    public boolean hasParking() { return parkingAvailable; }
+    public boolean isParkingAvailable() { return parkingAvailable; }
 
-    public boolean hasPool() { return hasPool; }
+    public boolean isPoolAvailable() { return hasPool; }
 
-    public boolean hasBackyard() { return hasBackyard; }
+    public boolean isBackyardAvailable() { return hasBackyard; }
 
-    public boolean hasLaundry() { return hasLaundry; }
+    public boolean isLaundryAvailable() { return hasLaundry; }
 
     public boolean isHandicapAccessible() { return isHandicapAccessible; }
 
@@ -216,11 +216,11 @@ public class Property implements Parcelable
 
     public void setParkingAvailable(boolean parkingAvailable) { this.parkingAvailable = parkingAvailable; }
 
-    public void setHasPool(boolean hasPool) { this.hasPool = hasPool; }
+    public void setPoolAvailable(boolean hasPool) { this.hasPool = hasPool; }
 
-    public void setHasBackyard(boolean hasBackyard) { this.hasBackyard = hasBackyard; }
+    public void setBackyardAvailable(boolean hasBackyard) { this.hasBackyard = hasBackyard; }
 
-    public void setHasLaundry(boolean hasLaundry) { this.hasLaundry = hasLaundry; }
+    public void setLaundryAvailable(boolean hasLaundry) { this.hasLaundry = hasLaundry; }
 
     public void setHandicapAccessible(boolean handicapAccessible) { isHandicapAccessible = handicapAccessible; }
 }

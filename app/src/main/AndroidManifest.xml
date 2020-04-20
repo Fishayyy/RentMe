@@ -16,16 +16,19 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCBA05ovJVpdTOpMe_bU0TSqfTZfigXIao" />
+            android:value="GOOGLE_API_KEY" />
 
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".ViewPropertyDetailsActivity" />
         <activity android:name=".CreatePropertyFilterActivity"/>
+        <activity android:name=".dialogs.SelectBedroomsDialog"/>
         <activity android:name=".CreatePropertyActivity" />
     </application>
 

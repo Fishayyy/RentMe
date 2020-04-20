@@ -42,9 +42,6 @@
     <string name="anyDouble">"%.1f"</string>
     <string name="anyInt">"%d"</string>
 
-    <!--    No Use?-->
-    <string name="PhotoText">"Photo URL"</string>
-
     <!--    Filter Properties Strings-->
     <string name="minTextView">Min $</string>
     <string name="toMaxTextView">to Max $</string>

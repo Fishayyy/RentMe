@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 
+import com.firebase.rentme.models.CardViewAdapter;
 import com.firebase.rentme.models.Property;
 import com.firebase.rentme.models.ResultsFilter;
 import com.google.android.gms.common.api.Status;
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity
     private void initGooglePlaces()
     {
         // Initialize the SDK
-        Places.initialize(getApplicationContext(), "AIzaSyCBA05ovJVpdTOpMe_bU0TSqfTZfigXIao");
+        Places.initialize(getApplicationContext(), BuildConfig.GOOGLE_API_KEY);
 
         // Create a new Places client instance
         placesClient = Places.createClient(this);
