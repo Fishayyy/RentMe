@@ -58,17 +58,16 @@
 
             <ImageButton
                 android:id="@+id/uploadImageButton"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="10dp"
+                android:adjustViewBounds="true"
                 android:background="@drawable/border"
-                android:maxWidth="380dp"
-                android:maxHeight="380dp"
                 android:onClick="choosePhotoFromGallery"
                 android:padding="2dp"
-                android:scaleType="fitXY"
+                android:scaleType="fitCenter"
                 android:src="@drawable/add_pic_icon" />
 
             <TextView
