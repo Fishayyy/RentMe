@@ -539,7 +539,7 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
         newProperty.setPoolAvailable(poolAvailableCheckBox.isChecked());
         newProperty.setBackyardAvailable(backyardAvailableCheckBox.isChecked());
         newProperty.setLaundryAvailable(laundryCheckBox.isChecked());
-        newProperty.setHandicapAccessible(laundryCheckBox.isChecked());
+        newProperty.setHandicapAccessible(handicapAccessibleCheckBox.isChecked());
     }
 
     private void exitAfterDelay()
