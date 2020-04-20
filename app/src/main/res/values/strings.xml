@@ -2,6 +2,7 @@
     <string name="app_name">RentMe</string>
     <string name="add_property_title">Add Property</string>
     <string name="filter_properties_title">Filters</string>
+    <string name="view_property_details">Property Details</string>
 
     <!--    ____________________________Property Details____________________________ -->
     <string name="contactInfo">"Contact Information"</string>    <!--    Owner Details-->
@@ -92,7 +93,6 @@
     <!--    Create Profile Buttons-->
     <string name="propertyAdded">Success</string>
     <string name="addProperty">Add Property</string>
-    <string name="filterButton">Filters</string>
 
     <!--    Create Profile Spinner String Arrays-->
     <string name="selectCategory">— Category —</string>

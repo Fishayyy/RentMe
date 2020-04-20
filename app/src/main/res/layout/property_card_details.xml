@@ -1,25 +1,61 @@
 <?xml version = "1.0" encoding = "utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     tools:context=".ViewPropertyDetailsActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/propertyDetailsToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:titleTextColor="@android:color/white">
+
+        <RelativeLayout
+            android:id="@+id/propertyDetailsToolbarLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/propertyDetailsBackButton"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentStart="true"
+                android:background="@color/transparent"
+                android:drawableStart="@drawable/back_arrow"
+                android:onClick="exitActivity" />
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_toEndOf="@id/propertyDetailsBackButton"
+                android:text="@string/view_property_details"
+                android:textColor="@color/white" />
+
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
 
     <ImageView
         android:id="@+id/property_image"
         android:layout_width="match_parent"
         android:layout_height="270dp"
+        android:layout_below="@id/propertyDetailsToolbar"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="60dp"
-        android:src="@color/primary"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:src="@color/primary" />
 
     <ScrollView
-        android:id="@+id/scrollView"
+        android:id="@+id/propertyDetailsScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/property_image"
         android:layout_centerHorizontal="true">
 
         <RelativeLayout
@@ -27,46 +63,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/spacer_for_image"
+            <fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
-                android:layout_height="270dp"
-                android:layout_marginTop="60dp"/>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="780dp"
-                android:layout_below="@id/spacer_for_image"
-                android:src="@color/white" />
-
-            <include layout="@layout/interactive_card_details"
-                android:layout_width="385dp"
-                android:layout_height="150dp"
-                android:layout_centerInParent="true"
-                android:layout_below="@id/spacer_for_image"
-                android:layout_marginTop="10dp"
-                android:id="@+id/interactive_details"/>
+                android:layout_height="300dp"
+                tools:context="com.example.mapwithmarker.MapsMarkerActivity" />
 
             <!-- Quick Information -->
             <TextView
                 android:id="@+id/title_rate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/interactive_details"
+                android:layout_below="@id/map"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="4dp"
-                android:textColor="@color/primary"
                 android:text="@string/rate"
+                android:textColor="@color/primary"
                 android:textSize="21sp" />
 
             <TextView
                 android:id="@+id/attribute_rate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/interactive_details"
+                android:layout_below="@id/map"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="12dp"
-                android:layout_alignParentEnd="true"
                 android:textColor="@color/primary"
                 android:textSize="21sp" />
 
@@ -98,11 +121,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title_contactInfo"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="1dp"
                 android:layout_marginEnd="12dp"
-                android:layout_alignParentEnd="true"
-                android:textStyle="bold"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/title_phone"
@@ -119,14 +142,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/attribute_name"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="6dp"
                 android:layout_marginEnd="12dp"
-                android:layout_alignParentEnd="true"
                 android:autoLink="phone"
                 android:textColor="@color/black"
                 android:textColorLink="@color/hyperlink"
-                android:textStyle="bold"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/title_email"
@@ -149,8 +172,8 @@
                 android:autoLink="email"
                 android:textColor="@color/black"
                 android:textColorLink="@color/hyperlink"
-                android:textStyle="bold"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <!-- Rules -->
             <TextView
@@ -179,11 +202,11 @@
                 android:layout_width="27dp"
                 android:layout_height="27dp"
                 android:layout_below="@id/title_rules"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="1dp"
                 android:layout_marginEnd="12dp"
-                android:layout_alignParentEnd="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_remove_circle_outline_grey_24dp"/>
+                android:src="@drawable/ic_remove_circle_outline_grey_24dp" />
 
             <TextView
                 android:id="@+id/title_petsAllowed"
@@ -200,11 +223,11 @@
                 android:layout_width="27dp"
                 android:layout_height="27dp"
                 android:layout_below="@id/attribute_nonSmoking"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="3dp"
                 android:layout_marginEnd="12dp"
-                android:layout_alignParentEnd="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_remove_circle_outline_grey_24dp"/>
+                android:src="@drawable/ic_remove_circle_outline_grey_24dp" />
 
             <!-- Amenities -->
             <TextView
@@ -233,11 +256,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title_amenities"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="1dp"
                 android:layout_marginEnd="12dp"
-                android:layout_alignParentEnd="true"
-                android:textStyle="bold"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/title_bathrooms"
@@ -254,11 +277,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/attribute_bedrooms"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="6dp"
                 android:layout_marginEnd="12dp"
-                android:layout_alignParentEnd="true"
-                android:textStyle="bold"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/title_parking"
@@ -275,11 +298,11 @@
                 android:layout_width="27dp"
                 android:layout_height="27dp"
                 android:layout_below="@id/attribute_bathrooms"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="6dp"
                 android:layout_marginEnd="12dp"
-                android:layout_alignParentEnd="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_remove_circle_outline_grey_24dp"/>
+                android:src="@drawable/ic_remove_circle_outline_grey_24dp" />
 
             <TextView
                 android:id="@+id/title_yard"
@@ -296,11 +319,11 @@
                 android:layout_width="27dp"
                 android:layout_height="27dp"
                 android:layout_below="@id/attribute_parking"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="6dp"
                 android:layout_marginEnd="12dp"
-                android:layout_alignParentEnd="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_remove_circle_outline_grey_24dp"/>
+                android:src="@drawable/ic_remove_circle_outline_grey_24dp" />
 
             <TextView
                 android:id="@+id/title_pool"
@@ -317,11 +340,11 @@
                 android:layout_width="27dp"
                 android:layout_height="27dp"
                 android:layout_below="@id/attribute_yard"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="3dp"
                 android:layout_marginEnd="12dp"
-                android:layout_alignParentEnd="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_remove_circle_outline_grey_24dp"/>
+                android:src="@drawable/ic_remove_circle_outline_grey_24dp" />
 
             <TextView
                 android:id="@+id/title_laundry"
@@ -338,11 +361,11 @@
                 android:layout_width="27dp"
                 android:layout_height="27dp"
                 android:layout_below="@id/attribute_pool"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="3dp"
                 android:layout_marginEnd="12dp"
-                android:layout_alignParentEnd="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_remove_circle_outline_grey_24dp"/>
+                android:src="@drawable/ic_remove_circle_outline_grey_24dp" />
 
             <TextView
                 android:id="@+id/title_assistedLiving"
@@ -359,11 +382,11 @@
                 android:layout_width="27dp"
                 android:layout_height="27dp"
                 android:layout_below="@id/attribute_laundry"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="3dp"
                 android:layout_marginEnd="12dp"
-                android:layout_alignParentEnd="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_remove_circle_outline_grey_24dp"/>
+                android:src="@drawable/ic_remove_circle_outline_grey_24dp" />
 
             <!-- Other -->
             <TextView
@@ -382,11 +405,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_alignTop="@id/title_bio"
-                android:layout_toRightOf="@id/title_bio"
-                android:layout_marginTop="15dp"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
-                android:src="@color/divider"/>
+                android:layout_toRightOf="@id/title_bio"
+                android:src="@color/divider" />
 
             <TextView
                 android:id="@+id/attribute_bio"
@@ -394,8 +417,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title_bio"
                 android:layout_alignStart="@+id/title_bio"
-                android:layout_marginTop="1dp"
                 android:layout_marginStart="5dp"
+                android:layout_marginTop="1dp"
                 android:layout_marginEnd="16dp"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
@@ -403,30 +426,5 @@
         </RelativeLayout>
 
     </ScrollView>
-
-    <ImageView
-        android:id="@+id/type_bar"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:src="@color/white"/>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_below="@id/type_bar"
-        android:layout_marginTop="-2dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/white_gradient"/>
-
-    <TextView
-        android:id="@+id/attribute_type"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="7dp"
-        android:textColor="@color/primary"
-        android:text="@string/propertyType"
-        android:textSize="30sp" />
 
 </RelativeLayout>

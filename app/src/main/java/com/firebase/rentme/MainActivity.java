@@ -1,5 +1,6 @@
 package com.firebase.rentme;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,10 +14,12 @@ import com.firebase.rentme.models.Property;
 import com.firebase.rentme.models.ResultsFilter;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.CancellationToken;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.RectangularBounds;
 import com.google.android.libraries.places.api.model.TypeFilter;
+import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
@@ -31,6 +34,7 @@ import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
 {

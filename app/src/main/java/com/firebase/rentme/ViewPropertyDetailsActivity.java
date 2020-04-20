@@ -1,12 +1,14 @@
 package com.firebase.rentme;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import com.firebase.rentme.models.Property;
@@ -18,9 +20,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 public class ViewPropertyDetailsActivity extends FragmentActivity implements OnMapReadyCallback
 {
     private static final String TAG = "ViewPropertyDetails";
+    private Property property;
     private GoogleMap mMap;
 
     @Override
@@ -32,16 +37,11 @@ public class ViewPropertyDetailsActivity extends FragmentActivity implements OnM
         Log.d(TAG, "onCreate: started");
 
         Intent intent = getIntent();
-        Property property = intent.getParcelableExtra(Property.PARCELABLE_PROPERTY);
+        property = intent.getParcelableExtra(Property.PARCELABLE_PROPERTY);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        System.out.println("Test Map1");
-        if (mapFragment != null)
-        {
-            mapFragment.getMapAsync(this);
-            System.out.println("Test Map2");
-        }
+        mapFragment.getMapAsync(this);
 
         displayCard(property);
     }
@@ -51,18 +51,17 @@ public class ViewPropertyDetailsActivity extends FragmentActivity implements OnM
     {
         mMap = googleMap;
 
-        System.out.println("Test Map3");
-
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng rentalCoordinates = getLocationFromAddress();
+        String markerTitle = property.getOwnerName() + "'s Rental";
+        mMap.addMarker(new MarkerOptions().position(rentalCoordinates).title(markerTitle));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(rentalCoordinates));
+        mMap.setMinZoomPreference(15f);
     }
 
     private void displayCard(Property property)
     {
         displayPropertyImage(property);
-        //displayLocation(property);
         displayPropertyStrings(property);
         displayPropertyBooleans(property);
     }
@@ -77,17 +76,9 @@ public class ViewPropertyDetailsActivity extends FragmentActivity implements OnM
                 .into(propertyImage);
     }
 
-    private void displayLocation(Property property)
-    {
-        //private GoogleMap attributeLocation = google
-    }
-
     private void displayPropertyStrings(Property property)
     {
-
-        TextView type = (TextView) findViewById(R.id.attribute_type);
         TextView rate = (TextView) findViewById(R.id.attribute_rate);
-        //TextView address = (TextView) findViewById(R.id.attribute_address);
         TextView ownerName = (TextView) findViewById(R.id.attribute_name);
         TextView ownerPhone = (TextView) findViewById(R.id.attribute_phone);
         TextView ownerEmail = (TextView) findViewById(R.id.attribute_email);
@@ -95,9 +86,7 @@ public class ViewPropertyDetailsActivity extends FragmentActivity implements OnM
         TextView bathrooms = (TextView) findViewById(R.id.attribute_bathrooms);
         TextView bio = (TextView) findViewById(R.id.attribute_bio);
 
-        type.setText(property.getHousingCategory());
         rate.setText(getApplicationContext().getString(R.string.rateMonthFormat, property.getPrice()));
-        //address.setText(getApplicationContext().getString(R.string.addressFormat, property.getAddress(), property.getCity(), property.getState(), property.getZipCode()));
         ownerName.setText(property.getOwnerName());
         ownerPhone.setText(property.getOwnerPhoneNum());
         ownerEmail.setText(property.getOwnerEmail());
@@ -133,5 +122,34 @@ public class ViewPropertyDetailsActivity extends FragmentActivity implements OnM
             nonSmokingBool.setImageResource(R.drawable.ic_check_grey_24dp);
         if(property.isPetsAllowed())
             petsAllowedBool.setImageResource(R.drawable.ic_check_grey_24dp);
+    }
+
+    public LatLng getLocationFromAddress() {
+        String location = property.generatePostalAddress();
+        double latitude = 0;
+        double longitude = 0;
+        Geocoder geocoder = new Geocoder(this);
+        List<Address> addresses;
+        try
+        {
+            addresses = geocoder.getFromLocationName(location, 1);
+            if(addresses.size() > 0)
+            {
+                latitude = addresses.get(0).getLatitude();
+                longitude = addresses.get(0).getLongitude();
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        System.out.println("Latitude: " + latitude);
+        System.out.println("Longitude: " + longitude);
+        return null;
+    }
+
+    public void exitActivity(View view)
+    {
+        finish();
     }
 }

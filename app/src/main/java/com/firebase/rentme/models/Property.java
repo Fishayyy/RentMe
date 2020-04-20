@@ -17,6 +17,7 @@ public class Property implements Parcelable
     private String photoURL;
     private String bio;
     private String address;
+
     private String city;
     private String zipCode;
     private String state;
@@ -137,6 +138,11 @@ public class Property implements Parcelable
         dest.writeBoolean(hasBackyard);
         dest.writeBoolean(hasLaundry);
         dest.writeBoolean(isHandicapAccessible);
+    }
+
+    public String generatePostalAddress()
+    {
+        return address + " " + city;
     }
 
     //Return hashcode of object
