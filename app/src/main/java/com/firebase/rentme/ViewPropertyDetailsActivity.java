@@ -129,14 +129,14 @@ public class ViewPropertyDetailsActivity extends FragmentActivity implements OnM
         double latitude = 0;
         double longitude = 0;
         Geocoder geocoder = new Geocoder(this);
+        LatLng rentalCoordinates = null;
         List<Address> addresses;
         try
         {
             addresses = geocoder.getFromLocationName(location, 1);
             if(addresses.size() > 0)
             {
-                latitude = addresses.get(0).getLatitude();
-                longitude = addresses.get(0).getLongitude();
+                rentalCoordinates = new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude());
             }
         }
         catch (Exception e){
@@ -145,7 +145,7 @@ public class ViewPropertyDetailsActivity extends FragmentActivity implements OnM
 
         System.out.println("Latitude: " + latitude);
         System.out.println("Longitude: " + longitude);
-        return null;
+        return rentalCoordinates;
     }
 
     public void exitActivity(View view)
