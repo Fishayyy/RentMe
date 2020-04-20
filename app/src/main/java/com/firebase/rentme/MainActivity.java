@@ -129,6 +129,10 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onPlaceSelected(Place place)
             {
+                if(isPressed)
+                {
+                    getCurrentLocationButton.performClick();
+                }
                 locationQuery = place.getName();
                 initRealTimeListener();
             }
@@ -267,8 +271,7 @@ public class MainActivity extends AppCompatActivity
                             break;
                     }
                 }
-                propertyCardList.addAll(propertiesFilter.getFilteredResults(unfilteredProperties));
-                cardAdapter.notifyDataSetChanged();
+                refreshCards();
             }
         });
     }
@@ -302,10 +305,19 @@ public class MainActivity extends AppCompatActivity
                             break;
                     }
                 }
-                propertyCardList.addAll(propertiesFilter.getFilteredResults(unfilteredProperties));
-                cardAdapter.notifyDataSetChanged();
+                refreshCards();
             }
         });
+    }
+
+    public void refreshCards()
+    {
+        propertyCardList.addAll(propertiesFilter.getFilteredResults(unfilteredProperties));
+        cardAdapter.notifyDataSetChanged();
+        if(cardAdapter.isEmpty())
+        {
+            Toast.makeText(this, "Search Returned No Results", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initFilter()
@@ -423,6 +435,10 @@ public class MainActivity extends AppCompatActivity
                 propertyCardList.clear();
                 propertyCardList.addAll(propertiesFilter.getFilteredResults(unfilteredProperties));
                 cardAdapter.notifyDataSetChanged();
+                if(cardAdapter.isEmpty())
+                {
+                    Toast.makeText(this, "Filtering Returned No Results", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
@@ -433,7 +449,7 @@ public class MainActivity extends AppCompatActivity
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_CODE_LOCATION_PERMISSION && grantResults.length > 0)
         {
-            findCurrentLocation();
+            getCurrentLocationButton.performClick();
         }
         else
         {

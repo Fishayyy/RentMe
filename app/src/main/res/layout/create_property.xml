@@ -48,7 +48,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/createListingToolbar"
         android:layout_centerHorizontal="true"
-        android:padding="15dp">
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp">
 
         <RelativeLayout
             android:id="@+id/innerRelativeLayout"
@@ -60,6 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/border"
                 android:maxWidth="380dp"
@@ -404,10 +406,10 @@
             <TextView
                 android:id="@+id/amenitiesTextView"
                 android:layout_width="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/smokingRulesTextView"
                 android:layout_alignStart="@id/rulesTextView"
+                android:layout_marginTop="10dp"
                 android:text="@string/rentalAmenitiesTextView"
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -553,7 +555,7 @@
                 android:layout_height="60dp"
                 android:layout_below="@id/textInputLayout"
                 android:layout_centerInParent="true"
-                android:layout_marginBottom="6dp"
+                android:layout_marginBottom="15dp"
                 android:background="@drawable/morphing_button"
                 android:drawableEnd="@drawable/plus"
                 android:onClick="validatePropertyInformation"
