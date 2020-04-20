@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -22,6 +23,7 @@ import com.jaygoo.widget.RangeSeekBar;
 
 public class CreatePropertyFilterActivity extends AppCompatActivity
 {
+    private static final String TAG = "CreatePropertyFilterActivity";
     private ResultsFilter resultsFilter;
 
     private double minPrice;
@@ -45,6 +47,8 @@ public class CreatePropertyFilterActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter_properties);
+
+        Log.d(TAG, "onCreate: started");
 
         Intent intent = getIntent();
         resultsFilter = intent.getParcelableExtra(ResultsFilter.PARCELABLE_FILTER);

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="385dp"
+    android:layout_height="150dp"
+    xmlns:map="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:foreground="@drawable/border">
+
+        <fragment
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:id="@+id/map"
+            android:layout_centerHorizontal="true"
+            android:layout_width="385dp"
+            android:layout_height="150dp"
+            map:cameraZoom="13"
+            map:mapType="lite"
+            map:liteMode="true" />
+
+        <!--
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/border">
+        </Button> -->
+
+
+</RelativeLayout>

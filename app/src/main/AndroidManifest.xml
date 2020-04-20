@@ -3,6 +3,7 @@
     package="com.firebase.rentme">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -12,9 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".dialogs.SelectBedroomsDialog"></activity>
-        <activity android:name=".CreatePropertyFilterActivity" />
-        <activity android:name=".CreateListingActivity" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="GOOGLE_API_KEY" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +25,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ViewContactInfoActivity" />
+
+        <activity android:name=".ViewPropertyDetailsActivity" />
+        <activity android:name=".CreatePropertyFilterActivity"/>
+        <activity android:name=".dialogs.SelectBedroomsDialog"/>
+        <activity android:name=".CreatePropertyActivity" />
     </application>
 
 </manifest>

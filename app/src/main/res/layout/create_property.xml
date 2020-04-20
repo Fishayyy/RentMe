@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateListingActivity">
+    tools:context=".CreatePropertyActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/createListingToolbar"
@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/uploadImageButton"
                 android:layout_alignStart="@id/edit_text_price"
-                android:text="@string/priceText"
+                android:text="@string/rate"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -130,7 +130,7 @@
                     android:layout_height="30dp"
                     android:background="@color/transparent"
                     android:gravity="start|center_vertical"
-                    android:text="@string/selectBedroomsButtonText"
+                    android:text="@string/bedrooms"
                     android:textAllCaps="false"
                     android:textColor="@color/primary_text"
                     android:textSize="16sp"
@@ -168,7 +168,7 @@
                     android:layout_height="30dp"
                     android:background="@color/transparent"
                     android:gravity="start|center_vertical"
-                    android:text="@string/selectBathroomsButtonText"
+                    android:text="@string/bathrooms"
                     android:textAllCaps="false"
                     android:textColor="@color/primary_text"
                     android:textSize="16sp"
@@ -198,7 +198,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/bathroomsButtonLayout"
                 android:layout_alignStart="@id/edit_text_price"
-                android:text="@string/nameText"
+                android:text="@string/name"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -222,7 +222,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/edit_text_ownerName"
                 android:layout_alignStart="@id/edit_text_ownerName"
-                android:text="@string/phoneText"
+                android:text="@string/phone"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -248,7 +248,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/edit_text_ownerPhoneNum"
                 android:layout_alignStart="@id/edit_text_ownerPhoneNum"
-                android:text="@string/emailText"
+                android:text="@string/email"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -272,7 +272,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/edit_text_ownerEmail"
                 android:layout_alignStart="@id/edit_text_ownerEmail"
-                android:text="@string/addressText"
+                android:text="@string/address"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -296,7 +296,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/edit_text_address"
                 android:layout_alignStart="@id/edit_text_address"
-                android:text="@string/cityText"
+                android:text="@string/city"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -320,7 +320,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/edit_text_city"
                 android:layout_alignStart="@id/edit_text_city"
-                android:text="@string/zipCodeText"
+                android:text="@string/zipCode"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -358,7 +358,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/edit_text_zip"
                 android:layout_alignStart="@id/edit_text_zip"
-                android:text="@string/rentalRulesTextView"
+                android:text="@string/bio"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -371,7 +371,7 @@
                 android:layout_alignStart="@id/rulesTextView"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/petAmenityTextView"
+                android:text="@string/petsAllowed"
                 android:textColor="@color/primary_text" />
 
             <CheckBox
@@ -498,7 +498,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="@string/handicapTextView"
+                android:text="@string/assistedLiving"
                 android:textColor="@color/primary_text" />
 
             <CheckBox
@@ -515,7 +515,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/handicapAmenityTextView"
                 android:layout_alignStart="@id/amenitiesTextView"
-                android:text="@string/bioText"
+                android:text="@string/bio"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />

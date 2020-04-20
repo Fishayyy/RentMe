@@ -53,9 +53,9 @@ import java.util.TimerTask;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 
-public class CreateListingActivity extends AppCompatActivity implements SelectBathroomsDialog.SelectBathroomsDialogListener, SelectBedroomsDialog.SelectBedroomsDialogListener
+public class CreatePropertyActivity extends AppCompatActivity implements SelectBathroomsDialog.SelectBathroomsDialogListener, SelectBedroomsDialog.SelectBedroomsDialogListener
 {
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "CreatePropertyActivity";
 
     private final static int GALLERY = 1, ZIP_CODE_LENGTH = 5, PHONE_NUMBER_LENGTH = 13;
     private final static long DELAY = 1500L;
@@ -113,6 +113,8 @@ public class CreateListingActivity extends AppCompatActivity implements SelectBa
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_property);
+
+        Log.d(TAG, "onCreate: started");
 
         initFirestore();
         initButtons();
@@ -454,7 +456,7 @@ public class CreateListingActivity extends AppCompatActivity implements SelectBa
                     @Override
                     public void onFailure(@NonNull Exception exception)
                     {
-                        Toast.makeText(CreateListingActivity.this, "Error Uploading Image", Toast.LENGTH_LONG).show();
+                        Toast.makeText(CreatePropertyActivity.this, "Error Uploading Image", Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -510,7 +512,7 @@ public class CreateListingActivity extends AppCompatActivity implements SelectBa
                     {
                         Log.w(TAG, "Error adding document", e);
                         addPropertyButton.doneLoadingAnimation(getColor(R.color.error), BitmapFactory.decodeResource(getResources(), R.drawable.house_x));
-                        Toast.makeText(CreateListingActivity.this, "Failed to Create Listing", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreatePropertyActivity.this, "Failed to Create Listing", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

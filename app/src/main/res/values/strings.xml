@@ -3,21 +3,56 @@
     <string name="add_property_title">Add Property</string>
     <string name="filter_properties_title">Filters</string>
 
+    <!--    ____________________________Property Details____________________________ -->
+    <string name="contactInfo">"Contact Information"</string>    <!--    Owner Details-->
+    <string name="name">"Name"</string>
+    <string name="phone">"Phone"</string>
+    <string name="email">"Email"</string>
+    <string name="attributes">"Attributes"</string>         <!--    Property Attributes -->
+    <string name="location">"in"</string>
+    <string name="address">"Address</string>
+    <string name="city">"City"</string>
+    <string name="zipCode">"ZIP"</string>
+    <string name="state">"State"</string>
+    <string name="bedrooms">"Bedrooms"</string>
+    <string name="bathrooms">"Bathrooms"</string>
+    <string name="parkingSpaces">"Parking"</string>
+    <string name="amenities">"Amenities"</string>           <!--    Property Amenities-->
+    <string name="yard">"Yard"</string>
+    <string name="pool">"Pool"</string>
+    <string name="laundry">"Laundry"</string>
+    <string name="assistedLiving">"Handicap Accessible"</string>
+    <string name="rules">"Rules"</string>                   <!--    Rules-->
+    <string name="rate">"Rate"</string>
+    <string name="nonSmoking">"Non-Smoking"</string>
+    <string name="petsAllowed">"Pets Allowed"</string>
+    <string name="bio">"Bio"</string>                       <!--    Other-->
+    <string name="propertyType">Type</string>
+    <!-- ___________________________________________________________________________ -->
+
+    <!--    Formatting & Spacing-->
+    <string name="addressFormat">"%s\n%s, %s %s"</string>
+    <string name="locationFormat">" %s, %s"</string>
+    <string name="dollarSign">"$"</string>
+    <string name="colon">":"</string>
+    <string name="rateMonthFormat">"$%.2f/month"</string>
+    <string name="rateYearFormat">"$%.2f/month"</string>
+    <string name="cityStateSpacing">"    %s"</string>
+    <string name="propertyStateSpacing">"   %s"</string>
+    <string name="anyDouble">"%.1f"</string>
+    <string name="anyInt">"%d"</string>
+
     <!--    Filter Properties Strings-->
     <string name="minTextView">Min $</string>
     <string name="toMaxTextView">to Max $</string>
-    <string name="bedroomsTextView">Bedrooms</string>
-    <string name="bathroomsTextView">Bathrooms</string>
     <string name="propertyTypeTextView">Property Type</string>
     <string name="rentalAmenitiesTextView">Rental Amenities</string>
     <string name="rentalRulesTextView">Rental Rules</string>
-    <string name="petAmenityTextView">Pets Allowed</string>
     <string name="smokingAmenityTextView">Smoking Allowed</string>
     <string name="parkingAmenityTextView">Parking Available</string>
     <string name="poolAmenityTextView">Pool Available</string>
     <string name="backyardAmenityTextView">Backyard</string>
     <string name="laundryTextView">In-home Laundry</string>
-    <string name="handicapTextView">Handicap Accessible</string>
     <string name="resetFilters">Reset</string>
     <string name="applyFilters">Apply</string>
 
@@ -53,38 +88,6 @@
         <item>Yes</item>
         <item>No</item>
     </string-array>
-
-    <!--    Property Card Text Views-->
-    <string name="propertyType">Type</string>
-    <string name="propertyCost">"Cost   $%.2f/month"</string>
-    <string name="propertyCity">"City     %s"</string>
-    <string name="propertyState">"State   %s"</string>
-
-    <!--    Contact Info Text Views-->
-    <string name="address">"Address:"</string>
-    <string name="owner">"Owner:"</string>
-    <string name="ownerEmail">"Email:"</string>
-    <string name="ownerPhoneNum">"Phone:"</string>
-    <string name="bio">"Bio:"</string>
-    <string name="addressFormat">"%s\n%s, %s %s"</string>
-
-    <!--    Create Profile Text Views-->
-    <string name="priceText">"Monthly Rate"</string>
-    <string name="dollarSign">"$"</string>
-    <string name="nameText">"Name"</string>
-    <string name="selectBedrooms">"Select Bedrooms"</string>
-    <string name="selectBathrooms">"Select Bathrooms"</string>
-    <string name="selectBedroomsButtonText">Bedrooms</string>
-    <string name="selectBathroomsButtonText">Bathrooms</string>
-    <string name="phoneText">"Phone Number"</string>
-    <string name="emailText">"Email"</string>
-    <string name="addressText">"Address"</string>
-    <string name="cityText">"City"</string>
-    <string name="zipCodeText">"ZIP"</string>
-    <string name="stateText">"State"</string>
-    <string name="bioText">"Property Bio"</string>
-    <string name="PhotoText">"Photo URL"</string>
-
 
     <!--    Create Profile Buttons-->
     <string name="propertyAdded">Success</string>
