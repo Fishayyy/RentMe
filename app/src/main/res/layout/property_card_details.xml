@@ -1,0 +1,469 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ViewPropertyDetailsActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/propertyDetailsToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:titleTextColor="@android:color/white">
+
+        <RelativeLayout
+            android:id="@+id/propertyDetailsToolbarLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/propertyDetailsBackButton"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentStart="true"
+                android:background="@color/transparent"
+                android:drawableStart="@drawable/back_arrow"
+                android:onClick="exitActivity" />
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_toEndOf="@id/propertyDetailsBackButton"
+                android:text="@string/view_property_details"
+                android:textColor="@color/white" />
+
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:id="@+id/propertyDetailsScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/propertyDetailsToolbar"
+        android:layout_centerHorizontal="true">
+
+        <RelativeLayout
+            android:id="@+id/innerRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/property_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:src="@color/primary" />
+
+            <FrameLayout
+                android:id="@+id/mapContainer"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_below="@id/property_image"
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                android:background="@drawable/border">
+
+                <fragment
+                    android:id="@+id/map"
+                    xmlns:map="http://schemas.android.com/apk/res-auto"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:context="com.example.mapwithmarker.MapsMarkerActivity"
+                    map:cameraZoom="16"
+                    map:mapType="normal"
+                    map:liteMode="true"/>
+
+            </FrameLayout>
+
+
+            <!-- Quick Information -->
+            <TextView
+                android:id="@+id/title_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/mapContainer"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/propertyTypeTextView"
+                android:textColor="@color/primary"
+                android:textSize="21sp" />
+
+            <TextView
+                android:id="@+id/attribute_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/mapContainer"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="12dp"
+                android:textColor="@color/primary"
+                android:textSize="21sp" />
+
+            <TextView
+                android:id="@+id/title_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title_category"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/rate"
+                android:textColor="@color/primary"
+                android:textSize="21sp" />
+
+            <TextView
+                android:id="@+id/attribute_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_category"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="12dp"
+                android:textColor="@color/primary"
+                android:textSize="21sp" />
+
+            <!-- Contact Information -->
+            <TextView
+                android:id="@+id/title_contactInfo"
+                style="@style/Base.TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title_rate"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/contactInfo"
+                android:textSize="21sp" />
+
+            <TextView
+                android:id="@+id/title_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title_contactInfo"
+                android:layout_alignStart="@id/title_contactInfo"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="1dp"
+                android:text="@string/name"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/attribute_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title_contactInfo"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="12dp"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/title_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_name"
+                android:layout_alignStart="@id/title_name"
+                android:layout_marginTop="6dp"
+                android:text="@string/phone"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/attribute_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_name"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="12dp"
+                android:autoLink="phone"
+                android:textColor="@color/black"
+                android:textColorLink="@color/hyperlink"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/title_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_phone"
+                android:layout_alignStart="@id/title_name"
+                android:layout_marginTop="6dp"
+                android:text="@string/email"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/attribute_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_phone"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="12dp"
+                android:autoLink="email"
+                android:textColor="@color/black"
+                android:textColorLink="@color/hyperlink"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- Rules -->
+            <TextView
+                android:id="@+id/title_rules"
+                style="@style/Base.TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_email"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="6dp"
+                android:text="@string/rules"
+                android:textSize="21sp" />
+
+            <TextView
+                android:id="@+id/title_nonSmoking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title_rules"
+                android:layout_alignStart="@id/title_name"
+                android:layout_marginTop="1dp"
+                android:text="@string/nonSmoking"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/attribute_nonSmoking"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_below="@id/title_rules"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="12dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_remove_circle_outline_grey_24dp" />
+
+            <TextView
+                android:id="@+id/title_petsAllowed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_nonSmoking"
+                android:layout_alignStart="@id/title_name"
+                android:layout_marginTop="3dp"
+                android:text="@string/petsAllowed"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/attribute_petsAllowed"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_below="@id/attribute_nonSmoking"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="12dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_remove_circle_outline_grey_24dp" />
+
+            <!-- Amenities -->
+            <TextView
+                android:id="@+id/title_amenities"
+                style="@style/Base.TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_petsAllowed"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="6dp"
+                android:text="@string/amenities"
+                android:textSize="21sp" />
+
+            <TextView
+                android:id="@+id/title_bedrooms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title_amenities"
+                android:layout_alignStart="@id/title_name"
+                android:layout_marginTop="1dp"
+                android:text="@string/bedrooms"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/attribute_bedrooms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title_amenities"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="12dp"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/title_bathrooms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_bedrooms"
+                android:layout_alignStart="@id/title_name"
+                android:layout_marginTop="6dp"
+                android:text="@string/bathrooms"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/attribute_bathrooms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_bedrooms"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="12dp"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/title_parking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_bathrooms"
+                android:layout_alignStart="@id/title_name"
+                android:layout_marginTop="6dp"
+                android:text="@string/parkingSpaces"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/attribute_parking"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_below="@id/attribute_bathrooms"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="12dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_remove_circle_outline_grey_24dp" />
+
+            <TextView
+                android:id="@+id/title_yard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_parking"
+                android:layout_alignStart="@id/title_name"
+                android:layout_marginTop="6dp"
+                android:text="@string/yard"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/attribute_yard"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_below="@id/attribute_parking"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="12dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_remove_circle_outline_grey_24dp" />
+
+            <TextView
+                android:id="@+id/title_pool"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_yard"
+                android:layout_alignStart="@id/title_name"
+                android:layout_marginTop="3dp"
+                android:text="@string/pool"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/attribute_pool"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_below="@id/attribute_yard"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="12dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_remove_circle_outline_grey_24dp" />
+
+            <TextView
+                android:id="@+id/title_laundry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_pool"
+                android:layout_alignStart="@id/title_name"
+                android:layout_marginTop="3dp"
+                android:text="@string/laundry"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/attribute_laundry"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_below="@id/attribute_pool"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="12dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_remove_circle_outline_grey_24dp" />
+
+            <TextView
+                android:id="@+id/title_assistedLiving"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_laundry"
+                android:layout_alignStart="@id/title_name"
+                android:layout_marginTop="3dp"
+                android:text="@string/assistedLiving"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/attribute_assistedLiving"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_below="@id/attribute_laundry"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="12dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_remove_circle_outline_grey_24dp" />
+
+            <!-- Other -->
+            <TextView
+                android:id="@+id/title_bio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/attribute_assistedLiving"
+                android:layout_gravity="top"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/bio"
+                android:textColor="@color/primary"
+                android:textSize="21sp" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_alignTop="@id/title_bio"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_toRightOf="@id/title_bio"
+                android:src="@color/divider" />
+
+            <TextView
+                android:id="@+id/attribute_bio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title_bio"
+                android:layout_alignStart="@+id/title_bio"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

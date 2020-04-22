@@ -4,20 +4,27 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
@@ -25,6 +32,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.rentme.dialogs.SelectBathroomsDialog;
+import com.firebase.rentme.dialogs.SelectBedroomsDialog;
+import com.firebase.rentme.models.PriceInputFilter;
 import com.firebase.rentme.models.Property;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -43,9 +53,10 @@ import java.util.TimerTask;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 
-public class CreateListingActivity extends AppCompatActivity
+public class CreatePropertyActivity extends AppCompatActivity implements SelectBathroomsDialog.SelectBathroomsDialogListener, SelectBedroomsDialog.SelectBedroomsDialogListener
 {
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "CreatePropertyActivity";
+
     private final static int GALLERY = 1, ZIP_CODE_LENGTH = 5, PHONE_NUMBER_LENGTH = 13;
     private final static long DELAY = 1500L;
 
@@ -60,6 +71,12 @@ public class CreateListingActivity extends AppCompatActivity
     private ImageButton imageButton;
     private EditText editTextPrice;
     private Spinner categorySpinner;
+    private TextView textViewBedrooms;
+    private TextView textViewBathrooms;
+    private Button buttonSelectBedrooms;
+    private int bedrooms = 0;
+    private Button buttonSelectBathrooms;
+    private double bathrooms = 1.0;
     private EditText editTextOwnerName;
     private EditText editTextOwnerPhoneNum;
     private EditText editTextOwnerEmail;
@@ -67,18 +84,65 @@ public class CreateListingActivity extends AppCompatActivity
     private EditText editTextCity;
     private EditText editTextZipCode;
     private Spinner stateSpinner;
+    private CheckBox petsAllowedCheckBox;
+    private CheckBox smokingAllowedCheckBox;
+    private CheckBox parkingAvailableCheckBox;
+    private CheckBox poolAvailableCheckBox;
+    private CheckBox backyardAvailableCheckBox;
+    private CheckBox laundryCheckBox;
+    private CheckBox handicapAccessibleCheckBox;
     private EditText editTextBio;
     private CircularProgressButton addPropertyButton;
+
+    @Override
+    public void applyBedroomValues(String bedroomsText, int bedroomsValue)
+    {
+        bedrooms = bedroomsValue;
+        textViewBedrooms.setText(bedroomsText);
+    }
+
+    @Override
+    public void applyBathroomValues(String bathroomText, double bathroomValue)
+    {
+        bathrooms = bathroomValue;
+        textViewBathrooms.setText(bathroomText);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_property);
+
+        Log.d(TAG, "onCreate: started");
+
         initFirestore();
         initButtons();
+        initTextViews();
         initSpinners();
         initEditTextFields();
+        initCheckBoxes();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event)
+    {
+        if (event.getAction() == MotionEvent.ACTION_DOWN)
+        {
+            View v = getCurrentFocus();
+            if (v instanceof EditText)
+            {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY()))
+                {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event);
     }
 
     private void initFirestore()
@@ -91,7 +155,45 @@ public class CreateListingActivity extends AppCompatActivity
     private void initButtons()
     {
         imageButton = findViewById(R.id.uploadImageButton);
+        buttonSelectBedrooms = findViewById(R.id.bedroomsButton);
+        buttonSelectBedrooms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDialog(view);
+            }
+        });
+        buttonSelectBathrooms = findViewById(R.id.bathroomsButton);
+        buttonSelectBathrooms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDialog(view);
+            }
+        });
         addPropertyButton = findViewById(R.id.add_property_button);
+    }
+
+    public void openDialog(View view)
+    {
+        if(view.getId() == R.id.bedroomsButton)
+        {
+            buttonSelectBedrooms.setTextColor(Color.BLACK);
+            buttonSelectBedrooms.setError(null);
+            SelectBedroomsDialog bedroomsDialog = new SelectBedroomsDialog(bedrooms);
+            bedroomsDialog.show(getSupportFragmentManager(), "bedrooms_dialog");
+        }
+        else if(view.getId() == R.id.bathroomsButton)
+        {
+            buttonSelectBathrooms.setTextColor(Color.BLACK);
+            buttonSelectBathrooms.setError(null);
+            SelectBathroomsDialog bathroomsDialog = new SelectBathroomsDialog(bathrooms);
+            bathroomsDialog.show(getSupportFragmentManager(), "bathrooms_dialog");
+        }
+    }
+
+    private void initTextViews()
+    {
+        textViewBedrooms = findViewById(R.id.bedroomsTextView);
+        textViewBathrooms = findViewById(R.id.bathroomsTextView);
     }
 
     private void initSpinners()
@@ -112,6 +214,7 @@ public class CreateListingActivity extends AppCompatActivity
     private void initEditTextFields()
     {
         editTextPrice = findViewById(R.id.edit_text_price);
+        editTextPrice.setFilters(new InputFilter[]{new PriceInputFilter(8, 2)});
         editTextBio = findViewById(R.id.edit_text_bio);
         editTextAddress = findViewById(R.id.edit_text_address);
         editTextCity = findViewById(R.id.edit_text_city);
@@ -120,6 +223,17 @@ public class CreateListingActivity extends AppCompatActivity
         editTextOwnerPhoneNum = findViewById(R.id.edit_text_ownerPhoneNum);
         editTextOwnerPhoneNum.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
         editTextOwnerEmail = findViewById(R.id.edit_text_ownerEmail);
+    }
+
+    private void initCheckBoxes()
+    {
+        petsAllowedCheckBox = findViewById(R.id.petRulesCheckBox);
+        smokingAllowedCheckBox = findViewById(R.id.smokingRulesCheckBox);
+        parkingAvailableCheckBox = findViewById(R.id.parkingAmenityCheckBox);
+        poolAvailableCheckBox = findViewById(R.id.poolAmenityCheckBox);
+        backyardAvailableCheckBox = findViewById(R.id.backyardAmenityCheckBox);
+        laundryCheckBox = findViewById(R.id.laundryAmenityCheckBox);
+        handicapAccessibleCheckBox = findViewById(R.id.handicapAmenityCheckBox);
     }
 
     public void choosePhotoFromGallery(View v)
@@ -146,7 +260,7 @@ public class CreateListingActivity extends AppCompatActivity
             {
                 imgURI = data.getData();
                 imageButton.setImageURI(imgURI);
-                imageButton.setBackgroundResource(R.color.colorPrimary);
+                imageButton.setBackgroundResource(R.color.primary);
             }
         }
     }
@@ -176,6 +290,20 @@ public class CreateListingActivity extends AppCompatActivity
             isValid = false;
             scrollToTop = true;
             displayError(categorySpinner, "Must select a category");
+        }
+
+        if (textViewBedrooms.getText().toString().equals(""))
+        {
+            isValid = false;
+            scrollToTop = true;
+            displayError(buttonSelectBedrooms, "Must select number of bedrooms");
+        }
+
+        if (textViewBathrooms.getText().toString().equals(""))
+        {
+            isValid = false;
+            scrollToTop = true;
+            displayError(buttonSelectBathrooms, "Must select number of bathrooms");
         }
 
         if (editTextOwnerName.getText().toString().isEmpty())
@@ -240,13 +368,13 @@ public class CreateListingActivity extends AppCompatActivity
 
     public void scrollToTop()
     {
-        final ScrollView scrollView = findViewById(R.id.scrollView);
+        final ScrollView scrollView = findViewById(R.id.createListingScrollView);
 
         scrollView.post(new Runnable()
         {
             public void run()
             {
-                scrollView.fullScroll(scrollView.FOCUS_UP);
+                scrollView.fullScroll(ScrollView.FOCUS_UP);
             }
         });
     }
@@ -265,6 +393,10 @@ public class CreateListingActivity extends AppCompatActivity
         else if (viewObject instanceof Spinner)
         {
             spinnerError((Spinner) viewObject, errorMessage);
+        }
+        else if (viewObject instanceof Button)
+        {
+            buttonError((Button) viewObject, errorMessage);
         }
     }
 
@@ -301,6 +433,12 @@ public class CreateListingActivity extends AppCompatActivity
         errorTextView.setTextColor(getColor(R.color.error));
     }
 
+    private void buttonError(Button button, String errorMessage)
+    {
+        button.setError(errorMessage);
+        button.setTextColor(Color.RED);
+    }
+
     private void uploadImage()
     {
         storageReference.child(System.currentTimeMillis() + "." + getExtension(imgURI))
@@ -318,7 +456,7 @@ public class CreateListingActivity extends AppCompatActivity
                     @Override
                     public void onFailure(@NonNull Exception exception)
                     {
-                        Toast.makeText(CreateListingActivity.this, "Error Uploading Image", Toast.LENGTH_LONG).show();
+                        Toast.makeText(CreatePropertyActivity.this, "Error Uploading Image", Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -363,7 +501,7 @@ public class CreateListingActivity extends AppCompatActivity
                     public void onSuccess(DocumentReference documentReference)
                     {
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                        addPropertyButton.doneLoadingAnimation(Color.GREEN, BitmapFactory.decodeResource(getResources(), R.drawable.checkmark));
+                        addPropertyButton.doneLoadingAnimation(getColor(R.color.success), BitmapFactory.decodeResource(getResources(), R.drawable.house_checkmark));
                         exitAfterDelay();
                     }
                 })
@@ -373,7 +511,8 @@ public class CreateListingActivity extends AppCompatActivity
                     public void onFailure(@NonNull Exception e)
                     {
                         Log.w(TAG, "Error adding document", e);
-                        Toast.makeText(CreateListingActivity.this, "Failed to Create Listing", Toast.LENGTH_SHORT).show();
+                        addPropertyButton.doneLoadingAnimation(getColor(R.color.error), BitmapFactory.decodeResource(getResources(), R.drawable.house_x));
+                        Toast.makeText(CreatePropertyActivity.this, "Failed to Create Listing", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -392,11 +531,21 @@ public class CreateListingActivity extends AppCompatActivity
         newProperty.setOwnerName(editTextOwnerName.getText().toString());
         newProperty.setOwnerPhoneNum(PhoneNumberUtils.formatNumber(editTextOwnerPhoneNum.getText().toString(), Locale.getDefault().getCountry()));
         newProperty.setOwnerEmail(editTextOwnerEmail.getText().toString());
+        newProperty.setBedrooms(bedrooms);
+        newProperty.setBathrooms(bathrooms);
+        newProperty.setPetsAllowed(petsAllowedCheckBox.isChecked());
+        newProperty.setSmokingAllowed(smokingAllowedCheckBox.isChecked());
+        newProperty.setParkingAvailable(parkingAvailableCheckBox.isChecked());
+        newProperty.setPoolAvailable(poolAvailableCheckBox.isChecked());
+        newProperty.setBackyardAvailable(backyardAvailableCheckBox.isChecked());
+        newProperty.setLaundryAvailable(laundryCheckBox.isChecked());
+        newProperty.setHandicapAccessible(handicapAccessibleCheckBox.isChecked());
     }
 
     private void exitAfterDelay()
     {
-        TimerTask task = new TimerTask() {
+        TimerTask task = new TimerTask()
+        {
             public void run()
             {
                 finish();
@@ -404,5 +553,10 @@ public class CreateListingActivity extends AppCompatActivity
         };
         Timer timer = new Timer();
         timer.schedule(task, DELAY);
+    }
+
+    public void exitWithNoDelay(View view)
+    {
+        finish();
     }
 }
