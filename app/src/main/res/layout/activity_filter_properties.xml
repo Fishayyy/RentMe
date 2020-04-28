@@ -114,7 +114,8 @@
                 android:layout_marginEnd="10dp"
                 android:layout_toEndOf="@id/minTextView"
                 android:background="@drawable/multi_state_background"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:paddingStart="4dp" />
 
             <TextView
                 android:id="@+id/maxTextView"
@@ -135,7 +136,8 @@
                 android:layout_toEndOf="@id/maxTextView"
                 android:background="@drawable/multi_state_background"
                 android:digits="0123456789"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:paddingStart="4dp" />
 
             <TextView
                 android:id="@+id/bedroomsTextView"
@@ -255,7 +257,7 @@
                 android:layout_below="@id/petRulesSpinner"
                 android:layout_marginTop="10dp"
                 android:text="@string/smokingAmenityTextView"
-                android:textColor="@color/primary_text"/>
+                android:textColor="@color/primary_text" />
 
             <Spinner
                 android:id="@+id/smokingRulesSpinner"
