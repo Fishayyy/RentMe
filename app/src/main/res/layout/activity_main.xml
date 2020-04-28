@@ -64,13 +64,12 @@
         android:background="@color/primary"
         android:padding="10dp">
 
+
         <ImageButton
             android:id="@+id/filterButton"
             android:layout_width="123dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:background="@color/transparent"
-            android:gravity="center"
             android:onClick="filterProperties"
             android:scaleType="fitCenter"
             android:src="@drawable/filter_list" />
@@ -79,19 +78,19 @@
             android:id="@+id/favoritesButton"
             android:layout_width="123dp"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/filterButton"
             android:background="@color/transparent"
             android:gravity="center"
             android:scaleType="fitCenter"
+            android:layout_centerHorizontal="true"
             android:src="@drawable/favorites_list_icon" />
+
 
         <ImageButton
             android:id="@+id/userInfoButton"
             android:layout_width="123dp"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/favoritesButton"
             android:background="@color/transparent"
-            android:gravity="center"
+            android:layout_alignParentEnd="true"
             android:onClick="createListing"
             android:scaleType="fitCenter"
             android:src="@drawable/account_icon" />
