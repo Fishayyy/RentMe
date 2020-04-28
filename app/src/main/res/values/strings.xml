@@ -37,7 +37,10 @@
     <string name="dollarSign">"$"</string>
     <string name="colon">":"</string>
     <string name="rateMonthFormat">"$%.2f/month"</string>
-    <string name="rateYearFormat">"$%.2f/month"</string>
+    <string name="rateYearFormat">"$%.2f/year"</string>
+    <string name="rateMonth">"/month"</string>
+    <string name="rateyear">"/year"</string>
+    <string name="rateFormat">"$%.2f"</string>
     <string name="cityStateSpacing">"    %s"</string>
     <string name="propertyStateSpacing">"   %s"</string>
     <string name="anyDouble">"%.1f"</string>
