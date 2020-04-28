@@ -56,16 +56,46 @@
         android:layout_below="@id/container_toolbar"
         app:rotation_degrees="15.5" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/cardFrame"
-        android:layout_marginStart="320dp"
-        android:layout_marginTop="-80dp"
-        android:onClick="createListing"
-        android:tint="@color/white"
-        app:backgroundTint="@color/primary"
-        app:srcCompat="@android:drawable/ic_input_add" />
+    <RelativeLayout
+        android:id="@+id/bottomNavigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/primary"
+        android:padding="10dp">
+
+        <ImageButton
+            android:id="@+id/filterButton"
+            android:layout_width="123dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:onClick="filterProperties"
+            android:scaleType="fitCenter"
+            android:src="@drawable/filter_list" />
+
+        <ImageButton
+            android:id="@+id/favoritesButton"
+            android:layout_width="123dp"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/filterButton"
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:scaleType="fitCenter"
+            android:src="@drawable/favorites_list_icon" />
+
+        <ImageButton
+            android:id="@+id/userInfoButton"
+            android:layout_width="123dp"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/favoritesButton"
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:onClick="createListing"
+            android:scaleType="fitCenter"
+            android:src="@drawable/account_icon" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
