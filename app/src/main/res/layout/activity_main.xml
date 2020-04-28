@@ -75,7 +75,7 @@
         android:layout_marginStart="320dp"
         android:layout_marginTop="-80dp"
         android:onClick="createListing"
-        android:tint="@color/accent"
+        android:tint="@color/white"
         app:backgroundTint="@color/primary"
         app:srcCompat="@android:drawable/ic_input_add" />
 

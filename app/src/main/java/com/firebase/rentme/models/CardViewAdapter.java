@@ -57,12 +57,14 @@ public class CardViewAdapter extends ArrayAdapter
         TextView propertyType = (TextView) convertView.findViewById(R.id.attribute_type);
         TextView propertyLocation = (TextView) convertView.findViewById(R.id.attribute_location);
         TextView propertyRate = (TextView) convertView.findViewById(R.id.attribute_rate);
+        TextView rateType = (TextView) convertView.findViewById(R.id.rate_type);
         TextView propertyBedrooms = (TextView) convertView.findViewById(R.id.attribute_bedrooms);
         TextView propertyBathrooms = (TextView) convertView.findViewById(R.id.attribute_bathrooms);
 
         propertyType.setText(property.getHousingCategory());
         propertyLocation.setText(getContext().getString(R.string.location) + getContext().getString(R.string.locationFormat, property.getCity(), property.getState()));
-        propertyRate.setText(getContext().getString(R.string.rateMonthFormat, property.getPrice()));
+        propertyRate.setText(getContext().getString(R.string.rateFormat, property.getPrice()));
+        rateType.setText(R.string.rateMonth);
         propertyBedrooms.setText(getContext().getString(R.string.anyInt, property.getBedrooms()));
         if(((property.getBathrooms() / 0.5) % 2) == 0)
             propertyBathrooms.setText(getContext().getString(R.string.anyInt,(int) property.getBathrooms()));
