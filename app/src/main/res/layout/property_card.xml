@@ -39,39 +39,10 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentBottom="true"
                     android:scaleType="fitXY"
-                    android:src="@drawable/fade" />
+                    android:alpha="0.5"
+                    android:src="@color/quantum_white_100" />
 
             </androidx.cardview.widget.CardView>
-
-            <ImageView
-                android:id="@+id/bulletImage0"
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:layout_below="@id/attribute_type"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/circle" />
-
-            <ImageView
-                android:id="@+id/bulletImage1"
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:layout_below="@id/bulletImage0"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="24dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/circle" />
-
-            <ImageView
-                android:id="@+id/bulletImage2"
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:layout_below="@id/bulletImage1"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="24dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/circle" />
 
             <TextView
                 android:id="@+id/attribute_type"
@@ -79,11 +50,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginStart="11dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="2dp"
                 android:text="@string/propertyType"
                 android:textColor="@color/primary"
-                android:textSize="29sp" />
+                android:textSize="29sp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/attribute_location"
@@ -92,12 +64,17 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/attribute_type"
                 android:layout_gravity="bottom"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="6dp"
                 android:layout_marginBottom="3dp"
                 android:layout_toEndOf="@+id/attribute_type"
                 android:text="@string/location"
                 android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:shadowColor="@android:color/black"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="6"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/title_rate"
@@ -106,24 +83,43 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/attribute_type"
                 android:layout_gravity="bottom"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="-2dp"
-                android:layout_toEndOf="@id/bulletImage0"
+                android:layout_alignStart="@id/attribute_type"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="-4dp"
+                android:textStyle="bold"
                 android:text="@string/rate"
                 android:textSize="23sp" />
 
             <TextView
+                android:id="@+id/rate_type"
+                style="@style/AudioFileInfoOverlayText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/title_rate"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_toEndOf="@+id/title_rate"
+                android:text="@string/location"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <TextView
                 android:id="@+id/attribute_rate"
+                style="@style/AudioFileInfoOverlayText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/attribute_type"
                 android:layout_alignBaseline="@id/title_rate"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="15dp"
-                android:shadowColor="#000"
-                android:shadowDy="1"
-                android:shadowRadius="2"
+                android:shadowColor="@android:color/black"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="6"
                 android:textColor="@color/white"
+                android:textStyle="bold"
+                android:text="test"
                 android:textSize="23sp" />
 
             <TextView
@@ -133,24 +129,28 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title_rate"
                 android:layout_gravity="bottom"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="1dp"
-                android:layout_toEndOf="@id/bulletImage0"
+                android:layout_alignStart="@id/attribute_type"
+                android:textStyle="bold"
                 android:text="@string/bedrooms"
                 android:textSize="23sp" />
 
             <TextView
                 android:id="@+id/attribute_bedrooms"
+                style="@style/AudioFileInfoOverlayText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/attribute_rate"
                 android:layout_alignBaseline="@id/title_bedrooms"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="15dp"
-                android:shadowColor="#000"
-                android:shadowDy="1"
-                android:shadowRadius="2"
+                android:shadowColor="@color/black"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="6"
                 android:textColor="@color/white"
+                android:textStyle="bold"
                 android:textSize="23sp" />
 
             <TextView
@@ -160,24 +160,28 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title_bedrooms"
                 android:layout_gravity="bottom"
-                android:layout_marginStart="5dp"
                 android:layout_marginTop="1dp"
-                android:layout_toEndOf="@id/bulletImage0"
+                android:layout_marginStart="10dp"
+                android:layout_alignStart="@id/attribute_type"
+                android:textStyle="bold"
                 android:text="@string/bathrooms"
                 android:textSize="23sp" />
 
             <TextView
                 android:id="@+id/attribute_bathrooms"
+                style="@style/AudioFileInfoOverlayText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/attribute_bedrooms"
                 android:layout_alignBaseline="@id/title_bathrooms"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="15dp"
-                android:shadowColor="#000"
-                android:shadowDy="1"
-                android:shadowRadius="2"
+                android:shadowColor="@color/black"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="6"
                 android:textColor="@color/white"
+                android:textStyle="bold"
                 android:textSize="23sp" />
 
         </RelativeLayout>
