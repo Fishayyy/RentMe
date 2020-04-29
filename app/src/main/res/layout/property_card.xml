@@ -7,10 +7,13 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/property_card"
-        android:layout_width="385dp"
-        android:layout_height="540dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="top|center"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
         card_view:cardCornerRadius="8dp">
 
         <ImageView
