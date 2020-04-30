@@ -21,14 +21,13 @@
         android:layout_alignStart="@id/upButton"
         android:background="@color/transparent"
         android:gravity="center"
-        android:inputType="number">
-    </EditText>
+        android:inputType="number" />
 
-<Button
-    android:layout_below="@+id/roomNumberEditText"
-    android:id="@+id/downButton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/down_arrow" />
+    <Button
+        android:layout_below="@+id/roomNumberEditText"
+        android:id="@+id/downButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/down_arrow" />
 
 </RelativeLayout>
