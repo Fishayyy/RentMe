@@ -18,9 +18,12 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.firebase.rentme.account.ManageAccountActivity;
+import com.firebase.rentme.filters.CreatePropertyFilterActivity;
 import com.firebase.rentme.models.CardViewAdapter;
 import com.firebase.rentme.models.Property;
 import com.firebase.rentme.models.ResultsFilter;
+import com.firebase.rentme.profiles.ViewPropertyDetailsActivity;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -326,12 +329,6 @@ public class MainActivity extends AppCompatActivity
         propertyCardList.addAll(propertiesFilter.getFilteredResults(unfilteredProperties));
     }
 
-    public void createListing(View view)
-    {
-        Intent intent = new Intent(MainActivity.this, CreatePropertyActivity.class);
-        startActivity(intent);
-    }
-
     public void filterProperties(View view)
     {
         Intent intent = new Intent(MainActivity.this, CreatePropertyFilterActivity.class);
@@ -455,5 +452,11 @@ public class MainActivity extends AppCompatActivity
         {
             Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void viewAccountInfo(View view)
+    {
+        Intent intent = new Intent(this, ManageAccountActivity.class);
+        startActivity(intent);
     }
 }

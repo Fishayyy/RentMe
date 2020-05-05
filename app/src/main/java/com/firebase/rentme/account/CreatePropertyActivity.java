@@ -1,4 +1,4 @@
-package com.firebase.rentme;
+package com.firebase.rentme.account;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +32,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.rentme.R;
 import com.firebase.rentme.dialogs.SelectBathroomsDialog;
 import com.firebase.rentme.dialogs.SelectBedroomsDialog;
 import com.firebase.rentme.models.PriceInputFilter;

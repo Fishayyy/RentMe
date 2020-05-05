@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ViewPropertyDetailsActivity">
+    tools:context=".profiles.ViewPropertyDetailsActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/propertyDetailsToolbar"
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_toEndOf="@id/propertyDetailsBackButton"
-                android:text="@string/view_property_details"
+                android:text="@string/view_property_details_title"
                 android:textColor="@color/white" />
 
         </RelativeLayout>

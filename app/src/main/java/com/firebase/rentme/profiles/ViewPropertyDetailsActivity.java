@@ -1,4 +1,4 @@
-package com.firebase.rentme;
+package com.firebase.rentme.profiles;
 
 import android.content.Intent;
 import android.location.Address;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
 
+import com.firebase.rentme.R;
 import com.firebase.rentme.models.Property;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
