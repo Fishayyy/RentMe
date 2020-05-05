@@ -23,4 +23,9 @@ public class ManageAccountActivity extends AppCompatActivity
         Intent intent = new Intent(this, CreatePropertyActivity.class);
         startActivity(intent);
     }
+
+    public void exitActivity(View view)
+    {
+        finish();
+    }
 }
