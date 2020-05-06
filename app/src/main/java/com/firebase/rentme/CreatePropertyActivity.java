@@ -27,6 +27,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -47,6 +48,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -68,11 +71,24 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
     private Uri imgURI;
     private String photoURL = "";
 
-    private ImageButton imageButton;
+    //Test
+    int SELECT_PICTURES = 1;
+    ArrayList<Uri> ImageList = new ArrayList<Uri>();
+    int upload_count = 0;
+    int k = 0;
+
+    //Test 2
+    private static final int PICK_IMG = 1;
+    private ArrayList<Uri> ImageList = new ArrayList<Uri>();
+
+
+
+    private Button uploadImageButton;
     private EditText editTextPrice;
     private Spinner categorySpinner;
     private TextView textViewBedrooms;
     private TextView textViewBathrooms;
+    private TextView alert;
     private Button buttonSelectBedrooms;
     private int bedrooms = 0;
     private Button buttonSelectBathrooms;
@@ -113,6 +129,7 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_property);
+        alert = findViewById(R.id.alertChooseImage);
 
         Log.d(TAG, "onCreate: started");
 
@@ -154,7 +171,8 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
 
     private void initButtons()
     {
-        imageButton = findViewById(R.id.uploadImageButton);
+        uploadImageButton = findViewById(R.id.uploadImageButton);
+        alert = findViewById(R.id.alertChooseImage);
         buttonSelectBedrooms = findViewById(R.id.bedroomsButton);
         buttonSelectBedrooms.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,8 +256,12 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
 
     public void choosePhotoFromGallery(View v)
     {
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(galleryIntent, GALLERY);
+//        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//        startActivityForResult(galleryIntent, GALLERY);
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURES);
     }
 
     //Results from choosePhotoFromGallery
@@ -250,17 +272,37 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
         if (resultCode == RESULT_CANCELED)
         {
             imgURI = null;
-            imageButton.setImageResource(R.drawable.add_pic_icon);
-            imageButton.setBackgroundResource(R.drawable.border);
+            //uploadImageButtonimage.setImageResource(R.drawable.add_pic_icon);
+            //uploadImageButtonimage.setBackgroundResource(R.drawable.border);
             return;
         }
         if (requestCode == GALLERY)
         {
-            if (data != null)
-            {
-                imgURI = data.getData();
-                imageButton.setImageURI(imgURI);
-                imageButton.setBackgroundResource(R.color.primary);
+//            if (data != null)
+//            {
+//                imgURI = data.getData();
+//                imageButton.setImageURI(imgURI);
+//                imageButton.setBackgroundResource(R.color.primary);
+//            }
+            if (resultCode == MainActivity.RESULT_OK) {
+                if (data.getClipData() != null) {
+                    int count = data.getClipData().getItemCount();
+                    Log.i("count", String.valueOf(count));
+                    int currentImageSelected = 0;
+                    while (currentImageSelected < count) {
+                        imgURI = data.getClipData().getItemAt(currentImageSelected).getUri();
+                        Log.i("uri", imgURI.toString());
+                        ImageList.add(imgURI);
+                        currentImageSelected = currentImageSelected + 1;
+                    }
+                    alert.setVisibility(View.VISIBLE);
+                    alert.setText("You have Selected " + ImageList.size() + " Images.");
+                    uploadImageButton.setVisibility(View.GONE);
+                    Log.i("listsize", String.valueOf(ImageList.size()));
+                } else if (data.getData() != null) {
+                    String imagePath = data.getData().getPath();
+                    Toast.makeText(this, "Please select multiple images.", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
@@ -274,8 +316,8 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
         {
             isValid = false;
             scrollToTop = true;
-            imageButton.setImageResource(R.drawable.error_missing_photo);
-            imageButton.setBackgroundResource(R.drawable.error_background);
+            //uploadImageButton.setImageResource(R.drawable.error_missing_photo);
+            uploadImageButton.setBackgroundResource(R.drawable.error_background);
         }
 
         if (editTextPrice.getText().toString().isEmpty())
@@ -439,26 +481,63 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
         button.setTextColor(Color.RED);
     }
 
+//    private void uploadImage()
+//    {
+//        while (upload_count < ImageList.size()) {
+//            storageReference.child(System.currentTimeMillis() + "." + getExtension(ImageList.get(k)))
+//                    .putFile(ImageList.get(k))
+//                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                        @Override
+//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                            retrieveImageURL(taskSnapshot.getStorage().getDownloadUrl());
+//                        }
+//                    })
+//                    .addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception exception) {
+//                            Toast.makeText(CreatePropertyActivity.this, "Error Uploading Image", Toast.LENGTH_LONG).show();
+//                        }
+//                    });
+//            upload_count++;
+//            k++;
+//        }
+//    }
+
     private void uploadImage()
     {
-        storageReference.child(System.currentTimeMillis() + "." + getExtension(imgURI))
-                .putFile(imgURI)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
-                {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
-                    {
-                        retrieveImageURL(taskSnapshot.getStorage().getDownloadUrl());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener()
-                {
-                    @Override
-                    public void onFailure(@NonNull Exception exception)
-                    {
-                        Toast.makeText(CreatePropertyActivity.this, "Error Uploading Image", Toast.LENGTH_LONG).show();
-                    }
-                });
+        for(upload_count = 0; upload_count < ImageList.size(); upload_count++)
+        {
+            Uri IndividualImage = ImageList.get(upload_count);
+            final StorageReference ImageName = storageReference.child("Image" +IndividualImage.getLastPathSegment());
+
+            ImageName.putFile(IndividualImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    ImageName.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String url = String.valueOf(uri);
+
+                            StoreLink(url);
+                        }
+                    });
+                }
+            });
+
+
+        }
+    }
+
+    private void StoreLink(String url) {
+        StorageReference databaseReference = FirebaseStorage.getInstance().getReference().child("UserOne");
+
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put("Imglink", url);
+
+        databaseReference.put().setValue(hashMap);
+
+        alert.setText("Image Uploaded Successfully");
+
     }
 
     //Get the file extension so we can store the file with extension
@@ -487,6 +566,7 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
                 retrieveImageURL(urlTask);
             }
         });
+
     }
 
     public void uploadProperty()
