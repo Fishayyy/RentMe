@@ -70,6 +70,7 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
 
     private Uri imgURI;
     private String photoURL = "";
+    ArrayList<Uri> photoURLList = new ArrayList<Uri>();
 
     //Test
     int SELECT_PICTURES = 1;
@@ -78,9 +79,11 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
     int k = 0;
 
     //Test 2
-    private static final int PICK_IMG = 1;
-    private ArrayList<Uri> ImageList = new ArrayList<Uri>();
-
+//    private static final int PICK_IMG = 1;
+//    private ArrayList<Uri> ImageList = new ArrayList<Uri>();
+//    private int uploads = 0;
+//    private StorageReference databaseReference;
+//    int index = 0;
 
 
     private Button uploadImageButton;
@@ -481,64 +484,69 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
         button.setTextColor(Color.RED);
     }
 
-//    private void uploadImage()
-//    {
-//        while (upload_count < ImageList.size()) {
-//            storageReference.child(System.currentTimeMillis() + "." + getExtension(ImageList.get(k)))
-//                    .putFile(ImageList.get(k))
-//                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                        @Override
-//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                            retrieveImageURL(taskSnapshot.getStorage().getDownloadUrl());
-//                        }
-//                    })
-//                    .addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception exception) {
-//                            Toast.makeText(CreatePropertyActivity.this, "Error Uploading Image", Toast.LENGTH_LONG).show();
-//                        }
-//                    });
-//            upload_count++;
-//            k++;
-//        }
-//    }
-
     private void uploadImage()
     {
-        for(upload_count = 0; upload_count < ImageList.size(); upload_count++)
-        {
-            Uri IndividualImage = ImageList.get(upload_count);
-            final StorageReference ImageName = storageReference.child("Image" +IndividualImage.getLastPathSegment());
-
-            ImageName.putFile(IndividualImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    ImageName.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        while (upload_count < ImageList.size()) {
+            storageReference.child(System.currentTimeMillis() + "." + getExtension(ImageList.get(k)))
+                    .putFile(ImageList.get(k))
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
-                        public void onSuccess(Uri uri) {
-                            String url = String.valueOf(uri);
-
-                            StoreLink(url);
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            retrieveImageURL(taskSnapshot.getStorage().getDownloadUrl());
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            Toast.makeText(CreatePropertyActivity.this, "Error Uploading Image", Toast.LENGTH_LONG).show();
                         }
                     });
-                }
-            });
-
-
+            upload_count++;
+            k++;
         }
     }
-
-    private void StoreLink(String url) {
-        StorageReference databaseReference = FirebaseStorage.getInstance().getReference().child("UserOne");
-
-        HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("Imglink", url);
-
-        databaseReference.put().setValue(hashMap);
-
-        alert.setText("Image Uploaded Successfully");
-
-    }
+//
+//    private void uploadImage()
+//    {
+//        for(upload_count = 0; upload_count < ImageList.size(); upload_count++)
+//        {
+//            Uri IndividualImage = ImageList.get(upload_count);
+//            final StorageReference ImageName = storageReference.child("Image." +IndividualImage.getLastPathSegment());
+//
+//            ImageName.putFile(IndividualImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                @Override
+//                public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+//                    ImageName.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                        @Override
+//                        public void onSuccess(Uri uri) {
+//                            String url = String.valueOf(uri);
+//                            StoreLink(url);
+//                        }
+//                    });
+//                }
+//            });
+//
+//
+//        }
+//    }
+//
+//    private void StoreLink(String url) {
+//        StorageReference databaseReference = FirebaseStorage.getInstance().getReference().child("UserOne");
+//
+//        HashMap<String,String> hashMap = new HashMap<>();
+//        hashMap.put("Imglink", url);
+//
+//        databaseReference.push().setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//
+//                //progressDialog.dismiss();
+//                alert.setText("Image Uploaded Successfully");
+//                ImageList.clear();
+//            }
+//        });
+//
+//    }
 
     //Get the file extension so we can store the file with extension
     private String getExtension(Uri uri)
