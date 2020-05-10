@@ -70,11 +70,11 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
 
     private Uri imgURI;
     private String photoURL = "";
-    ArrayList<Uri> photoURLList = new ArrayList<Uri>();
+    private ArrayList<String> photoURLList = new ArrayList<String>();
 
     //Test for upload multiple images
     int SELECT_PICTURES = 1;
-    ArrayList<Uri> ImageList = new ArrayList<Uri>();
+    private ArrayList<Uri> ImageList = new ArrayList<Uri>();
     int upload_count = 0;
     int k = 0;
 
@@ -558,7 +558,7 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
             public void onSuccess(Uri uri)
             {
                 photoURL = uri.toString();
-                photoURLList.add(uri);
+                photoURLList.add(uri.toString());
                 uploadProperty();
             }
         }).addOnFailureListener(new OnFailureListener()
@@ -606,6 +606,7 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
         newProperty.setHousingCategory(categorySpinner.getSelectedItem().toString());
         newProperty.setPrice(Double.parseDouble(editTextPrice.getText().toString()));
         newProperty.setPhotoURL(photoURL);
+        newProperty.setPhotoURLList(photoURLList);
         newProperty.setBio(editTextBio.getText().toString());
         newProperty.setAddress(editTextAddress.getText().toString());
         newProperty.setCity(editTextCity.getText().toString());

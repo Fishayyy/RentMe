@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
+import java.util.ArrayList;
+
 @IgnoreExtraProperties
 public class Property implements Parcelable
 {
@@ -15,6 +17,7 @@ public class Property implements Parcelable
     private String housingCategory;
     private double price;
     private String photoURL;
+    private ArrayList<String> photoURLList;
     private String bio;
     private String address;
 
@@ -52,6 +55,7 @@ public class Property implements Parcelable
         housingCategory = parcel.readString();
         price = parcel.readDouble();
         photoURL = parcel.readString();
+        photoURLList = parcel.readArrayList(ClassLoader.getSystemClassLoader());
         bio = parcel.readString();
         address = parcel.readString();
         city = parcel.readString();
@@ -72,7 +76,7 @@ public class Property implements Parcelable
     }
 
     //Standard Constructor
-    public Property(String housingCategory, double price, String photoURL, String bio, String address,
+    public Property(String housingCategory, double price, String photoURL, ArrayList<String> photoURLList, String bio, String address,
                     String city, String zipCode, String state, String ownerName, String ownerPhoneNum,
                     String ownerEmail, int bedrooms, double bathrooms, boolean petsAllowed, boolean smokingAllowed,
                     boolean parkingAvailable, boolean hasPool, boolean hasBackyard, boolean hasLaundry, boolean isHandicapAccessible)
@@ -80,6 +84,7 @@ public class Property implements Parcelable
         this.housingCategory = housingCategory;
         this.price = price;
         this.photoURL = photoURL;
+        this.photoURLList = photoURLList;
         this.bio = bio;
         this.address = address;
         this.city = city;
@@ -121,6 +126,7 @@ public class Property implements Parcelable
         dest.writeString(housingCategory);
         dest.writeDouble(price);
         dest.writeString(photoURL);
+        dest.writeStringList(photoURLList);
         dest.writeString(bio);
         dest.writeString(address);
         dest.writeString(city);
@@ -154,6 +160,10 @@ public class Property implements Parcelable
     public double getPrice() { return price; }
 
     public String getPhotoURL() { return this.photoURL; }
+
+    public ArrayList<String> getPhotoURLList() {
+        return photoURLList;
+    }
 
     public String getBio() { return this.bio; }
 
@@ -195,6 +205,8 @@ public class Property implements Parcelable
     public void setPrice(double price) { this.price = price; }
 
     public void setPhotoURL(String photoURL) { this.photoURL = photoURL; }
+
+    public void setPhotoURLList(ArrayList<String> photoURLList) { this.photoURLList = photoURLList; }
 
     public void setBio(String bio) { this.bio = bio; }
 
