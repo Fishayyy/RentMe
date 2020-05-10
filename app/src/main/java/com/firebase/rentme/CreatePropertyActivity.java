@@ -72,18 +72,11 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
     private String photoURL = "";
     ArrayList<Uri> photoURLList = new ArrayList<Uri>();
 
-    //Test
+    //Test for upload multiple images
     int SELECT_PICTURES = 1;
     ArrayList<Uri> ImageList = new ArrayList<Uri>();
     int upload_count = 0;
     int k = 0;
-
-    //Test 2
-//    private static final int PICK_IMG = 1;
-//    private ArrayList<Uri> ImageList = new ArrayList<Uri>();
-//    private int uploads = 0;
-//    private StorageReference databaseReference;
-//    int index = 0;
 
 
     private Button uploadImageButton;
@@ -505,7 +498,8 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
             k++;
         }
     }
-//
+
+
 //    private void uploadImage()
 //    {
 //        for(upload_count = 0; upload_count < ImageList.size(); upload_count++)
@@ -564,6 +558,7 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
             public void onSuccess(Uri uri)
             {
                 photoURL = uri.toString();
+                photoURLList.add(uri);
                 uploadProperty();
             }
         }).addOnFailureListener(new OnFailureListener()
