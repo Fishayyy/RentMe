@@ -14,12 +14,14 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.firebase.rentme.account.Login;
 import com.firebase.rentme.account.ManageAccountActivity;
+import com.firebase.rentme.account.ViewFavoritesActivity;
 import com.firebase.rentme.filters.CreatePropertyFilterActivity;
 import com.firebase.rentme.models.CardViewAdapter;
 import com.firebase.rentme.models.Property;
@@ -348,7 +350,9 @@ public class MainActivity extends AppCompatActivity
         cardAdapter.notifyDataSetChanged();
         if (cardAdapter.isEmpty())
         {
-            Toast.makeText(this, "Search Returned No Results", Toast.LENGTH_SHORT).show();
+            Toast toast = Toast.makeText(this, "Search Returned No Results", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM|Gravity.CENTER, 0, 215);
+            toast.show();
         }
     }
 
@@ -363,6 +367,12 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(MainActivity.this, CreatePropertyFilterActivity.class);
         intent.putExtra(ResultsFilter.PARCELABLE_FILTER, propertiesFilter);
         startActivityForResult(intent, REQUEST_CODE_FILTER_RESULTS);
+    }
+
+    public void viewFavorites(View view)
+    {
+        Intent intent = new Intent(MainActivity.this, ViewFavoritesActivity.class);
+        startActivity(intent);
     }
 
     public void initLocationButton()
@@ -436,7 +446,9 @@ public class MainActivity extends AppCompatActivity
                                 }
                                 else
                                 {
-                                    Toast.makeText(MainActivity.this, "Location not Found", Toast.LENGTH_SHORT).show();
+                                    Toast toast = Toast.makeText(getApplicationContext(), "Location not Found", Toast.LENGTH_SHORT);
+                                    toast.setGravity(Gravity.BOTTOM|Gravity.CENTER, 0, 215);
+                                    toast.show();
                                 }
                             }
                             catch (IOException e)
@@ -463,7 +475,9 @@ public class MainActivity extends AppCompatActivity
                 cardAdapter.notifyDataSetChanged();
                 if (cardAdapter.isEmpty())
                 {
-                    Toast.makeText(this, "Filtering Returned No Results", Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(getApplicationContext(), "Filtering Returned No Results", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.BOTTOM|Gravity.CENTER, 0, 215);
+                    toast.show();
                 }
             }
         }
@@ -496,4 +510,6 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, ManageAccountActivity.class);
         startActivity(intent);
     }
+
+
 }

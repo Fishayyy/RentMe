@@ -81,6 +81,7 @@
             android:layout_width="123dp"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
+            android:onClick="viewFavorites"
             android:gravity="center"
             android:scaleType="fitCenter"
             android:layout_centerHorizontal="true"
