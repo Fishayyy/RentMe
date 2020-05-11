@@ -1,6 +1,12 @@
 package com.firebase.rentme.models;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.IgnoreExtraProperties;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -20,10 +26,78 @@ public class User
 
     }
 
-    //Return hashcode of object
-    public int describeContents()
+    // Get User Instance
+    public static User getUserInstance()
     {
-        return hashCode();
+        final User[] user = new User[1];
+
+        final FirebaseFirestore database = FirebaseFirestore.getInstance();
+
+        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DocumentReference userDocRef = database.collection("users").document(userID);
+
+        userDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
+        {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot)
+            {
+                user[0] = documentSnapshot.toObject(User.class);
+            }
+        });
+
+        while(user[0] == null) {}
+
+        return user[0];
+    }
+
+    public ArrayList<Property> getFavoritePropertiesList()
+    {
+        final ArrayList<Property> results = new ArrayList<Property>();
+        ArrayList<String> targets = getOwnerFavorites();
+        int target_size = targets.size();
+        User user = getUserInstance();
+
+        final FirebaseFirestore database = FirebaseFirestore.getInstance();
+
+        while(targets.size() > 0)
+        {
+            database.collection("properties").document(targets.remove(0)).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot)
+                {
+                    results.add(documentSnapshot.toObject(Property.class));
+                }
+            });
+        }
+
+        while(results.size() != target_size) {}
+
+        return results;
+    }
+
+    public ArrayList<Property> getOwnedPropertiesList()
+    {
+        final ArrayList<Property> results = new ArrayList<Property>();
+        ArrayList<String> targets = getOwnerProperties();
+        int target_size = targets.size();
+        User user = getUserInstance();
+
+        final FirebaseFirestore database = FirebaseFirestore.getInstance();
+
+        while(targets.size() > 0)
+        {
+            database.collection("properties").document(targets.remove(0)).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot)
+                {
+                    results.add(documentSnapshot.toObject(Property.class));
+                }
+            });
+        }
+
+        while(results.size() != target_size) {}
+
+        return results;
     }
 
     // Get Values

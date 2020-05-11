@@ -18,7 +18,13 @@ import com.firebase.rentme.R;
 import com.firebase.rentme.models.ListViewAdapter;
 import com.firebase.rentme.models.Property;
 import com.firebase.rentme.models.SwipeToDeleteCallback;
+import com.firebase.rentme.models.User;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -44,8 +50,7 @@ public class ViewFavoritesActivity extends AppCompatActivity
         relativeLayout = findViewById(R.id.relativeLayout);
 
         displayActivityName();
-        populateList();
-        buildAdapter();
+        getFavoritePropertiesList();
         enableSwipeToDeleteAndUndo();
     }
 
@@ -55,126 +60,39 @@ public class ViewFavoritesActivity extends AppCompatActivity
         activityTitle.setText(R.string.favorites);
     }
 
-    private void populateList()
+    private void getFavoritePropertiesList()
     {
+        final FirebaseFirestore database = FirebaseFirestore.getInstance();
 
-        //Test Objects
-        Property objZ = new Property();
-        objZ.setHousingCategory("Apartment");
-        objZ.setPrice(23400);
-        objZ.setPhotoURL("https://www.marriottonthefalls.com/wp-content/uploads/2012/10/upside-down-house-ext.jpg");
-        objZ.setBio("A house");
-        objZ.setAddress("231 Venado Ave.");
-        objZ.setCity("Newbury Park");
-        objZ.setZipCode("91320");
-        objZ.setState("CA");
-        objZ.setOwnerName("Charles Vosguanian");
-        objZ.setOwnerPhoneNum("8054906140");
-        objZ.setOwnerEmail("randombot360@gmail.com");
-        objZ.setBedrooms(3);
-        objZ.setBathrooms(2);
-        objZ.setPetsAllowed(true);
-        objZ.setSmokingAllowed(false);
-        objZ.setParkingAvailable(true);
-        objZ.setPoolAvailable(true);
-        objZ.setBackyardAvailable(true);
-        objZ.setLaundryAvailable(true);
-        objZ.setHandicapAccessible(true);
+        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DocumentReference userDocRef = database.collection("users").document(userID);
 
+        userDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
+        {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot)
+            {
+                populateList(documentSnapshot.toObject(User.class));
+            }
+        });
+    }
 
-        //Test Objects
-        Property obj0 = new Property();
-        obj0.setHousingCategory("Apartment");
-        obj0.setPrice(23400);
-        obj0.setPhotoURL("https://www.marriottonthefalls.com/wp-content/uploads/2012/10/upside-down-house-ext.jpg");
-        obj0.setBio("A house");
-        obj0.setAddress("231 Venado Ave.");
-        obj0.setCity("Newbury Park");
-        obj0.setZipCode("91320");
-        obj0.setState("CA");
-        obj0.setOwnerName("Charles Vosguanian");
-        obj0.setOwnerPhoneNum("8054906140");
-        obj0.setOwnerEmail("randombot360@gmail.com");
-        obj0.setBedrooms(3);
-        obj0.setBathrooms(2);
-        obj0.setPetsAllowed(true);
-        obj0.setSmokingAllowed(false);
-        obj0.setParkingAvailable(true);
-        obj0.setPoolAvailable(true);
-        obj0.setBackyardAvailable(true);
-        obj0.setLaundryAvailable(true);
-        obj0.setHandicapAccessible(true);
+    private void populateList(User user)
+    {
+        final FirebaseFirestore database = FirebaseFirestore.getInstance();
+        ArrayList<String> targets = user.getOwnerFavorites();
 
-        Property obj1 = new Property();
-        obj1.setHousingCategory("Apartment");
-        obj1.setPrice(23400);
-        obj1.setPhotoURL("https://www.marriottonthefalls.com/wp-content/uploads/2012/10/upside-down-house-ext.jpg");
-        obj1.setBio("A house");
-        obj1.setAddress("231 Venado Ave.");
-        obj1.setCity("Newbury Park");
-        obj1.setZipCode("91320");
-        obj1.setState("CA");
-        obj1.setOwnerName("Charles Vosguanian");
-        obj1.setOwnerPhoneNum("8054906140");
-        obj1.setOwnerEmail("randombot360@gmail.com");
-        obj1.setBedrooms(3);
-        obj1.setBathrooms(2);
-        obj1.setPetsAllowed(true);
-        obj1.setSmokingAllowed(false);
-        obj1.setParkingAvailable(true);
-        obj1.setPoolAvailable(true);
-        obj1.setBackyardAvailable(true);
-        obj1.setLaundryAvailable(true);
-        obj1.setHandicapAccessible(true);
-
-        Property obj2 = new Property();
-        obj2.setHousingCategory("Apartment");
-        obj2.setPrice(23400);
-        obj2.setPhotoURL("https://www.marriottonthefalls.com/wp-content/uploads/2012/10/upside-down-house-ext.jpg");
-        obj2.setBio("A house");
-        obj2.setAddress("231 Venado Ave.");
-        obj2.setCity("Newbury Park");
-        obj2.setZipCode("91320");
-        obj2.setState("CA");
-        obj2.setOwnerName("Charles Vosguanian");
-        obj2.setOwnerPhoneNum("8054906140");
-        obj2.setOwnerEmail("randombot360@gmail.com");
-        obj2.setBedrooms(3);
-        obj2.setBathrooms(2);
-        obj2.setPetsAllowed(true);
-        obj2.setSmokingAllowed(false);
-        obj2.setParkingAvailable(true);
-        obj2.setPoolAvailable(true);
-        obj2.setBackyardAvailable(true);
-        obj2.setLaundryAvailable(true);
-        obj2.setHandicapAccessible(true);
-
-        Property obj3 = new Property();
-        obj3.setHousingCategory("Apartment");
-        obj3.setPrice(23400);
-        obj3.setPhotoURL("https://www.marriottonthefalls.com/wp-content/uploads/2012/10/upside-down-house-ext.jpg");
-        obj3.setBio("A house");
-        obj3.setAddress("231 Venado Ave.");
-        obj3.setCity("Newbury Park");
-        obj3.setZipCode("91320");
-        obj3.setState("CA");
-        obj3.setOwnerName("Charles Vosguanian");
-        obj3.setOwnerPhoneNum("8054906140");
-        obj3.setOwnerEmail("randombot360@gmail.com");
-        obj3.setBedrooms(3);
-        obj3.setBathrooms(2);
-        obj3.setPetsAllowed(true);
-        obj3.setSmokingAllowed(false);
-        obj3.setParkingAvailable(true);
-        obj3.setPoolAvailable(true);
-        obj3.setBackyardAvailable(true);
-        obj3.setLaundryAvailable(true);
-        obj3.setHandicapAccessible(true);
-
-        propertyList.add(obj0);
-        propertyList.add(obj1);
-        propertyList.add(obj2);
-        propertyList.add(obj3);
+        while(targets.size() > 0)
+        {
+            database.collection("properties").document(targets.remove(0)).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot)
+                {
+                    propertyList.add(documentSnapshot.toObject(Property.class));
+                    buildAdapter();
+                }
+            });
+        }
     }
 
     private void buildAdapter()
@@ -213,9 +131,6 @@ public class ViewFavoritesActivity extends AppCompatActivity
 
                 snackbar.setActionTextColor(Color.WHITE);
                 snackbar.show();
-
-
-
             }
         };
 
