@@ -19,11 +19,13 @@ import com.firebase.rentme.models.ListViewAdapter;
 import com.firebase.rentme.models.Property;
 import com.firebase.rentme.models.SwipeToDeleteCallback;
 import com.firebase.rentme.models.User;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -33,10 +35,12 @@ public class ViewFavoritesActivity extends AppCompatActivity
 
     private static final String TAG = "ViewListingsActivity";
 
-    RecyclerView recyclerView;
-    ArrayList<Property> propertyList = new ArrayList<>();
-    ListViewAdapter adapter;
-    RelativeLayout relativeLayout;
+    private FirebaseFirestore database;
+
+    private RecyclerView recyclerView;
+    private ArrayList<Property> propertyList = new ArrayList<>();
+    private ListViewAdapter adapter;
+    private RelativeLayout relativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -54,6 +58,21 @@ public class ViewFavoritesActivity extends AppCompatActivity
         enableSwipeToDeleteAndUndo();
     }
 
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+
+        ArrayList<String> updatedFavorites = new ArrayList<>();
+
+        for(Property property : propertyList)
+        {
+            updatedFavorites.add(property.getDocumentReferenceID());
+        }
+
+        database.collection("users").document(FirebaseAuth.getInstance().getUid()).update("ownerFavorites", updatedFavorites);
+    }
+
     private void displayActivityName()
     {
         TextView activityTitle = (TextView) findViewById(R.id.activity_title);
@@ -62,7 +81,7 @@ public class ViewFavoritesActivity extends AppCompatActivity
 
     private void getFavoritePropertiesList()
     {
-        final FirebaseFirestore database = FirebaseFirestore.getInstance();
+        database = FirebaseFirestore.getInstance();
 
         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DocumentReference userDocRef = database.collection("users").document(userID);
@@ -79,19 +98,31 @@ public class ViewFavoritesActivity extends AppCompatActivity
 
     private void populateList(User user)
     {
-        final FirebaseFirestore database = FirebaseFirestore.getInstance();
+        database = FirebaseFirestore.getInstance();
         ArrayList<String> targets = user.getOwnerFavorites();
 
         while(targets.size() > 0)
         {
-            database.collection("properties").document(targets.remove(0)).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot)
-                {
-                    propertyList.add(documentSnapshot.toObject(Property.class));
-                    buildAdapter();
-                }
-            });
+            final String target = targets.remove(0);
+
+            database.collection("properties").document(target).get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot)
+                        {
+                            Property property = documentSnapshot.toObject(Property.class);
+
+                            if(property != null)
+                            {
+                                propertyList.add(documentSnapshot.toObject(Property.class));
+                                buildAdapter();
+                            }
+                            else
+                            {
+                                database.collection("users").document(FirebaseAuth.getInstance().getUid()).update("ownerFavorites", FieldValue.arrayRemove(target));
+                            }
+                        }
+                     });
         }
     }
 

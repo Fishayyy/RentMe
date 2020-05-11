@@ -11,8 +11,6 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
-import android.telephony.PhoneNumberFormattingTextWatcher;
-import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -39,14 +37,11 @@ import com.firebase.rentme.models.PriceInputFilter;
 import com.firebase.rentme.models.Property;
 
 import com.firebase.rentme.models.User;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -55,10 +50,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import org.w3c.dom.Document;
-
-import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -235,8 +226,8 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
         editTextPrice = findViewById(R.id.edit_text_price);
         editTextPrice.setFilters(new InputFilter[]{new PriceInputFilter(8, 2)});
         editTextBio = findViewById(R.id.edit_text_bio);
-        editTextAddress = findViewById(R.id.edit_text_address);
-        editTextCity = findViewById(R.id.edit_text_city);
+        editTextAddress = findViewById(R.id.edit_text_name);
+        editTextCity = findViewById(R.id.edit_text_email);
         editTextZipCode = findViewById(R.id.edit_text_zip);
     }
 

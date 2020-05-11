@@ -1,11 +1,14 @@
 package com.firebase.rentme.account;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,10 +36,10 @@ public class ViewListingsActivity extends AppCompatActivity
 
     private static final String TAG = "ViewListingsActivity";
 
-    RecyclerView recyclerView;
-    ArrayList<Property> propertyList = new ArrayList<>();
-    ListViewAdapter adapter;
-    RelativeLayout relativeLayout;
+    private RecyclerView recyclerView;
+    private ArrayList<Property> propertyList = new ArrayList<>();
+    private ListViewAdapter adapter;
+    private RelativeLayout relativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,7 +54,7 @@ public class ViewListingsActivity extends AppCompatActivity
 
         displayActivityName();
         getOwnedPropertiesList();
-        enableSwipeToDeleteAndUndo();
+        enableSwipeToDeleteAndUndo(this);
     }
 
     private void displayActivityName()
@@ -88,8 +91,12 @@ public class ViewListingsActivity extends AppCompatActivity
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot)
                 {
-                    propertyList.add(documentSnapshot.toObject(Property.class));
-                    buildAdapter();
+                    Property property = documentSnapshot.toObject(Property.class);
+                    if(property != null)
+                    {
+                        propertyList.add(property);
+                        buildAdapter();
+                    }
                 }
             });
         }
@@ -103,7 +110,7 @@ public class ViewListingsActivity extends AppCompatActivity
         recyclerView.setAdapter(adapter);
     }
 
-    private void enableSwipeToDeleteAndUndo()
+    private void enableSwipeToDeleteAndUndo(final Context context)
     {
         SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(this)
         {
@@ -114,32 +121,28 @@ public class ViewListingsActivity extends AppCompatActivity
                 final int position = viewHolder.getAdapterPosition();
                 final Property item = adapter.getData().get(position);
 
-                adapter.removeItem(position);
-
-                /*
-                Toast toast = new Toast(getApplicationContext());
-                toast.makeText(getApplicationContext(),item.getHousingCategory() + " Deleted\n           Undo",Toast.LENGTH_LONG).show();
-                 */
-
-
-                Snackbar snackbar = Snackbar
-                        .make(relativeLayout, item.getHousingCategory() + " was removed from the list.", Snackbar.LENGTH_LONG);
-                snackbar.setAction("UNDO", new View.OnClickListener()
+                AlertDialog.Builder confirmDeleteDialog = new AlertDialog.Builder(context);
+                confirmDeleteDialog.setTitle("Remove Listing");
+                confirmDeleteDialog.setMessage("Are you sure you would like to take your listing off the market?");
+                confirmDeleteDialog.setPositiveButton("Remove", new DialogInterface.OnClickListener()
                 {
                     @Override
-                    public void onClick(View view)
+                    public void onClick(DialogInterface dialog, int which)
                     {
-
-                        adapter.restoreItem(item, position);
-                        recyclerView.scrollToPosition(position);
+                        FirebaseFirestore.getInstance().collection("properties").document(item.getDocumentReferenceID()).delete();
+                        adapter.removeItem(position);
+                    }
+                });
+                confirmDeleteDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        recyclerView.setAdapter(adapter);
                     }
                 });
 
-                snackbar.setActionTextColor(Color.WHITE);
-                snackbar.show();
-
-
-
+                confirmDeleteDialog.create().show();
             }
         };
 
@@ -151,5 +154,4 @@ public class ViewListingsActivity extends AppCompatActivity
     {
         finish();
     }
-
 }

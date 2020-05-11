@@ -50,56 +50,6 @@ public class User
         return user[0];
     }
 
-    public ArrayList<Property> getFavoritePropertiesList()
-    {
-        final ArrayList<Property> results = new ArrayList<Property>();
-        ArrayList<String> targets = getOwnerFavorites();
-        int target_size = targets.size();
-        User user = getUserInstance();
-
-        final FirebaseFirestore database = FirebaseFirestore.getInstance();
-
-        while(targets.size() > 0)
-        {
-            database.collection("properties").document(targets.remove(0)).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot)
-                {
-                    results.add(documentSnapshot.toObject(Property.class));
-                }
-            });
-        }
-
-        while(results.size() != target_size) {}
-
-        return results;
-    }
-
-    public ArrayList<Property> getOwnedPropertiesList()
-    {
-        final ArrayList<Property> results = new ArrayList<Property>();
-        ArrayList<String> targets = getOwnerProperties();
-        int target_size = targets.size();
-        User user = getUserInstance();
-
-        final FirebaseFirestore database = FirebaseFirestore.getInstance();
-
-        while(targets.size() > 0)
-        {
-            database.collection("properties").document(targets.remove(0)).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot)
-                {
-                    results.add(documentSnapshot.toObject(Property.class));
-                }
-            });
-        }
-
-        while(results.size() != target_size) {}
-
-        return results;
-    }
-
     // Get Values
     public String getOwnerName()
     {

@@ -45,6 +45,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -197,21 +198,27 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void removeFirstObjectInAdapter()
             {
-                property = propertyCardList.remove(0);
-                propertyCardList.add(property);
-                cardAdapter.notifyDataSetChanged();
+
             }
 
             @Override
             public void onLeftCardExit(Object o)
             {
-
+                property = propertyCardList.remove(0);
+                propertyCardList.add(property);
+                cardAdapter.notifyDataSetChanged();
+                Toast.makeText(getApplicationContext(), "\ud83d\udc94", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onRightCardExit(Object o)
             {
-
+                property = propertyCardList.remove(0);
+                propertyCardList.add(property);
+                cardAdapter.notifyDataSetChanged();
+                Toast.makeText(getApplicationContext(), "\ud83d\udc93", Toast.LENGTH_SHORT).show();
+                database.collection("users").document(FirebaseAuth.getInstance().getUid())
+                        .update("ownerFavorites", FieldValue.arrayUnion(property.getDocumentReferenceID()));
             }
 
             @Override

@@ -6,6 +6,7 @@
     <string name="view_account_title">Account</string>
     <string name="listings">Listings</string>
     <string name="favorites">Favorites</string>
+    <string name="account_info">Account Info</string>
 
     <!--    ____________________________Property Details____________________________ -->
     <string name="contactInfo">"Contact Information"</string>    <!--    Owner Details-->

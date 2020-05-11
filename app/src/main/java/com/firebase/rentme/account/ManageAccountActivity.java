@@ -33,9 +33,10 @@ public class ManageAccountActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    public void exitActivity(View view)
+    public void editAccountInfo(View view)
     {
-        finish();
+        Intent intent = new Intent(this, EditPersonalInfo.class);
+        startActivity(intent);
     }
 
     public void signOut(View view)
@@ -62,5 +63,10 @@ public class ManageAccountActivity extends AppCompatActivity
         });
 
         passwordResetDialog.create().show();
+    }
+
+    public void exitActivity(View view)
+    {
+        finish();
     }
 }
