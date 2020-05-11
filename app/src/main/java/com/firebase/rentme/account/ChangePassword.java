@@ -33,11 +33,6 @@ public class ChangePassword extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
 
-        TextView accountSettingsSectionTitle = findViewById(R.id.accountSettingsSectionTitle);
-        final TextView EnterOldPassword = findViewById(R.id.EnterOldPassword);
-        TextView EnterNewPassword = findViewById(R.id.EnterNewPassword);
-        TextView ConfirmNewPassword = findViewById(R.id.ConfirmNewPassword);
-
         final EditText input_OldPassword = findViewById(R.id.input_OldPassword);
         final EditText input_password = findViewById(R.id.input_password);
         final EditText input_reEnterPassword = findViewById(R.id.input_reEnterPassword);
