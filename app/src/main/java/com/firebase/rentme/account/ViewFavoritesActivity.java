@@ -84,45 +84,51 @@ public class ViewFavoritesActivity extends AppCompatActivity
         database = FirebaseFirestore.getInstance();
 
         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DocumentReference userDocRef = database.collection("users").document(userID);
-
-        userDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
+        if(userID != null)
         {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot)
+            DocumentReference userDocRef = database.collection("users").document(userID);
+
+            userDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
             {
-                populateList(documentSnapshot.toObject(User.class));
-            }
-        });
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot)
+                {
+                    populateList(documentSnapshot.toObject(User.class));
+                }
+            });
+        }
     }
 
     private void populateList(User user)
     {
         database = FirebaseFirestore.getInstance();
-        ArrayList<String> targets = user.getOwnerFavorites();
-
-        while(targets.size() > 0)
+        if(user != null)
         {
-            final String target = targets.remove(0);
+            ArrayList<String> targets = user.getOwnerFavorites();
 
-            database.collection("properties").document(target).get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot)
-                        {
-                            Property property = documentSnapshot.toObject(Property.class);
+            while(targets.size() > 0)
+            {
+                final String target = targets.remove(0);
 
-                            if(property != null)
+                database.collection("properties").document(target).get()
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot)
                             {
-                                propertyList.add(documentSnapshot.toObject(Property.class));
-                                buildAdapter();
+                                Property property = documentSnapshot.toObject(Property.class);
+
+                                if(property != null)
+                                {
+                                    propertyList.add(documentSnapshot.toObject(Property.class));
+                                    buildAdapter();
+                                }
+                                else
+                                {
+                                    database.collection("users").document(FirebaseAuth.getInstance().getUid()).update("ownerFavorites", FieldValue.arrayRemove(target));
+                                }
                             }
-                            else
-                            {
-                                database.collection("users").document(FirebaseAuth.getInstance().getUid()).update("ownerFavorites", FieldValue.arrayRemove(target));
-                            }
-                        }
-                     });
+                        });
+            }
         }
     }
 
