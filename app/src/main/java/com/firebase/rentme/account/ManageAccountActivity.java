@@ -64,7 +64,13 @@ public class ManageAccountActivity extends AppCompatActivity
 
         passwordResetDialog.create().show();
     }
-
+    
+    public void ChangePassword(View view) 
+    {
+        Intent intent = new Intent(this, ChangePassword.class);
+        startActivity(intent);
+    }
+    
     public void exitActivity(View view)
     {
         finish();

@@ -95,8 +95,8 @@
                     android:layout_below="@id/personalInformationButton"
                     android:background="@color/transparent"
                     android:drawableEnd="@drawable/security_settings_icon"
-                    android:paddingEnd="2dp"
                     android:text="Change password"
+                    android:onClick="ChangePassword"
                     android:textAlignment="viewStart"
                     android:textAllCaps="false" />
 
