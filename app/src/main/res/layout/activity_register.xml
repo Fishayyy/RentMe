@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#673AB7"
-    tools:context=".Register">
+    tools:context=".account.Register">
 
     <TextView
         android:id="@+id/textView"
@@ -38,13 +38,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:background="#9D8686"
-        android:ems="10"
+        android:background="#FFFFFF"
         android:hint="Full Name"
         android:inputType="textPersonName"
         android:padding="10dp"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF"
+        android:textColor="#000000"
+        android:textColorHint="#2F2F2F"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,14 +58,13 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:ems="10"
+        android:background="#FFFFFF"
         android:hint="Email"
-        android:background="#9D8686"
-        android:padding="10dp"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF"
-        android:textSize="14sp"
         android:inputType="textEmailAddress"
+        android:padding="10dp"
+        android:textColor="#000000"
+        android:textColorHint="#2F2F2F"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fullName" />
@@ -78,17 +76,17 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:ems="10"
-        android:inputType="textPassword"
+        android:background="#FFFFFF"
         android:hint="Password"
-        android:background="#9D8686"
+        android:inputType="textPassword"
         android:padding="10dp"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF"
+        android:textColor="#000000"
+        android:textColorHint="#2F2F2F"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Email" />
+
     <EditText
         android:id="@+id/phone"
         android:layout_width="0dp"
@@ -96,13 +94,14 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:ems="10"
-        android:inputType="textPhonetic"
-        android:hint="Phone"
-        android:background="#9D8686"
+        android:background="#FFFFFF"
+        android:digits="0123456789()-"
+        android:hint="Phone Number"
+        android:inputType="phone"
+        android:maxLength="14"
         android:padding="10dp"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF"
+        android:textColor="#000000"
+        android:textColorHint="#2F2F2F"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -115,22 +114,12 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
+        android:background="@color/quantum_grey400"
         android:text="Register"
         android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/phone" />
-
-    <TextView
-        android:id="@+id/createText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Already Registered ? Login Here"
-        android:textColor="#FFEB3B"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerBtn" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -141,7 +130,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createText"
+        app:layout_constraintTop_toBottomOf="@+id/registerBtn"
         app:layout_constraintVertical_bias="0.26" />
 
 

@@ -88,12 +88,12 @@
 
 
         <ImageButton
-            android:id="@+id/userInfoButton"
+            android:id="@+id/accountInfoButton"
             android:layout_width="123dp"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
             android:layout_alignParentEnd="true"
-            android:onClick="createListing"
+            android:onClick="viewAccountInfo"
             android:scaleType="fitCenter"
             android:src="@drawable/account_icon" />
 

@@ -12,8 +12,6 @@ public class Property implements Parcelable
     public static final String PARCELABLE_PROPERTY = "com.firebase.rentme.PROPERTY";
 
     //Property Attributes
-    private String documentID;
-
     private String housingCategory;
     private double price;
     private String photoURL;
@@ -42,7 +40,6 @@ public class Property implements Parcelable
     private String ownerPhoneNum;
     private String ownerEmail;
 
-    // firestore requires there to be an empty constructor
     public Property()
     {
 
@@ -51,7 +48,6 @@ public class Property implements Parcelable
     //Parcel is for sending non-Primitive objects by intent
     public Property(Parcel parcel)
     {
-        documentID = parcel.readString();
         housingCategory = parcel.readString();
         price = parcel.readDouble();
         photoURL = parcel.readString();
@@ -74,35 +70,6 @@ public class Property implements Parcelable
         isHandicapAccessible = parcel.readBoolean();
     }
 
-    //Standard Constructor
-    public Property(String documentReference, String housingCategory, double price, String photoURL, String bio, String address,
-                    String city, String zipCode, String state, String ownerName, String ownerPhoneNum,
-                    String ownerEmail, int bedrooms, double bathrooms, boolean petsAllowed, boolean smokingAllowed,
-                    boolean parkingAvailable, boolean hasPool, boolean hasBackyard, boolean hasLaundry, boolean isHandicapAccessible)
-    {
-        this.documentID = documentReference;
-        this.housingCategory = housingCategory;
-        this.price = price;
-        this.photoURL = photoURL;
-        this.bio = bio;
-        this.address = address;
-        this.city = city;
-        this.zipCode = zipCode;
-        this.state = state;
-        this.ownerName = ownerName;
-        this.ownerPhoneNum = ownerPhoneNum;
-        this.ownerEmail = ownerEmail;
-        this.bedrooms = bedrooms;
-        this.bathrooms = bathrooms;
-        this.petsAllowed = petsAllowed;
-        this.smokingAllowed = smokingAllowed;
-        this.parkingAvailable = parkingAvailable;
-        this.hasPool = hasPool;
-        this.hasBackyard = hasBackyard;
-        this.hasLaundry = hasLaundry;
-        this.isHandicapAccessible = isHandicapAccessible;
-    }
-
     //used when un-parceling our parcel (creating the object)
     public static final Parcelable.Creator<Property> CREATOR = new Parcelable.Creator<Property>()
     {
@@ -122,7 +89,6 @@ public class Property implements Parcelable
     //write object values to parcel for storage
     public void writeToParcel(Parcel dest, int flags)
     {
-        dest.writeString(documentID);
         dest.writeString(housingCategory);
         dest.writeDouble(price);
         dest.writeString(photoURL);
@@ -147,15 +113,27 @@ public class Property implements Parcelable
 
     public String generatePostalAddress()
     {
-        return address + ", " + city + ", " + state;
+        return getAddress() + ", " + getCity() + ", " + getState();
+    }
+
+    public String getDocumentReferenceID()
+    {
+        String docRefID = getAddress() + getCity() + getState() + getZipCode();
+        docRefID = docRefID.toLowerCase();
+        docRefID = docRefID.replaceAll("\\s", "");
+        return docRefID;
     }
 
     //Return hashcode of object
     public int describeContents() { return hashCode(); }
 
-    //Get Values
-    public String getDocumentID() {return  this.documentID; }
+    //Facotory Method
+    public static Property getPropertyInstance()
+    {
+        return new Property();
+    }
 
+    //Get Values
     public String getHousingCategory() { return this.housingCategory; }
 
     public double getPrice() { return price; }
@@ -197,8 +175,6 @@ public class Property implements Parcelable
     public boolean isHandicapAccessible() { return isHandicapAccessible; }
 
     //Set Values
-    public void setDocumentID(String documentID) { this.documentID = documentID; }
-
     public void setHousingCategory(String housingCategory) { this.housingCategory = housingCategory; }
 
     public void setPrice(double price) { this.price = price; }

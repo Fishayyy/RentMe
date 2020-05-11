@@ -1,7 +1,9 @@
-package com.firebase.rentme;
+package com.firebase.rentme.account;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +16,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.firebase.rentme.MainActivity;
+import com.firebase.rentme.R;
 import com.firebase.rentme.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -25,14 +29,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Locale;
 
-public class Register extends AppCompatActivity {
-    public static final String TAG = "TAG";
+public class Register extends AppCompatActivity
+{
+    public static final String TAG = "REGISTER";
 
-    private User newUser;
-    EditText mFullName,mEmail,mPassword,mPhone;
+    EditText mFullName, mEmail, mPassword, mPhone;
     Button mRegisterBtn;
     TextView mLoginBtn;
     FirebaseAuth fAuth;
@@ -41,47 +44,48 @@ public class Register extends AppCompatActivity {
     String userID;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        mFullName   = findViewById(R.id.fullName);
-        mEmail      = findViewById(R.id.Email);
-        mPassword   = findViewById(R.id.password);
-        mPhone      = findViewById(R.id.phone);
-        mRegisterBtn= findViewById(R.id.registerBtn);
-        mLoginBtn   = findViewById(R.id.createText);
+        mFullName = findViewById(R.id.fullName);
+        mEmail = findViewById(R.id.Email);
+        mPassword = findViewById(R.id.password);
+        mPhone = findViewById(R.id.phone);
+        mPhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+        mRegisterBtn = findViewById(R.id.registerBtn);
+        mLoginBtn = findViewById(R.id.createText);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         progressBar = findViewById(R.id.progressBar);
 
-        // If user is logged in already, then send them to the main activity
-        if(fAuth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-            finish();
-        }
 
-
-        mRegisterBtn.setOnClickListener(new View.OnClickListener() {
+        mRegisterBtn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 final String email = mEmail.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
                 final String fullName = mFullName.getText().toString();
-                final String phone    = mPhone.getText().toString();
+                final String phone = PhoneNumberUtils.formatNumber(mPhone.getText().toString(), Locale.getDefault().getCountry());
 
-                if(TextUtils.isEmpty(email)){
+                if (TextUtils.isEmpty(email))
+                {
                     mEmail.setError("Email is Required.");
                     return;
                 }
 
-                if(TextUtils.isEmpty(password)){
+                if (TextUtils.isEmpty(password))
+                {
                     mPassword.setError("Password is Required.");
                     return;
                 }
 
-                if(password.length() < 6){
+                if (password.length() < 6)
+                {
                     mPassword.setError("Password Must be >= 6 Characters");
                     return;
                 }
@@ -89,28 +93,31 @@ public class Register extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
 
                 // register the user in firebase
-
-                fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                fAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>()
+                {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-
+                    public void onComplete(@NonNull Task<AuthResult> task)
+                    {
+                        if (task.isSuccessful())
+                        {
                             // send verification link
-
-                            FirebaseUser fuser = fAuth.getCurrentUser();
-                            fuser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            FirebaseUser user = fAuth.getCurrentUser();
+                            user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>()
+                            {
                                 @Override
-                                public void onSuccess(Void aVoid) {
+                                public void onSuccess(Void aVoid)
+                                {
                                     Toast.makeText(Register.this, "Verification Email Has been Sent.", Toast.LENGTH_SHORT).show();
                                 }
-                            }).addOnFailureListener(new OnFailureListener() {
+                            }).addOnFailureListener(new OnFailureListener()
+                            {
                                 @Override
-                                public void onFailure(@NonNull Exception e) {
+                                public void onFailure(@NonNull Exception e)
+                                {
                                     Log.d(TAG, "onFailure: Email not sent " + e.getMessage());
                                 }
                             });
 
-                            Toast.makeText(Register.this, "User Created.", Toast.LENGTH_SHORT).show();
                             userID = fAuth.getCurrentUser().getUid();
                             DocumentReference documentReference = fStore.collection("users").document(userID);
                             User newUser = new User();
@@ -119,20 +126,25 @@ public class Register extends AppCompatActivity {
                             newUser.setOwnerEmail(email);
                             newUser.setOwnerPhoneNum(phone);
 
-                            documentReference.set(newUser).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            documentReference.set(newUser).addOnSuccessListener(new OnSuccessListener<Void>()
+                            {
                                 @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d(TAG, "onSuccess: user Profile is created for "+ userID);
+                                public void onSuccess(Void aVoid)
+                                {
+                                    Log.d(TAG, "onSuccess: user Profile is created for " + userID);
                                 }
-                            }).addOnFailureListener(new OnFailureListener() {
+                            }).addOnFailureListener(new OnFailureListener()
+                            {
                                 @Override
-                                public void onFailure(@NonNull Exception e) {
+                                public void onFailure(@NonNull Exception e)
+                                {
                                     Log.d(TAG, "onFailure: " + e.toString());
                                 }
                             });
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-
-                        }else {
+                            finish();
+                        }
+                        else
+                        {
                             Toast.makeText(Register.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
                         }
@@ -140,15 +152,5 @@ public class Register extends AppCompatActivity {
                 });
             }
         });
-
-
-
-        mLoginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),Login.class));
-            }
-        });
-
     }
 }
