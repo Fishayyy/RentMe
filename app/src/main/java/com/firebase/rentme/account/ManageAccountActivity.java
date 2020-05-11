@@ -27,6 +27,12 @@ public class ManageAccountActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    public void viewListings(View view)
+    {
+        Intent intent = new Intent(this, ViewListingsActivity.class);
+        startActivity(intent);
+    }
+
     public void exitActivity(View view)
     {
         finish();

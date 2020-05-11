@@ -169,6 +169,7 @@
                     android:layout_below="@id/addListingButton"
                     android:background="@color/transparent"
                     android:drawableEnd="@drawable/manage_property_icon"
+                    android:onClick="viewListings"
                     android:paddingEnd="9dp"
                     android:text="Manage your listings"
                     android:textAlignment="viewStart"
