@@ -40,7 +40,6 @@ public class Property implements Parcelable
     private String ownerPhoneNum;
     private String ownerEmail;
 
-    // firestore requires there to be an empty constructor
     public Property()
     {
 
@@ -69,34 +68,6 @@ public class Property implements Parcelable
         hasBackyard = parcel.readBoolean();
         hasLaundry = parcel.readBoolean();
         isHandicapAccessible = parcel.readBoolean();
-    }
-
-    //Standard Constructor
-    public Property(String housingCategory, double price, String photoURL, String bio, String address,
-                    String city, String zipCode, String state, String ownerName, String ownerPhoneNum,
-                    String ownerEmail, int bedrooms, double bathrooms, boolean petsAllowed, boolean smokingAllowed,
-                    boolean parkingAvailable, boolean hasPool, boolean hasBackyard, boolean hasLaundry, boolean isHandicapAccessible)
-    {
-        this.housingCategory = housingCategory;
-        this.price = price;
-        this.photoURL = photoURL;
-        this.bio = bio;
-        this.address = address;
-        this.city = city;
-        this.zipCode = zipCode;
-        this.state = state;
-        this.ownerName = ownerName;
-        this.ownerPhoneNum = ownerPhoneNum;
-        this.ownerEmail = ownerEmail;
-        this.bedrooms = bedrooms;
-        this.bathrooms = bathrooms;
-        this.petsAllowed = petsAllowed;
-        this.smokingAllowed = smokingAllowed;
-        this.parkingAvailable = parkingAvailable;
-        this.hasPool = hasPool;
-        this.hasBackyard = hasBackyard;
-        this.hasLaundry = hasLaundry;
-        this.isHandicapAccessible = isHandicapAccessible;
     }
 
     //used when un-parceling our parcel (creating the object)
@@ -142,11 +113,25 @@ public class Property implements Parcelable
 
     public String generatePostalAddress()
     {
-        return address + ", " + city + ", " + state;
+        return getAddress() + ", " + getCity() + ", " + getState();
+    }
+
+    public String getDocumentReferenceID()
+    {
+        String docRefID = getAddress() + getCity() + getState() + getZipCode();
+        docRefID = docRefID.toLowerCase();
+        docRefID = docRefID.replaceAll("\\s", "");
+        return docRefID;
     }
 
     //Return hashcode of object
     public int describeContents() { return hashCode(); }
+
+    //Facotory Method
+    public static Property getPropertyInstance()
+    {
+        return new Property();
+    }
 
     //Get Values
     public String getHousingCategory() { return this.housingCategory; }

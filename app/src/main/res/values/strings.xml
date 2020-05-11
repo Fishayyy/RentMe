@@ -2,7 +2,8 @@
     <string name="app_name">RentMe</string>
     <string name="add_property_title">Add Property</string>
     <string name="filter_properties_title">Filters</string>
-    <string name="view_property_details">Property Details</string>
+    <string name="view_property_details_title">Property Details</string>
+    <string name="view_account_title">Account</string>
 
     <!--    ____________________________Property Details____________________________ -->
     <string name="contactInfo">"Contact Information"</string>    <!--    Owner Details-->

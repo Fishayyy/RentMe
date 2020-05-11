@@ -1,4 +1,4 @@
-package com.firebase.rentme;
+package com.firebase.rentme.filters;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 
+import com.firebase.rentme.R;
 import com.firebase.rentme.models.PriceInputFilter;
 import com.firebase.rentme.models.ResultsFilter;
 import com.jaygoo.widget.RangeSeekBar;

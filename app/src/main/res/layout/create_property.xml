@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreatePropertyActivity">
+    tools:context=".account.CreatePropertyActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/createListingToolbar"
@@ -86,7 +86,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/edit_text_price"
-                android:layout_marginStart="12dp"
+
+                android:layout_alignParentStart="true"
                 android:layout_marginEnd="2dp"
                 android:text="@string/dollarSign"
                 android:textSize="16sp" />
@@ -106,11 +107,11 @@
             <Spinner
                 android:id="@+id/categorySpinner"
                 style="@android:style/Widget.Holo.Light.Spinner"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/monthlyText"
-                android:layout_alignEnd="@id/edit_text_ownerName"
                 android:layout_marginStart="12dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="10dp"
                 android:layout_toEndOf="@id/edit_text_price"
                 android:backgroundTint="@color/primary"
@@ -192,87 +193,12 @@
 
             </RelativeLayout>
 
-
-            <TextView
-                android:id="@+id/nameTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/bathroomsButtonLayout"
-                android:layout_alignStart="@id/edit_text_price"
-                android:text="@string/name"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/edit_text_ownerName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/nameTextView"
-                android:layout_alignStart="@id/nameTextView"
-                android:layout_marginEnd="28dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/multi_state_background"
-                android:hint="@string/nameHint"
-                android:inputType="textPersonName"
-                android:padding="6dp" />
-
-            <TextView
-                android:id="@+id/phoneTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/edit_text_ownerName"
-                android:layout_alignStart="@id/edit_text_ownerName"
-                android:text="@string/phone"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/edit_text_ownerPhoneNum"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/phoneTextView"
-                android:layout_alignStart="@id/phoneTextView"
-                android:layout_alignEnd="@id/edit_text_ownerName"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/multi_state_background"
-                android:digits="0123456789()-"
-                android:hint="@string/phoneHint"
-                android:inputType="phone"
-                android:maxLength="14"
-                android:padding="6dp" />
-
-            <TextView
-                android:id="@+id/emailTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/edit_text_ownerPhoneNum"
-                android:layout_alignStart="@id/edit_text_ownerPhoneNum"
-                android:text="@string/email"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/edit_text_ownerEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/emailTextView"
-                android:layout_alignStart="@id/emailTextView"
-                android:layout_alignEnd="@id/edit_text_ownerPhoneNum"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/multi_state_background"
-                android:hint="@string/emailHint"
-                android:inputType="textEmailAddress"
-                android:padding="6dp" />
-
             <TextView
                 android:id="@+id/addressTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/edit_text_ownerEmail"
-                android:layout_alignStart="@id/edit_text_ownerEmail"
+                android:layout_below="@id/bathroomsButtonLayout"
+                android:layout_alignStart="@id/edit_text_price"
                 android:text="@string/address"
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -284,7 +210,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/addressTextView"
                 android:layout_alignStart="@id/addressTextView"
-                android:layout_alignEnd="@id/edit_text_ownerEmail"
+                android:layout_alignEnd="@id/bathroomsButtonLayout"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/multi_state_background"
                 android:hint="@string/addressHint"
@@ -346,7 +272,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/zipCodeTextView"
-                android:layout_alignEnd="@id/edit_text_ownerName"
+                android:layout_alignEnd="@id/categorySpinner"
                 android:layout_marginStart="12dp"
                 android:layout_marginBottom="10dp"
                 android:layout_toEndOf="@id/edit_text_zip"
