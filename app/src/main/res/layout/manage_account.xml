@@ -112,6 +112,7 @@
                     android:layout_below="@id/securitySettingsButton"
                     android:background="@color/transparent"
                     android:drawableEnd="@drawable/sign_out_icon"
+                    android:onClick="signOut"
                     android:paddingEnd="4dp"
                     android:text="Sign Out"
                     android:textAlignment="viewStart"

@@ -18,14 +18,13 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.firebase.rentme.account.Login;
 import com.firebase.rentme.account.ManageAccountActivity;
 import com.firebase.rentme.filters.CreatePropertyFilterActivity;
 import com.firebase.rentme.models.CardViewAdapter;
 import com.firebase.rentme.models.Property;
 import com.firebase.rentme.models.ResultsFilter;
 import com.firebase.rentme.profiles.ViewPropertyDetailsActivity;
-import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -60,7 +59,7 @@ public class MainActivity extends AppCompatActivity
 {
     private static final String TAG = "MainActivity";
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
-    private static final int REQUEST_CODE_SIGN_IN = 2;
+    private static final int REQUEST_CODE_LOGIN = 2;
     private static final int REQUEST_CODE_FILTER_RESULTS = 3;
 
     private FirebaseFirestore database;
@@ -100,15 +99,8 @@ public class MainActivity extends AppCompatActivity
 
         if(user == null)
         {
-            List<AuthUI.IdpConfig> providers = Arrays.asList( new AuthUI.IdpConfig.EmailBuilder().build() );
-            // Create and launch sign-in intent
-            startActivityForResult(
-                    AuthUI.getInstance()
-                            .createSignInIntentBuilder()
-                            .setAvailableProviders(providers)
-                            .setTheme(R.style.AppTheme)
-                            .build(),
-                    REQUEST_CODE_SIGN_IN);
+            Intent signInIntent = new Intent(MainActivity.this, Login.class);
+            startActivityForResult(signInIntent, REQUEST_CODE_LOGIN);
         }
         else
         {
@@ -475,20 +467,16 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         }
-        else if (requestCode == REQUEST_CODE_SIGN_IN)
+        else if (requestCode == REQUEST_CODE_LOGIN)
         {
-            IdpResponse response = IdpResponse.fromResultIntent(data);
-
             if (resultCode == RESULT_OK)
             {
+                user = FirebaseAuth.getInstance().getCurrentUser();
                 startAppSession();
             }
             else
             {
-                // Sign in failed. If response is null the user canceled the
-                // sign-in flow using the back button. Otherwise check
-                // response.getError().getErrorCode() and handle the error.
-                // ...
+                finish();
             }
         }
     }
@@ -500,10 +488,6 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == REQUEST_CODE_LOCATION_PERMISSION && grantResults.length > 0)
         {
             getCurrentLocationButton.performClick();
-        }
-        else
-        {
-            Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
         }
     }
 

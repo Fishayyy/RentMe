@@ -118,9 +118,9 @@ public class Property implements Parcelable
 
     public String getDocumentReferenceID()
     {
-        String docRefID =  getAddress() + getCity() + getState() + getZipCode();
+        String docRefID = getAddress() + getCity() + getState() + getZipCode();
         docRefID = docRefID.toLowerCase();
-        docRefID = docRefID.replaceAll("\\s","");
+        docRefID = docRefID.replaceAll("\\s", "");
         return docRefID;
     }
 
