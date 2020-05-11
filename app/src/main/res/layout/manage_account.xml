@@ -95,7 +95,8 @@
                     android:background="@color/transparent"
                     android:drawableEnd="@drawable/security_settings_icon"
                     android:paddingEnd="2dp"
-                    android:text="Security settings"
+                    android:text="Change Password"
+                    android:onClick="ChangePassword"
                     android:textAlignment="viewStart"
                     android:textAllCaps="false" />
 
