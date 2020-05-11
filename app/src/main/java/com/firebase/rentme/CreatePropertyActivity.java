@@ -283,9 +283,11 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
                         ImageList.add(imgURI);
                         currentImageSelected = currentImageSelected + 1;
                     }
-                    alert.setVisibility(View.VISIBLE);
-                    alert.setText("You have Selected " + ImageList.size() + " Images.");
-                    uploadImageButton.setVisibility(View.GONE);
+                    uploadImageButton.setText("You have Selected " + ImageList.size() + " Images.");
+                    //uploadImageButton.setTextColor(0);
+                    uploadImageButton.setBackgroundColor(getResources().getColor(android.R.color.holo_purple));
+                    //uploadImageButton.setVisibility(View.GONE);
+                    //alert.setVisibility(View.VISIBLE);
                     Log.i("listsize", String.valueOf(ImageList.size()));
                 } else if (data.getData() != null) {
                     String imagePath = data.getData().getPath();
