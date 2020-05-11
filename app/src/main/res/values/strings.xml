@@ -4,6 +4,9 @@
     <string name="filter_properties_title">Filters</string>
     <string name="view_property_details_title">Property Details</string>
     <string name="view_account_title">Account</string>
+    <string name="listings">Listings</string>
+    <string name="favorites">Favorites</string>
+    <string name="account_info">Account Info</string>
     <string name="view_account_settings">Account Settings</string>
 
     <!--    ____________________________Property Details____________________________ -->

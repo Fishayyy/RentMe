@@ -14,12 +14,14 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.firebase.rentme.account.Login;
 import com.firebase.rentme.account.ManageAccountActivity;
+import com.firebase.rentme.account.ViewFavoritesActivity;
 import com.firebase.rentme.filters.CreatePropertyFilterActivity;
 import com.firebase.rentme.models.CardViewAdapter;
 import com.firebase.rentme.models.Property;
@@ -43,6 +45,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -195,21 +198,27 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void removeFirstObjectInAdapter()
             {
-                property = propertyCardList.remove(0);
-                propertyCardList.add(property);
-                cardAdapter.notifyDataSetChanged();
+
             }
 
             @Override
             public void onLeftCardExit(Object o)
             {
-
+                property = propertyCardList.remove(0);
+                propertyCardList.add(property);
+                cardAdapter.notifyDataSetChanged();
+                Toast.makeText(getApplicationContext(), "\ud83d\udc94", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onRightCardExit(Object o)
             {
-
+                property = propertyCardList.remove(0);
+                propertyCardList.add(property);
+                cardAdapter.notifyDataSetChanged();
+                Toast.makeText(getApplicationContext(), "\ud83d\udc93", Toast.LENGTH_SHORT).show();
+                database.collection("users").document(FirebaseAuth.getInstance().getUid())
+                        .update("ownerFavorites", FieldValue.arrayUnion(property.getDocumentReferenceID()));
             }
 
             @Override
@@ -348,7 +357,9 @@ public class MainActivity extends AppCompatActivity
         cardAdapter.notifyDataSetChanged();
         if (cardAdapter.isEmpty())
         {
-            Toast.makeText(this, "Search Returned No Results", Toast.LENGTH_SHORT).show();
+            Toast toast = Toast.makeText(this, "Search Returned No Results", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM|Gravity.CENTER, 0, 215);
+            toast.show();
         }
     }
 
@@ -363,6 +374,12 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(MainActivity.this, CreatePropertyFilterActivity.class);
         intent.putExtra(ResultsFilter.PARCELABLE_FILTER, propertiesFilter);
         startActivityForResult(intent, REQUEST_CODE_FILTER_RESULTS);
+    }
+
+    public void viewFavorites(View view)
+    {
+        Intent intent = new Intent(MainActivity.this, ViewFavoritesActivity.class);
+        startActivity(intent);
     }
 
     public void initLocationButton()
@@ -436,7 +453,9 @@ public class MainActivity extends AppCompatActivity
                                 }
                                 else
                                 {
-                                    Toast.makeText(MainActivity.this, "Location not Found", Toast.LENGTH_SHORT).show();
+                                    Toast toast = Toast.makeText(getApplicationContext(), "Location not Found", Toast.LENGTH_SHORT);
+                                    toast.setGravity(Gravity.BOTTOM|Gravity.CENTER, 0, 215);
+                                    toast.show();
                                 }
                             }
                             catch (IOException e)
@@ -463,7 +482,9 @@ public class MainActivity extends AppCompatActivity
                 cardAdapter.notifyDataSetChanged();
                 if (cardAdapter.isEmpty())
                 {
-                    Toast.makeText(this, "Filtering Returned No Results", Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(getApplicationContext(), "Filtering Returned No Results", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.BOTTOM|Gravity.CENTER, 0, 215);
+                    toast.show();
                 }
             }
         }
@@ -496,4 +517,6 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, ManageAccountActivity.class);
         startActivity(intent);
     }
+
+
 }

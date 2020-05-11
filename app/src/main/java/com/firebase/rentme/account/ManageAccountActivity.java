@@ -27,9 +27,16 @@ public class ManageAccountActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    public void exitActivity(View view)
+    public void viewListings(View view)
     {
-        finish();
+        Intent intent = new Intent(this, ViewListingsActivity.class);
+        startActivity(intent);
+    }
+
+    public void editAccountInfo(View view)
+    {
+        Intent intent = new Intent(this, EditPersonalInfo.class);
+        startActivity(intent);
     }
 
     public void signOut(View view)
@@ -57,9 +64,15 @@ public class ManageAccountActivity extends AppCompatActivity
 
         passwordResetDialog.create().show();
     }
-
-    public void ChangePassword(View view) {
+    
+    public void ChangePassword(View view) 
+    {
         Intent intent = new Intent(this, ChangePassword.class);
         startActivity(intent);
+    }
+    
+    public void exitActivity(View view)
+    {
+        finish();
     }
 }
