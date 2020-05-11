@@ -37,10 +37,12 @@ import com.firebase.rentme.dialogs.SelectBedroomsDialog;
 import com.firebase.rentme.models.PriceInputFilter;
 import com.firebase.rentme.models.Property;
 
+import com.firebase.rentme.models.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -67,6 +69,8 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
 
     private Uri imgURI;
     private String photoURL = "";
+    private String documentID = "";
+    private FirebaseAuth fAuth;
 
     private ImageButton imageButton;
     private EditText editTextPrice;
@@ -116,6 +120,7 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
 
         Log.d(TAG, "onCreate: started");
 
+        initAuthentication();
         initFirestore();
         initButtons();
         initTextViews();
@@ -150,6 +155,11 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
         FirebaseFirestore.setLoggingEnabled(true);
         database = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference("Images");
+    }
+
+    private void initAuthentication()
+    {
+        fAuth = FirebaseAuth.getInstance();
     }
 
     private void initButtons()
@@ -501,6 +511,12 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
                     public void onSuccess(DocumentReference documentReference)
                     {
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        documentID = documentReference.getId();
+                        database.collection("properties").document(documentID).update("documentID", documentID);
+
+                        // Adding the new property ID to the user's ownedProperty attribute
+                        database.collection("users").document(fAuth.getUid()).update("ownedHouses", documentID);
+
                         addPropertyButton.doneLoadingAnimation(getColor(R.color.success), BitmapFactory.decodeResource(getResources(), R.drawable.house_checkmark));
                         exitAfterDelay();
                     }

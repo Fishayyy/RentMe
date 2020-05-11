@@ -12,6 +12,8 @@ public class Property implements Parcelable
     public static final String PARCELABLE_PROPERTY = "com.firebase.rentme.PROPERTY";
 
     //Property Attributes
+    private String documentID;
+
     private String housingCategory;
     private double price;
     private String photoURL;
@@ -49,6 +51,7 @@ public class Property implements Parcelable
     //Parcel is for sending non-Primitive objects by intent
     public Property(Parcel parcel)
     {
+        documentID = parcel.readString();
         housingCategory = parcel.readString();
         price = parcel.readDouble();
         photoURL = parcel.readString();
@@ -72,11 +75,12 @@ public class Property implements Parcelable
     }
 
     //Standard Constructor
-    public Property(String housingCategory, double price, String photoURL, String bio, String address,
+    public Property(String documentReference, String housingCategory, double price, String photoURL, String bio, String address,
                     String city, String zipCode, String state, String ownerName, String ownerPhoneNum,
                     String ownerEmail, int bedrooms, double bathrooms, boolean petsAllowed, boolean smokingAllowed,
                     boolean parkingAvailable, boolean hasPool, boolean hasBackyard, boolean hasLaundry, boolean isHandicapAccessible)
     {
+        this.documentID = documentReference;
         this.housingCategory = housingCategory;
         this.price = price;
         this.photoURL = photoURL;
@@ -118,6 +122,7 @@ public class Property implements Parcelable
     //write object values to parcel for storage
     public void writeToParcel(Parcel dest, int flags)
     {
+        dest.writeString(documentID);
         dest.writeString(housingCategory);
         dest.writeDouble(price);
         dest.writeString(photoURL);
@@ -149,6 +154,8 @@ public class Property implements Parcelable
     public int describeContents() { return hashCode(); }
 
     //Get Values
+    public String getDocumentID() {return  this.documentID; }
+
     public String getHousingCategory() { return this.housingCategory; }
 
     public double getPrice() { return price; }
@@ -190,6 +197,8 @@ public class Property implements Parcelable
     public boolean isHandicapAccessible() { return isHandicapAccessible; }
 
     //Set Values
+    public void setDocumentID(String documentID) { this.documentID = documentID; }
+
     public void setHousingCategory(String housingCategory) { this.housingCategory = housingCategory; }
 
     public void setPrice(double price) { this.price = price; }
