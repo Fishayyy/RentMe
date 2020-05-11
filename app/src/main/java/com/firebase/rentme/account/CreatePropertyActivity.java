@@ -157,16 +157,20 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
     {
         imageButton = findViewById(R.id.uploadImageButton);
         buttonSelectBedrooms = findViewById(R.id.bedroomsButton);
-        buttonSelectBedrooms.setOnClickListener(new View.OnClickListener() {
+        buttonSelectBedrooms.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 openDialog(view);
             }
         });
         buttonSelectBathrooms = findViewById(R.id.bathroomsButton);
-        buttonSelectBathrooms.setOnClickListener(new View.OnClickListener() {
+        buttonSelectBathrooms.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 openDialog(view);
             }
         });
@@ -175,14 +179,14 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
 
     public void openDialog(View view)
     {
-        if(view.getId() == R.id.bedroomsButton)
+        if (view.getId() == R.id.bedroomsButton)
         {
             buttonSelectBedrooms.setTextColor(Color.BLACK);
             buttonSelectBedrooms.setError(null);
             SelectBedroomsDialog bedroomsDialog = new SelectBedroomsDialog(bedrooms);
             bedroomsDialog.show(getSupportFragmentManager(), "bedrooms_dialog");
         }
-        else if(view.getId() == R.id.bathroomsButton)
+        else if (view.getId() == R.id.bathroomsButton)
         {
             buttonSelectBathrooms.setTextColor(Color.BLACK);
             buttonSelectBathrooms.setError(null);
@@ -494,19 +498,18 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
     {
         initializeNewProperty();
 
-        database.collection("properties")
-                .add(newProperty)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>()
+        final DocumentReference newPropertyReference = database.collection("properties").document(newProperty.getDocumentReferenceID());
+        newPropertyReference.set(newProperty)
+                .addOnSuccessListener(new OnSuccessListener<Void>()
                 {
                     @Override
-                    public void onSuccess(DocumentReference documentReference)
+                    public void onSuccess(Void aVoid)
                     {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + newPropertyReference.getId());
                         addPropertyButton.doneLoadingAnimation(getColor(R.color.success), BitmapFactory.decodeResource(getResources(), R.drawable.house_checkmark));
                         exitAfterDelay();
                     }
-                })
-                .addOnFailureListener(new OnFailureListener()
+                }).addOnFailureListener(new OnFailureListener()
                 {
                     @Override
                     public void onFailure(@NonNull Exception e)
@@ -520,7 +523,7 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
 
     private void initializeNewProperty()
     {
-        newProperty = new Property();
+        newProperty = Property.getPropertyInstance();
         newProperty.setHousingCategory(categorySpinner.getSelectedItem().toString());
         newProperty.setPrice(Double.parseDouble(editTextPrice.getText().toString()));
         newProperty.setPhotoURL(photoURL);

@@ -24,6 +24,8 @@ import com.firebase.rentme.models.CardViewAdapter;
 import com.firebase.rentme.models.Property;
 import com.firebase.rentme.models.ResultsFilter;
 import com.firebase.rentme.profiles.ViewPropertyDetailsActivity;
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -37,6 +39,8 @@ import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
@@ -56,8 +60,11 @@ public class MainActivity extends AppCompatActivity
 {
     private static final String TAG = "MainActivity";
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
+    private static final int REQUEST_CODE_SIGN_IN = 2;
+    private static final int REQUEST_CODE_FILTER_RESULTS = 3;
 
     private FirebaseFirestore database;
+    private FirebaseUser user;
     private CollectionReference propertiesCollection;
     private ListenerRegistration registration;
     private AutocompleteSupportFragment autocompleteFragment;
@@ -78,9 +85,39 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
 
-        Log.d(TAG, "onCreate: started");
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        signInUser();
+    }
 
+    private void signInUser()
+    {
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if(user == null)
+        {
+            List<AuthUI.IdpConfig> providers = Arrays.asList( new AuthUI.IdpConfig.EmailBuilder().build() );
+            // Create and launch sign-in intent
+            startActivityForResult(
+                    AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setAvailableProviders(providers)
+                            .setTheme(R.style.AppTheme)
+                            .build(),
+                    REQUEST_CODE_SIGN_IN);
+        }
+        else
+        {
+            startAppSession();
+        }
+    }
+
+    private void startAppSession()
+    {
         initFirestore();
 
         initGooglePlaces();
@@ -132,7 +169,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onPlaceSelected(Place place)
             {
-                if(isPressed)
+                if (isPressed)
                 {
                     getCurrentLocationButton.performClick();
                 }
@@ -317,7 +354,7 @@ public class MainActivity extends AppCompatActivity
     {
         propertyCardList.addAll(propertiesFilter.getFilteredResults(unfilteredProperties));
         cardAdapter.notifyDataSetChanged();
-        if(cardAdapter.isEmpty())
+        if (cardAdapter.isEmpty())
         {
             Toast.makeText(this, "Search Returned No Results", Toast.LENGTH_SHORT).show();
         }
@@ -333,7 +370,7 @@ public class MainActivity extends AppCompatActivity
     {
         Intent intent = new Intent(MainActivity.this, CreatePropertyFilterActivity.class);
         intent.putExtra(ResultsFilter.PARCELABLE_FILTER, propertiesFilter);
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, REQUEST_CODE_FILTER_RESULTS);
     }
 
     public void initLocationButton()
@@ -399,7 +436,7 @@ public class MainActivity extends AppCompatActivity
                                 geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
                                 addresses = geocoder.getFromLocation(latitude, longitude, 1);
 
-                                if(addresses.size() > 0)
+                                if (addresses.size() > 0)
                                 {
                                     Address currentLocation = addresses.get(0);
                                     locationQuery = currentLocation.getPostalCode();
@@ -424,7 +461,7 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1)
+        if (requestCode == REQUEST_CODE_FILTER_RESULTS)
         {
             if (resultCode == RESULT_OK)
             {
@@ -432,10 +469,26 @@ public class MainActivity extends AppCompatActivity
                 propertyCardList.clear();
                 propertyCardList.addAll(propertiesFilter.getFilteredResults(unfilteredProperties));
                 cardAdapter.notifyDataSetChanged();
-                if(cardAdapter.isEmpty())
+                if (cardAdapter.isEmpty())
                 {
                     Toast.makeText(this, "Filtering Returned No Results", Toast.LENGTH_SHORT).show();
                 }
+            }
+        }
+        else if (requestCode == REQUEST_CODE_SIGN_IN)
+        {
+            IdpResponse response = IdpResponse.fromResultIntent(data);
+
+            if (resultCode == RESULT_OK)
+            {
+                startAppSession();
+            }
+            else
+            {
+                // Sign in failed. If response is null the user canceled the
+                // sign-in flow using the back button. Otherwise check
+                // response.getError().getErrorCode() and handle the error.
+                // ...
             }
         }
     }
