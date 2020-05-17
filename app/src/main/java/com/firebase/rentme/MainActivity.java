@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        startAppSession();
     }
 
     @Override
@@ -104,10 +105,6 @@ public class MainActivity extends AppCompatActivity
         {
             Intent signInIntent = new Intent(MainActivity.this, Login.class);
             startActivityForResult(signInIntent, REQUEST_CODE_LOGIN);
-        }
-        else
-        {
-            startAppSession();
         }
     }
 
@@ -353,6 +350,7 @@ public class MainActivity extends AppCompatActivity
 
     public void refreshCards()
     {
+        propertyCardList.clear();
         propertyCardList.addAll(propertiesFilter.getFilteredResults(unfilteredProperties));
         cardAdapter.notifyDataSetChanged();
         if (cardAdapter.isEmpty())

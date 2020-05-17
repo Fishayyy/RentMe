@@ -11,6 +11,8 @@ public class Property implements Parcelable
 
     public static final String PARCELABLE_PROPERTY = "com.firebase.rentme.PROPERTY";
 
+    private long timeOfCreation;
+
     //Property Attributes
     private String housingCategory;
     private double price;
@@ -48,6 +50,7 @@ public class Property implements Parcelable
     //Parcel is for sending non-Primitive objects by intent
     public Property(Parcel parcel)
     {
+        timeOfCreation = parcel.readLong();
         housingCategory = parcel.readString();
         price = parcel.readDouble();
         photoURL = parcel.readString();
@@ -89,6 +92,7 @@ public class Property implements Parcelable
     //write object values to parcel for storage
     public void writeToParcel(Parcel dest, int flags)
     {
+        dest.writeLong(timeOfCreation);
         dest.writeString(housingCategory);
         dest.writeDouble(price);
         dest.writeString(photoURL);
@@ -118,7 +122,7 @@ public class Property implements Parcelable
 
     public String getDocumentReferenceID()
     {
-        String docRefID = getAddress() + getCity() + getState() + getZipCode();
+        String docRefID = getCity() + getAddress() + timeOfCreation;
         docRefID = docRefID.toLowerCase();
         docRefID = docRefID.replaceAll("\\s", "");
         return docRefID;
@@ -134,6 +138,8 @@ public class Property implements Parcelable
     }
 
     //Get Values
+    public long getTimeOfCreation() { return this.timeOfCreation; }
+
     public String getHousingCategory() { return this.housingCategory; }
 
     public double getPrice() { return price; }
@@ -175,6 +181,8 @@ public class Property implements Parcelable
     public boolean isHandicapAccessible() { return isHandicapAccessible; }
 
     //Set Values
+    public void setTimeOfCreation(long timeOfCreation) { this.timeOfCreation = timeOfCreation; }
+
     public void setHousingCategory(String housingCategory) { this.housingCategory = housingCategory; }
 
     public void setPrice(double price) { this.price = price; }

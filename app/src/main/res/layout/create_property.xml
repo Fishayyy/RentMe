@@ -284,7 +284,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/edit_text_zip"
                 android:layout_alignStart="@id/edit_text_zip"
-                android:text="@string/bio"
+                android:text="@string/rules"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -293,10 +293,9 @@
                 android:id="@+id/petRulesTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/rulesTextView"
+                android:layout_alignBaseline="@id/petRulesCheckBox"
                 android:layout_alignStart="@id/rulesTextView"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
                 android:text="@string/petsAllowed"
                 android:textColor="@color/primary_text" />
 
@@ -304,7 +303,7 @@
                 android:id="@+id/petRulesCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/petRulesTextView"
+                android:layout_below="@id/rulesTextView"
                 android:layout_alignEnd="@id/stateSpinner"
                 android:layout_marginEnd="10dp" />
 
@@ -312,10 +311,9 @@
                 android:id="@+id/smokingRulesTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/petRulesTextView"
+                android:layout_alignBaseline="@id/smokingRulesCheckBox"
                 android:layout_alignStart="@id/rulesTextView"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
                 android:text="@string/smokingAmenityTextView"
                 android:textColor="@color/primary_text" />
 
@@ -323,7 +321,7 @@
                 android:id="@+id/smokingRulesCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/smokingRulesTextView"
+                android:layout_below="@id/petRulesCheckBox"
                 android:layout_alignEnd="@id/stateSpinner"
                 android:layout_marginEnd="10dp" />
 
@@ -343,10 +341,9 @@
                 android:id="@+id/parkingAmenityTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/amenitiesTextView"
+                android:layout_alignBaseline="@id/parkingAmenityCheckBox"
                 android:layout_alignStart="@id/amenitiesTextView"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
                 android:text="@string/parkingAmenityTextView"
                 android:textColor="@color/primary_text" />
 
@@ -354,7 +351,7 @@
                 android:id="@+id/parkingAmenityCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/parkingAmenityTextView"
+                android:layout_below="@id/amenitiesTextView"
                 android:layout_alignEnd="@id/stateSpinner"
                 android:layout_marginEnd="10dp" />
 
@@ -362,10 +359,9 @@
                 android:id="@+id/poolAmenityTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/parkingAmenityCheckBox"
+                android:layout_alignBaseline="@id/poolAmenityCheckBox"
                 android:layout_alignStart="@id/amenitiesTextView"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
                 android:text="@string/poolAmenityTextView"
                 android:textColor="@color/primary_text" />
 
@@ -373,7 +369,7 @@
                 android:id="@+id/poolAmenityCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/poolAmenityTextView"
+                android:layout_below="@id/parkingAmenityCheckBox"
                 android:layout_alignEnd="@id/stateSpinner"
                 android:layout_marginEnd="10dp" />
 
@@ -382,9 +378,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/poolAmenityTextView"
+                android:layout_alignBaseline="@id/backyardAmenityCheckBox"
                 android:layout_alignStart="@id/amenitiesTextView"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
                 android:text="@string/backyardAmenityTextView"
                 android:textColor="@color/primary_text" />
 
@@ -392,7 +388,7 @@
                 android:id="@+id/backyardAmenityCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/backyardAmenityTextView"
+                android:layout_below="@id/poolAmenityCheckBox"
                 android:layout_alignEnd="@id/stateSpinner"
                 android:layout_marginEnd="10dp" />
 
@@ -400,10 +396,9 @@
                 android:id="@+id/laundryAmenityTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/backyardAmenityTextView"
+                android:layout_alignBaseline="@id/laundryAmenityCheckBox"
                 android:layout_alignStart="@id/amenitiesTextView"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
                 android:text="@string/laundryTextView"
                 android:textColor="@color/primary_text" />
 
@@ -411,7 +406,7 @@
                 android:id="@+id/laundryAmenityCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/laundryAmenityTextView"
+                android:layout_below="@id/backyardAmenityCheckBox"
                 android:layout_alignEnd="@id/stateSpinner"
                 android:layout_marginEnd="10dp" />
 
@@ -419,11 +414,10 @@
                 android:id="@+id/handicapAmenityTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/laundryAmenityTextView"
+                android:layout_alignBaseline="@id/handicapAmenityCheckBox"
                 android:layout_alignStart="@id/amenitiesTextView"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="15dp"
                 android:text="@string/assistedLiving"
                 android:textColor="@color/primary_text" />
 
@@ -431,7 +425,7 @@
                 android:id="@+id/handicapAmenityCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/handicapAmenityTextView"
+                android:layout_below="@id/laundryAmenityCheckBox"
                 android:layout_alignEnd="@id/stateSpinner"
                 android:layout_marginEnd="10dp" />
 

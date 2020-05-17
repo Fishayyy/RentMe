@@ -513,6 +513,7 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
                 if (user != null)
                 {
                     newProperty = Property.getPropertyInstance();
+                    newProperty.setTimeOfCreation(System.currentTimeMillis());
                     newProperty.setOwnerName(user.getOwnerName());
                     newProperty.setOwnerPhoneNum(user.getOwnerPhoneNum());
                     newProperty.setOwnerEmail(user.getOwnerEmail());

@@ -53,7 +53,6 @@ public class ViewFavoritesActivity extends AppCompatActivity
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         relativeLayout = findViewById(R.id.relativeLayout);
 
-        displayActivityName();
         getFavoritePropertiesList();
         enableSwipeToDeleteAndUndo();
     }
@@ -71,12 +70,6 @@ public class ViewFavoritesActivity extends AppCompatActivity
         }
 
         database.collection("users").document(FirebaseAuth.getInstance().getUid()).update("ownerFavorites", updatedFavorites);
-    }
-
-    private void displayActivityName()
-    {
-        TextView activityTitle = (TextView) findViewById(R.id.activity_title);
-        activityTitle.setText(R.string.favorites);
     }
 
     private void getFavoritePropertiesList()
@@ -101,10 +94,9 @@ public class ViewFavoritesActivity extends AppCompatActivity
 
     private void populateList(User user)
     {
-        database = FirebaseFirestore.getInstance();
         if(user != null)
         {
-            ArrayList<String> targets = user.getOwnerFavorites();
+            ArrayList<String> targets = new ArrayList<>(user.getOwnerFavorites());
 
             while(targets.size() > 0)
             {
