@@ -79,49 +79,39 @@ public class EditPersonalInfo extends AppCompatActivity
 
     public void updateUserInfo(View view)
     {
-        boolean changeName = false;
-        boolean changeEmail = false;
-        boolean changePhone = false;
+        boolean emailChanged = false;
 
         if(!nameEditText.getText().toString().equals(name))
         {
-            changeName = true;
-            userDocRef.update("ownerName", nameEditText.getText().toString());
+            updateField("ownerName", nameEditText.getText().toString());
         }
 
         if(!emailEditText.getText().toString().equals(email))
         {
-            changeEmail = true;
-            userDocRef.update("ownerEmail", emailEditText.getText().toString());
+            updateField("ownerEmail", emailEditText.getText().toString());
         }
 
         if(!phoneEditText.getText().toString().equals(phoneNum))
         {
-            changePhone = true;
-            userDocRef.update("ownerPhoneNum", phoneEditText.getText().toString());
+            updateField("ownerPhoneNum", phoneEditText.getText().toString());
         }
 
-//        if(changeName || changeEmail || changePhone)
-//        {
-//            ArrayList<String> targets = userInstance.getOwnerProperties();
-//
-//            while(targets.size() > 0)
-//            {
-//                FirebaseFirestore.getInstance().collection("properties").document(targets.remove(0)).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onSuccess(DocumentSnapshot documentSnapshot)
-//                    {
-//                        Property property = documentSnapshot.toObject(Property.class);
-//                        if(property != null)
-//                        {
-//
-//                        }
-//                    }
-//                });
-//            }
-//        }
-
         finish();
+    }
+
+    public void updateField(String field, String value)
+    {
+        userDocRef.update(field, value);
+
+        ArrayList<String> targets = new ArrayList<String>(userInstance.getOwnerProperties());
+
+        while(targets.size() > 0)
+        {
+            FirebaseFirestore.getInstance()
+                    .collection("properties")
+                    .document(targets.remove(0))
+                    .update(field, value);
+        }
     }
 
     public void exit(View view)
