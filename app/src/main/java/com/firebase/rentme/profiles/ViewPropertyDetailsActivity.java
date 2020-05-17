@@ -98,6 +98,7 @@ public class ViewPropertyDetailsActivity extends FragmentActivity implements OnM
         ownerName.setText(property.getOwnerName());
         ownerPhone.setText(property.getOwnerPhoneNum());
         ownerEmail.setText(property.getOwnerEmail());
+
         if(property.getBedrooms() == 0)
         {
             bedrooms.setText("Studio");

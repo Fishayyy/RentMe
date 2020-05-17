@@ -114,7 +114,7 @@
                     android:background="@color/transparent"
                     android:drawableEnd="@drawable/sign_out_icon"
                     android:onClick="signOut"
-                    android:paddingEnd="4dp"
+                    android:paddingEnd="3dp"
                     android:text="Sign Out"
                     android:textAlignment="viewStart"
                     android:textAllCaps="false"
