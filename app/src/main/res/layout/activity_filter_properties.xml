@@ -15,12 +15,12 @@
         app:titleTextColor="@android:color/white">
 
         <RelativeLayout
-            android:id="@+id/filterPropertiesToolbarLayout"
+            android:id="@+id/accountInfoToolbarLayout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/filterPropertiesBackButton"
+                android:id="@+id/accountInfoBackButton"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_alignParentStart="true"
@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_toEndOf="@id/filterPropertiesBackButton"
+                android:layout_toEndOf="@id/accountInfoBackButton"
                 android:text="@string/filter_properties_title"
                 android:textColor="@color/white" />
 
@@ -51,7 +51,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/resetFiltersButton"
+            android:id="@+id/cancelButton"
             android:layout_width="170dp"
             android:layout_height="60dp"
             android:layout_marginEnd="7dp"
@@ -82,7 +82,7 @@
         android:padding="15dp">
 
         <RelativeLayout
-            android:id="@+id/innerRelativeLayout"
+            android:id="@+id/changePasswordLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

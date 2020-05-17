@@ -50,7 +50,7 @@
         android:layout_centerHorizontal="true">
 
         <RelativeLayout
-            android:id="@+id/innerRelativeLayout"
+            android:id="@+id/changePasswordLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

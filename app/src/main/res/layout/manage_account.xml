@@ -77,6 +77,7 @@
                     android:layout_below="@id/accountSettingsSectionTitle"
                     android:background="@color/transparent"
                     android:drawableEnd="@drawable/personal_info_icon"
+                    android:onClick="editAccountInfo"
                     android:text="Personal information"
                     android:textAlignment="viewStart"
                     android:textAllCaps="false" />
@@ -94,8 +95,8 @@
                     android:layout_below="@id/personalInformationButton"
                     android:background="@color/transparent"
                     android:drawableEnd="@drawable/security_settings_icon"
-                    android:paddingEnd="2dp"
-                    android:text="Security settings"
+                    android:text="Change password"
+                    android:onClick="ChangePassword"
                     android:textAlignment="viewStart"
                     android:textAllCaps="false" />
 
@@ -169,6 +170,7 @@
                     android:layout_below="@id/addListingButton"
                     android:background="@color/transparent"
                     android:drawableEnd="@drawable/manage_property_icon"
+                    android:onClick="viewListings"
                     android:paddingEnd="9dp"
                     android:text="Manage your listings"
                     android:textAlignment="viewStart"

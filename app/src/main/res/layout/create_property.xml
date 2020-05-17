@@ -7,7 +7,7 @@
     tools:context=".account.CreatePropertyActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/createListingToolbar"
+        android:id="@+id/accountInfoToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -15,12 +15,12 @@
         app:titleTextColor="@android:color/white">
 
         <RelativeLayout
-            android:id="@+id/filterPropertiesToolbarLayout"
+            android:id="@+id/accountInfoToolbarLayout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/filterPropertiesBackButton"
+                android:id="@+id/accountInfoBackButton"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_alignParentStart="true"
@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_toEndOf="@id/filterPropertiesBackButton"
+                android:layout_toEndOf="@id/accountInfoBackButton"
                 android:text="@string/add_property_title"
                 android:textColor="@color/white" />
 
@@ -46,13 +46,13 @@
         android:id="@+id/createListingScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/createListingToolbar"
+        android:layout_below="@id/accountInfoToolbar"
         android:layout_centerHorizontal="true"
         android:paddingStart="15dp"
         android:paddingEnd="15dp">
 
         <RelativeLayout
-            android:id="@+id/innerRelativeLayout"
+            android:id="@+id/changePasswordLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -86,7 +86,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/edit_text_price"
-
                 android:layout_alignParentStart="true"
                 android:layout_marginEnd="2dp"
                 android:text="@string/dollarSign"
@@ -194,7 +193,7 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/addressTextView"
+                android:id="@+id/nameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/bathroomsButtonLayout"
@@ -205,11 +204,11 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/edit_text_address"
+                android:id="@+id/edit_text_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/addressTextView"
-                android:layout_alignStart="@id/addressTextView"
+                android:layout_below="@id/nameTextView"
+                android:layout_alignStart="@id/nameTextView"
                 android:layout_alignEnd="@id/bathroomsButtonLayout"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/multi_state_background"
@@ -218,23 +217,23 @@
                 android:padding="6dp" />
 
             <TextView
-                android:id="@+id/cityTextView"
+                android:id="@+id/emailTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/edit_text_address"
-                android:layout_alignStart="@id/edit_text_address"
+                android:layout_below="@id/edit_text_name"
+                android:layout_alignStart="@id/edit_text_name"
                 android:text="@string/city"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/edit_text_city"
+                android:id="@+id/edit_text_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/cityTextView"
-                android:layout_alignStart="@id/cityTextView"
-                android:layout_alignEnd="@id/edit_text_address"
+                android:layout_below="@id/emailTextView"
+                android:layout_alignStart="@id/emailTextView"
+                android:layout_alignEnd="@id/edit_text_name"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/multi_state_background"
                 android:hint="@string/cityHint"
@@ -245,8 +244,8 @@
                 android:id="@+id/zipCodeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/edit_text_city"
-                android:layout_alignStart="@id/edit_text_city"
+                android:layout_below="@id/edit_text_email"
+                android:layout_alignStart="@id/edit_text_email"
                 android:text="@string/zipCode"
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -453,7 +452,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/bioTextView"
                 android:layout_alignStart="@id/bioTextView"
-                android:layout_alignEnd="@id/edit_text_city"
+                android:layout_alignEnd="@id/edit_text_email"
                 android:layout_marginBottom="10dp"
                 app:counterEnabled="true"
                 app:counterMaxLength="500"

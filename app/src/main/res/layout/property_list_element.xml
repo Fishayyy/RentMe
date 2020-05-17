@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="64dp">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="69dp"
+            android:layout_marginStart="-5dp"
+            android:layout_marginEnd="-5dp"
+            android:layout_marginTop="-5dp"
+            android:paddingTop="5dp"
+            android:paddingStart="5dp"
+            android:background="@drawable/border2">
+
+            <ImageView
+                android:id="@+id/property_thumbnail"
+                android:layout_width="63dp"
+                android:layout_height="63dp"
+                android:layout_alignParentStart="true"
+                android:scaleType="centerCrop"/>
+
+            <TextView
+                android:id="@+id/attribute_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/property_thumbnail"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="4dp"
+                android:textSize="20sp"
+                android:text="Apartment"/>
+
+            <TextView
+                android:id="@+id/attribute_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/attribute_type"
+                android:layout_alignBottom="@id/attribute_type"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="1dp"
+                android:textSize="16sp"
+                android:text="It's here"/>
+
+            <TextView
+                android:id="@+id/attribute_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/property_thumbnail"
+                android:layout_below="@id/attribute_type"
+                android:layout_marginStart="10dp"
+                android:textSize="16sp"
+                android:text="It's here"/>
+
+
+        </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>
