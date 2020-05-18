@@ -24,12 +24,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.rentme.MainActivity;
 import com.firebase.rentme.R;
 import com.firebase.rentme.dialogs.SelectBathroomsDialog;
 import com.firebase.rentme.dialogs.SelectBedroomsDialog;
@@ -50,6 +50,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
+import java.util.Locale;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -69,9 +72,19 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
 
     private Uri imgURI;
     private String photoURL = "";
+    private ArrayList<String> photoURLList = new ArrayList<>();
     private FirebaseAuth fAuth;
 
-    private ImageButton imageButton;
+    //Test for upload multiple images
+    int SELECT_PICTURES = 1;
+    //array to store multiple photos
+    private ArrayList<Uri> ImageList = new ArrayList<Uri>();
+    int upload_count = 0;
+    int photoURLCounter = 0;
+    int image = 0;
+
+
+    private Button uploadImageButton;
     private EditText editTextPrice;
     private Spinner categorySpinner;
     private TextView textViewBedrooms;
@@ -160,7 +173,7 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
 
     private void initButtons()
     {
-        imageButton = findViewById(R.id.uploadImageButton);
+        uploadImageButton = findViewById(R.id.uploadImageButton);
         buttonSelectBedrooms = findViewById(R.id.bedroomsButton);
         buttonSelectBedrooms.setOnClickListener(new View.OnClickListener()
         {
@@ -244,8 +257,10 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
 
     public void choosePhotoFromGallery(View v)
     {
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(galleryIntent, GALLERY);
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURES);
     }
 
     //Results from choosePhotoFromGallery
@@ -256,17 +271,31 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
         if (resultCode == RESULT_CANCELED)
         {
             imgURI = null;
-            imageButton.setImageResource(R.drawable.add_pic_icon);
-            imageButton.setBackgroundResource(R.drawable.border);
             return;
         }
         if (requestCode == GALLERY)
         {
-            if (data != null)
-            {
-                imgURI = data.getData();
-                imageButton.setImageURI(imgURI);
-                imageButton.setBackgroundResource(R.color.primary);
+            if (resultCode == MainActivity.RESULT_OK) {
+                if (data.getClipData() != null) {
+                    int count = data.getClipData().getItemCount();
+                    Log.i("count", String.valueOf(count));
+                    int currentImageSelected = 0;
+                    while (currentImageSelected < count) {
+                        imgURI = data.getClipData().getItemAt(currentImageSelected).getUri();
+                        Log.i("uri", imgURI.toString());
+                        ImageList.add(imgURI);
+                        currentImageSelected = currentImageSelected + 1;
+                    }
+                    uploadImageButton.setText("You have Selected " + ImageList.size() + " Images.");
+                    //uploadImageButton.setTextColor(0);
+                    uploadImageButton.setBackgroundColor(getResources().getColor(android.R.color.holo_purple));
+                    //uploadImageButton.setVisibility(View.GONE);
+                    //alert.setVisibility(View.VISIBLE);
+                    Log.i("listsize", String.valueOf(ImageList.size()));
+                } else if (data.getData() != null) {
+                    String imagePath = data.getData().getPath();
+                    Toast.makeText(this, "Please select multiple images.", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
@@ -280,8 +309,8 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
         {
             isValid = false;
             scrollToTop = true;
-            imageButton.setImageResource(R.drawable.error_missing_photo);
-            imageButton.setBackgroundResource(R.drawable.error_background);
+            //uploadImageButton.setImageResource(R.drawable.error_missing_photo);
+            uploadImageButton.setBackgroundResource(R.drawable.error_background);
         }
 
         if (editTextPrice.getText().toString().isEmpty())
@@ -422,27 +451,31 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
         button.setTextColor(Color.RED);
     }
 
+    //upload multiple images.
     private void uploadImage()
     {
-        storageReference.child(System.currentTimeMillis() + "." + getExtension(imgURI))
-                .putFile(imgURI)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
-                {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
-                    {
-                        retrieveImageURL(taskSnapshot.getStorage().getDownloadUrl());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener()
-                {
-                    @Override
-                    public void onFailure(@NonNull Exception exception)
-                    {
-                        Toast.makeText(CreatePropertyActivity.this, "Error Uploading Image", Toast.LENGTH_LONG).show();
-                    }
-                });
+        //photoURLCounter = ImageList.size();
+        while (upload_count < ImageList.size()) {
+            storageReference.child(System.currentTimeMillis() + "." + getExtension(ImageList.get(image)))
+                    .putFile(ImageList.get(image))
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            retrieveImageURL(taskSnapshot.getStorage().getDownloadUrl());
+                            photoURLCounter = ImageList.size();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            Toast.makeText(CreatePropertyActivity.this, "Error Uploading Image", Toast.LENGTH_LONG).show();
+                        }
+                    });
+            upload_count++;
+            image++;
+        }
     }
+
 
     //Get the file extension so we can store the file with extension
     private String getExtension(Uri uri)
@@ -460,6 +493,14 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
             public void onSuccess(Uri uri)
             {
                 photoURL = uri.toString();
+
+                //Add to photo url array (*Charles *Use to iterate through photos)
+                photoURLList.add(uri.toString());
+                if(photoURLList.size() == photoURLCounter)
+                {
+                    uploadProperty();
+                }
+
                 initializeNewProperty();
             }
         }).addOnFailureListener(new OnFailureListener()
@@ -470,6 +511,7 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
                 retrieveImageURL(urlTask);
             }
         });
+
     }
 
     public void uploadProperty()
@@ -512,19 +554,19 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
 
                 if (user != null)
                 {
-                    newProperty = Property.getPropertyInstance();
-                    newProperty.setTimeOfCreation(System.currentTimeMillis());
-                    newProperty.setOwnerName(user.getOwnerName());
-                    newProperty.setOwnerPhoneNum(user.getOwnerPhoneNum());
-                    newProperty.setOwnerEmail(user.getOwnerEmail());
+                    newProperty = new Property();
                     newProperty.setHousingCategory(categorySpinner.getSelectedItem().toString());
                     newProperty.setPrice(Double.parseDouble(editTextPrice.getText().toString()));
                     newProperty.setPhotoURL(photoURL);
+                    newProperty.setPhotoURLList(photoURLList);
                     newProperty.setBio(editTextBio.getText().toString());
                     newProperty.setAddress(editTextAddress.getText().toString());
                     newProperty.setCity(editTextCity.getText().toString());
                     newProperty.setZipCode(editTextZipCode.getText().toString());
                     newProperty.setState(stateSpinner.getSelectedItem().toString());
+                    newProperty.setOwnerName(user.getOwnerName());
+                    newProperty.setOwnerPhoneNum(user.getOwnerPhoneNum());
+                    newProperty.setOwnerEmail(user.getOwnerEmail());
                     newProperty.setBedrooms(bedrooms);
                     newProperty.setBathrooms(bathrooms);
                     newProperty.setPetsAllowed(petsAllowedCheckBox.isChecked());

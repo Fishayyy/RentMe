@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
+import java.util.ArrayList;
+
 @IgnoreExtraProperties
 public class Property implements Parcelable
 {
@@ -17,9 +19,9 @@ public class Property implements Parcelable
     private String housingCategory;
     private double price;
     private String photoURL;
+    private ArrayList<String> photoURLList;
     private String bio;
     private String address;
-
     private String city;
     private String zipCode;
     private String state;
@@ -54,6 +56,7 @@ public class Property implements Parcelable
         housingCategory = parcel.readString();
         price = parcel.readDouble();
         photoURL = parcel.readString();
+        photoURLList = parcel.readArrayList(ClassLoader.getSystemClassLoader());
         bio = parcel.readString();
         address = parcel.readString();
         city = parcel.readString();
@@ -96,6 +99,7 @@ public class Property implements Parcelable
         dest.writeString(housingCategory);
         dest.writeDouble(price);
         dest.writeString(photoURL);
+        dest.writeStringList(photoURLList);
         dest.writeString(bio);
         dest.writeString(address);
         dest.writeString(city);
@@ -146,6 +150,11 @@ public class Property implements Parcelable
 
     public String getPhotoURL() { return this.photoURL; }
 
+    public ArrayList<String> getPhotoURLList()
+    {
+        return photoURLList;
+    }
+
     public String getBio() { return this.bio; }
 
     public String getAddress() { return address; }
@@ -188,6 +197,8 @@ public class Property implements Parcelable
     public void setPrice(double price) { this.price = price; }
 
     public void setPhotoURL(String photoURL) { this.photoURL = photoURL; }
+
+    public void setPhotoURLList(ArrayList<String> photoURLList) { this.photoURLList = photoURLList; }
 
     public void setBio(String bio) { this.bio = bio; }
 

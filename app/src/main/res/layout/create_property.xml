@@ -56,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageButton
+            <Button
                 android:id="@+id/uploadImageButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -65,10 +65,24 @@
                 android:layout_marginBottom="10dp"
                 android:adjustViewBounds="true"
                 android:background="@drawable/border"
+                android:text="Choose Images"
                 android:onClick="choosePhotoFromGallery"
                 android:padding="2dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/add_pic_icon" />
+
+            <TextView
+                android:id="@+id/alertChooseImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Here is alert"
+                android:textSize="10sp"
+                android:textColor="@android:color/holo_red_light"
+                android:textAlignment="center"
+                android:layout_marginTop="50dp"
+                android:visibility="gone" />
+
+
 
             <TextView
                 android:id="@+id/monthlyText"
