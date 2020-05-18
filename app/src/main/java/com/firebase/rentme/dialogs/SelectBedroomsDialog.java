@@ -64,16 +64,34 @@ public class SelectBedroomsDialog extends AppCompatDialogFragment
                     }
                 });
 
+        valueEditText = view.findViewById(R.id.roomNumberEditText);
+        setEditTextState();
+
         upButton = view.findViewById(R.id.upButton);
+        setUpButtonListener();
+
+        downButton = view.findViewById(R.id.downButton);
+        setDownButtonListener();
+        setDownButtonState();
+
+        return builder.create();
+    }
+
+    private void setUpButtonListener()
+    {
         upButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
                 values++;
-                valueEditText.setText(Integer.toString(values));
+                setDownButtonState();
+                setEditTextState();
             }
         });
-        downButton = view.findViewById(R.id.downButton);
+    }
+
+    private void setDownButtonListener()
+    {
         downButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -81,20 +99,27 @@ public class SelectBedroomsDialog extends AppCompatDialogFragment
                 if(values != 0)
                 {
                     values--;
-                }
-
-                if(values == 0)
-                {
-                    valueEditText.setText("Studio");
-                }
-                else
-                {
-                    valueEditText.setText(Integer.toString(values));
+                    setDownButtonState();
+                    setEditTextState();
                 }
             }
         });
-        valueEditText = view.findViewById(R.id.roomNumberEditText);
+    }
 
+    private void setDownButtonState()
+    {
+        if(values == 0)
+        {
+            downButton.setBackgroundResource(R.drawable.down_arrow_grey);
+        }
+        else
+        {
+            downButton.setBackgroundResource(R.drawable.down_arrow);
+        }
+    }
+
+    private void setEditTextState()
+    {
         if(values == 0)
         {
             valueEditText.setText("Studio");
@@ -103,8 +128,6 @@ public class SelectBedroomsDialog extends AppCompatDialogFragment
         {
             valueEditText.setText(Integer.toString(values));
         }
-
-        return builder.create();
     }
 
     public interface SelectBedroomsDialogListener{

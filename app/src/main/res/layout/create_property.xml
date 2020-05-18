@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreatePropertyActivity">
+    tools:context=".account.CreatePropertyActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/createListingToolbar"
+        android:id="@+id/accountInfoToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -15,12 +15,12 @@
         app:titleTextColor="@android:color/white">
 
         <RelativeLayout
-            android:id="@+id/filterPropertiesToolbarLayout"
+            android:id="@+id/accountInfoToolbarLayout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/filterPropertiesBackButton"
+                android:id="@+id/accountInfoBackButton"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_alignParentStart="true"
@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_toEndOf="@id/filterPropertiesBackButton"
+                android:layout_toEndOf="@id/accountInfoBackButton"
                 android:text="@string/add_property_title"
                 android:textColor="@color/white" />
 
@@ -46,13 +46,13 @@
         android:id="@+id/createListingScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/createListingToolbar"
+        android:layout_below="@id/accountInfoToolbar"
         android:layout_centerHorizontal="true"
         android:paddingStart="15dp"
         android:paddingEnd="15dp">
 
         <RelativeLayout
-            android:id="@+id/innerRelativeLayout"
+            android:id="@+id/changePasswordLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -100,7 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/edit_text_price"
-                android:layout_marginStart="12dp"
+                android:layout_alignParentStart="true"
                 android:layout_marginEnd="2dp"
                 android:text="@string/dollarSign"
                 android:textSize="16sp" />
@@ -120,11 +120,11 @@
             <Spinner
                 android:id="@+id/categorySpinner"
                 style="@android:style/Widget.Holo.Light.Spinner"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/monthlyText"
-                android:layout_alignEnd="@id/edit_text_ownerName"
                 android:layout_marginStart="12dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="10dp"
                 android:layout_toEndOf="@id/edit_text_price"
                 android:backgroundTint="@color/primary"
@@ -206,99 +206,24 @@
 
             </RelativeLayout>
 
-
             <TextView
                 android:id="@+id/nameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/bathroomsButtonLayout"
                 android:layout_alignStart="@id/edit_text_price"
-                android:text="@string/name"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/edit_text_ownerName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/nameTextView"
-                android:layout_alignStart="@id/nameTextView"
-                android:layout_marginEnd="28dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/multi_state_background"
-                android:hint="@string/nameHint"
-                android:inputType="textPersonName"
-                android:padding="6dp" />
-
-            <TextView
-                android:id="@+id/phoneTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/edit_text_ownerName"
-                android:layout_alignStart="@id/edit_text_ownerName"
-                android:text="@string/phone"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/edit_text_ownerPhoneNum"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/phoneTextView"
-                android:layout_alignStart="@id/phoneTextView"
-                android:layout_alignEnd="@id/edit_text_ownerName"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/multi_state_background"
-                android:digits="0123456789()-"
-                android:hint="@string/phoneHint"
-                android:inputType="phone"
-                android:maxLength="14"
-                android:padding="6dp" />
-
-            <TextView
-                android:id="@+id/emailTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/edit_text_ownerPhoneNum"
-                android:layout_alignStart="@id/edit_text_ownerPhoneNum"
-                android:text="@string/email"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/edit_text_ownerEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/emailTextView"
-                android:layout_alignStart="@id/emailTextView"
-                android:layout_alignEnd="@id/edit_text_ownerPhoneNum"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/multi_state_background"
-                android:hint="@string/emailHint"
-                android:inputType="textEmailAddress"
-                android:padding="6dp" />
-
-            <TextView
-                android:id="@+id/addressTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/edit_text_ownerEmail"
-                android:layout_alignStart="@id/edit_text_ownerEmail"
                 android:text="@string/address"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/edit_text_address"
+                android:id="@+id/edit_text_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/addressTextView"
-                android:layout_alignStart="@id/addressTextView"
-                android:layout_alignEnd="@id/edit_text_ownerEmail"
+                android:layout_below="@id/nameTextView"
+                android:layout_alignStart="@id/nameTextView"
+                android:layout_alignEnd="@id/bathroomsButtonLayout"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/multi_state_background"
                 android:hint="@string/addressHint"
@@ -306,23 +231,23 @@
                 android:padding="6dp" />
 
             <TextView
-                android:id="@+id/cityTextView"
+                android:id="@+id/emailTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/edit_text_address"
-                android:layout_alignStart="@id/edit_text_address"
+                android:layout_below="@id/edit_text_name"
+                android:layout_alignStart="@id/edit_text_name"
                 android:text="@string/city"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/edit_text_city"
+                android:id="@+id/edit_text_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/cityTextView"
-                android:layout_alignStart="@id/cityTextView"
-                android:layout_alignEnd="@id/edit_text_address"
+                android:layout_below="@id/emailTextView"
+                android:layout_alignStart="@id/emailTextView"
+                android:layout_alignEnd="@id/edit_text_name"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/multi_state_background"
                 android:hint="@string/cityHint"
@@ -333,8 +258,8 @@
                 android:id="@+id/zipCodeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/edit_text_city"
-                android:layout_alignStart="@id/edit_text_city"
+                android:layout_below="@id/edit_text_email"
+                android:layout_alignStart="@id/edit_text_email"
                 android:text="@string/zipCode"
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -360,7 +285,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/zipCodeTextView"
-                android:layout_alignEnd="@id/edit_text_ownerName"
+                android:layout_alignEnd="@id/categorySpinner"
                 android:layout_marginStart="12dp"
                 android:layout_marginBottom="10dp"
                 android:layout_toEndOf="@id/edit_text_zip"
@@ -373,7 +298,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/edit_text_zip"
                 android:layout_alignStart="@id/edit_text_zip"
-                android:text="@string/bio"
+                android:text="@string/rules"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -382,10 +307,9 @@
                 android:id="@+id/petRulesTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/rulesTextView"
+                android:layout_alignBaseline="@id/petRulesCheckBox"
                 android:layout_alignStart="@id/rulesTextView"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
                 android:text="@string/petsAllowed"
                 android:textColor="@color/primary_text" />
 
@@ -393,7 +317,7 @@
                 android:id="@+id/petRulesCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/petRulesTextView"
+                android:layout_below="@id/rulesTextView"
                 android:layout_alignEnd="@id/stateSpinner"
                 android:layout_marginEnd="10dp" />
 
@@ -401,10 +325,9 @@
                 android:id="@+id/smokingRulesTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/petRulesTextView"
+                android:layout_alignBaseline="@id/smokingRulesCheckBox"
                 android:layout_alignStart="@id/rulesTextView"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
                 android:text="@string/smokingAmenityTextView"
                 android:textColor="@color/primary_text" />
 
@@ -412,7 +335,7 @@
                 android:id="@+id/smokingRulesCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/smokingRulesTextView"
+                android:layout_below="@id/petRulesCheckBox"
                 android:layout_alignEnd="@id/stateSpinner"
                 android:layout_marginEnd="10dp" />
 
@@ -432,10 +355,9 @@
                 android:id="@+id/parkingAmenityTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/amenitiesTextView"
+                android:layout_alignBaseline="@id/parkingAmenityCheckBox"
                 android:layout_alignStart="@id/amenitiesTextView"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
                 android:text="@string/parkingAmenityTextView"
                 android:textColor="@color/primary_text" />
 
@@ -443,7 +365,7 @@
                 android:id="@+id/parkingAmenityCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/parkingAmenityTextView"
+                android:layout_below="@id/amenitiesTextView"
                 android:layout_alignEnd="@id/stateSpinner"
                 android:layout_marginEnd="10dp" />
 
@@ -451,10 +373,9 @@
                 android:id="@+id/poolAmenityTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/parkingAmenityCheckBox"
+                android:layout_alignBaseline="@id/poolAmenityCheckBox"
                 android:layout_alignStart="@id/amenitiesTextView"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
                 android:text="@string/poolAmenityTextView"
                 android:textColor="@color/primary_text" />
 
@@ -462,7 +383,7 @@
                 android:id="@+id/poolAmenityCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/poolAmenityTextView"
+                android:layout_below="@id/parkingAmenityCheckBox"
                 android:layout_alignEnd="@id/stateSpinner"
                 android:layout_marginEnd="10dp" />
 
@@ -471,9 +392,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/poolAmenityTextView"
+                android:layout_alignBaseline="@id/backyardAmenityCheckBox"
                 android:layout_alignStart="@id/amenitiesTextView"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
                 android:text="@string/backyardAmenityTextView"
                 android:textColor="@color/primary_text" />
 
@@ -481,7 +402,7 @@
                 android:id="@+id/backyardAmenityCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/backyardAmenityTextView"
+                android:layout_below="@id/poolAmenityCheckBox"
                 android:layout_alignEnd="@id/stateSpinner"
                 android:layout_marginEnd="10dp" />
 
@@ -489,10 +410,9 @@
                 android:id="@+id/laundryAmenityTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/backyardAmenityTextView"
+                android:layout_alignBaseline="@id/laundryAmenityCheckBox"
                 android:layout_alignStart="@id/amenitiesTextView"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
                 android:text="@string/laundryTextView"
                 android:textColor="@color/primary_text" />
 
@@ -500,7 +420,7 @@
                 android:id="@+id/laundryAmenityCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/laundryAmenityTextView"
+                android:layout_below="@id/backyardAmenityCheckBox"
                 android:layout_alignEnd="@id/stateSpinner"
                 android:layout_marginEnd="10dp" />
 
@@ -508,11 +428,10 @@
                 android:id="@+id/handicapAmenityTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/laundryAmenityTextView"
+                android:layout_alignBaseline="@id/handicapAmenityCheckBox"
                 android:layout_alignStart="@id/amenitiesTextView"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="15dp"
                 android:text="@string/assistedLiving"
                 android:textColor="@color/primary_text" />
 
@@ -520,7 +439,7 @@
                 android:id="@+id/handicapAmenityCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/handicapAmenityTextView"
+                android:layout_below="@id/laundryAmenityCheckBox"
                 android:layout_alignEnd="@id/stateSpinner"
                 android:layout_marginEnd="10dp" />
 
@@ -541,7 +460,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/bioTextView"
                 android:layout_alignStart="@id/bioTextView"
-                android:layout_alignEnd="@id/edit_text_city"
+                android:layout_alignEnd="@id/edit_text_email"
                 android:layout_marginBottom="10dp"
                 app:counterEnabled="true"
                 app:counterMaxLength="500"

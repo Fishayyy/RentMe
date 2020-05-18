@@ -13,6 +13,8 @@ public class Property implements Parcelable
 
     public static final String PARCELABLE_PROPERTY = "com.firebase.rentme.PROPERTY";
 
+    private long timeOfCreation;
+
     //Property Attributes
     private String housingCategory;
     private double price;
@@ -20,7 +22,6 @@ public class Property implements Parcelable
     private ArrayList<String> photoURLList;
     private String bio;
     private String address;
-
     private String city;
     private String zipCode;
     private String state;
@@ -43,7 +44,6 @@ public class Property implements Parcelable
     private String ownerPhoneNum;
     private String ownerEmail;
 
-    // firestore requires there to be an empty constructor
     public Property()
     {
 
@@ -52,6 +52,7 @@ public class Property implements Parcelable
     //Parcel is for sending non-Primitive objects by intent
     public Property(Parcel parcel)
     {
+        timeOfCreation = parcel.readLong();
         housingCategory = parcel.readString();
         price = parcel.readDouble();
         photoURL = parcel.readString();
@@ -75,35 +76,6 @@ public class Property implements Parcelable
         isHandicapAccessible = parcel.readBoolean();
     }
 
-    //Standard Constructor
-    public Property(String housingCategory, double price, String photoURL, ArrayList<String> photoURLList, String bio, String address,
-                    String city, String zipCode, String state, String ownerName, String ownerPhoneNum,
-                    String ownerEmail, int bedrooms, double bathrooms, boolean petsAllowed, boolean smokingAllowed,
-                    boolean parkingAvailable, boolean hasPool, boolean hasBackyard, boolean hasLaundry, boolean isHandicapAccessible)
-    {
-        this.housingCategory = housingCategory;
-        this.price = price;
-        this.photoURL = photoURL;
-        this.photoURLList = photoURLList;
-        this.bio = bio;
-        this.address = address;
-        this.city = city;
-        this.zipCode = zipCode;
-        this.state = state;
-        this.ownerName = ownerName;
-        this.ownerPhoneNum = ownerPhoneNum;
-        this.ownerEmail = ownerEmail;
-        this.bedrooms = bedrooms;
-        this.bathrooms = bathrooms;
-        this.petsAllowed = petsAllowed;
-        this.smokingAllowed = smokingAllowed;
-        this.parkingAvailable = parkingAvailable;
-        this.hasPool = hasPool;
-        this.hasBackyard = hasBackyard;
-        this.hasLaundry = hasLaundry;
-        this.isHandicapAccessible = isHandicapAccessible;
-    }
-
     //used when un-parceling our parcel (creating the object)
     public static final Parcelable.Creator<Property> CREATOR = new Parcelable.Creator<Property>()
     {
@@ -123,6 +95,7 @@ public class Property implements Parcelable
     //write object values to parcel for storage
     public void writeToParcel(Parcel dest, int flags)
     {
+        dest.writeLong(timeOfCreation);
         dest.writeString(housingCategory);
         dest.writeDouble(price);
         dest.writeString(photoURL);
@@ -148,20 +121,37 @@ public class Property implements Parcelable
 
     public String generatePostalAddress()
     {
-        return address + ", " + city + ", " + state;
+        return getAddress() + ", " + getCity() + ", " + getState();
+    }
+
+    public String getDocumentReferenceID()
+    {
+        String docRefID = getCity() + getAddress() + timeOfCreation;
+        docRefID = docRefID.toLowerCase();
+        docRefID = docRefID.replaceAll("\\s", "");
+        return docRefID;
     }
 
     //Return hashcode of object
     public int describeContents() { return hashCode(); }
 
+    //Facotory Method
+    public static Property getPropertyInstance()
+    {
+        return new Property();
+    }
+
     //Get Values
+    public long getTimeOfCreation() { return this.timeOfCreation; }
+
     public String getHousingCategory() { return this.housingCategory; }
 
     public double getPrice() { return price; }
 
     public String getPhotoURL() { return this.photoURL; }
 
-    public ArrayList<String> getPhotoURLList() {
+    public ArrayList<String> getPhotoURLList()
+    {
         return photoURLList;
     }
 
@@ -200,6 +190,8 @@ public class Property implements Parcelable
     public boolean isHandicapAccessible() { return isHandicapAccessible; }
 
     //Set Values
+    public void setTimeOfCreation(long timeOfCreation) { this.timeOfCreation = timeOfCreation; }
+
     public void setHousingCategory(String housingCategory) { this.housingCategory = housingCategory; }
 
     public void setPrice(double price) { this.price = price; }

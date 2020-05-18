@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -18,7 +18,7 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
+      
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_api_key" />
@@ -30,12 +30,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".ViewPropertyDetailsActivity" />
-        <activity android:name=".CreatePropertyFilterActivity"/>
-        <activity android:name=".dialogs.SelectBathroomsDialog"/>
-        <activity android:name=".dialogs.SelectBedroomsDialog"/>
-        <activity android:name=".CreatePropertyActivity" />
+        <activity android:name=".account.Login" />
+        <activity android:name=".account.Register" />
+        <activity android:name=".account.ManageAccountActivity" />
+        <activity android:name=".account.EditPersonalInfo"></activity>
+        <activity android:name=".account.ViewFavoritesActivity" />
+        <activity android:name=".account.ViewListingsActivity" />
+        <activity android:name=".account.ChangePassword"></activity>
+        <activity android:name=".profiles.ViewPropertyDetailsActivity" />
+        <activity android:name=".filters.CreatePropertyFilterActivity" />
+        <activity android:name=".dialogs.SelectBathroomsDialog" />
+        <activity android:name=".dialogs.SelectBedroomsDialog" />
+        <activity android:name=".account.CreatePropertyActivity" />
     </application>
 
 </manifest>

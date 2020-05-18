@@ -63,11 +63,40 @@ public class SelectBathroomsDialog extends AppCompatDialogFragment
                     }
                 });
 
+        valueEditText = view.findViewById(R.id.roomNumberEditText);
+        setEditTextState();
+
         upButton = view.findViewById(R.id.upButton);
+        setUpButtonListener();
+
+        downButton = view.findViewById(R.id.downButton);
+        setDownButtonListener();
+        setDownButtonState();
+
+        StringBuilder value = new StringBuilder(Integer.toString((int) values));
+
+        if(values % 1.0 != 0.0)
+        {
+            value.append(".5");
+        }
+
+        valueEditText.setText(value.toString());
+
+        return builder.create();
+    }
+
+    private void setUpButtonListener()
+    {
         upButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
+
+                if(values == 1)
+                {
+                    downButton.setBackgroundResource(R.drawable.down_arrow);
+                }
+
                 if(values >= 3)
                 {
                     values++;
@@ -77,17 +106,13 @@ public class SelectBathroomsDialog extends AppCompatDialogFragment
                     values += 0.5;
                 }
 
-                StringBuilder value = new StringBuilder(Integer.toString((int) values));
-
-                if(values % 1.0 != 0.0)
-                {
-                    value.append(".5");
-                }
-
-                valueEditText.setText(value.toString());
+                setEditTextState();
             }
         });
-        downButton = view.findViewById(R.id.downButton);
+    }
+
+    private void setDownButtonListener()
+    {
         downButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -104,18 +129,26 @@ public class SelectBathroomsDialog extends AppCompatDialogFragment
                     values--;
                 }
 
-                StringBuilder value = new StringBuilder(Integer.toString((int) values));
-
-                if(values % 1.0 != 0.0)
-                {
-                    value.append(".5");
-                }
-
-                valueEditText.setText(value.toString());
+                setDownButtonState();
+                setEditTextState();
             }
         });
-        valueEditText = view.findViewById(R.id.roomNumberEditText);
+    }
 
+    private void setDownButtonState()
+    {
+        if(values == 1)
+        {
+            downButton.setBackgroundResource(R.drawable.down_arrow_grey);
+        }
+        else
+        {
+            downButton.setBackgroundResource(R.drawable.down_arrow);
+        }
+    }
+
+    private void setEditTextState()
+    {
         StringBuilder value = new StringBuilder(Integer.toString((int) values));
 
         if(values % 1.0 != 0.0)
@@ -124,8 +157,6 @@ public class SelectBathroomsDialog extends AppCompatDialogFragment
         }
 
         valueEditText.setText(value.toString());
-
-        return builder.create();
     }
 
     public interface SelectBathroomsDialogListener{

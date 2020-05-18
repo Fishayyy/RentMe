@@ -1,4 +1,4 @@
-package com.firebase.rentme;
+package com.firebase.rentme.account;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,8 +11,6 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
-import android.telephony.PhoneNumberFormattingTextWatcher;
-import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -26,31 +24,35 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.rentme.MainActivity;
+import com.firebase.rentme.R;
 import com.firebase.rentme.dialogs.SelectBathroomsDialog;
 import com.firebase.rentme.dialogs.SelectBedroomsDialog;
 import com.firebase.rentme.models.PriceInputFilter;
 import com.firebase.rentme.models.Property;
 
+import com.firebase.rentme.models.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Locale;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -70,7 +72,8 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
 
     private Uri imgURI;
     private String photoURL = "";
-    private ArrayList<String> photoURLList = new ArrayList<String>();
+    private ArrayList<String> photoURLList = new ArrayList<>();
+    private FirebaseAuth fAuth;
 
     //Test for upload multiple images
     int SELECT_PICTURES = 1;
@@ -86,14 +89,10 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
     private Spinner categorySpinner;
     private TextView textViewBedrooms;
     private TextView textViewBathrooms;
-    private TextView alert;
     private Button buttonSelectBedrooms;
     private int bedrooms = 0;
     private Button buttonSelectBathrooms;
     private double bathrooms = 1.0;
-    private EditText editTextOwnerName;
-    private EditText editTextOwnerPhoneNum;
-    private EditText editTextOwnerEmail;
     private EditText editTextAddress;
     private EditText editTextCity;
     private EditText editTextZipCode;
@@ -127,10 +126,10 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_property);
-        alert = findViewById(R.id.alertChooseImage);
 
         Log.d(TAG, "onCreate: started");
 
+        initAuthentication();
         initFirestore();
         initButtons();
         initTextViews();
@@ -167,21 +166,29 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
         storageReference = FirebaseStorage.getInstance().getReference("Images");
     }
 
+    private void initAuthentication()
+    {
+        fAuth = FirebaseAuth.getInstance();
+    }
+
     private void initButtons()
     {
         uploadImageButton = findViewById(R.id.uploadImageButton);
-        alert = findViewById(R.id.alertChooseImage);
         buttonSelectBedrooms = findViewById(R.id.bedroomsButton);
-        buttonSelectBedrooms.setOnClickListener(new View.OnClickListener() {
+        buttonSelectBedrooms.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 openDialog(view);
             }
         });
         buttonSelectBathrooms = findViewById(R.id.bathroomsButton);
-        buttonSelectBathrooms.setOnClickListener(new View.OnClickListener() {
+        buttonSelectBathrooms.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 openDialog(view);
             }
         });
@@ -190,14 +197,14 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
 
     public void openDialog(View view)
     {
-        if(view.getId() == R.id.bedroomsButton)
+        if (view.getId() == R.id.bedroomsButton)
         {
             buttonSelectBedrooms.setTextColor(Color.BLACK);
             buttonSelectBedrooms.setError(null);
             SelectBedroomsDialog bedroomsDialog = new SelectBedroomsDialog(bedrooms);
             bedroomsDialog.show(getSupportFragmentManager(), "bedrooms_dialog");
         }
-        else if(view.getId() == R.id.bathroomsButton)
+        else if (view.getId() == R.id.bathroomsButton)
         {
             buttonSelectBathrooms.setTextColor(Color.BLACK);
             buttonSelectBathrooms.setError(null);
@@ -232,13 +239,9 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
         editTextPrice = findViewById(R.id.edit_text_price);
         editTextPrice.setFilters(new InputFilter[]{new PriceInputFilter(8, 2)});
         editTextBio = findViewById(R.id.edit_text_bio);
-        editTextAddress = findViewById(R.id.edit_text_address);
-        editTextCity = findViewById(R.id.edit_text_city);
+        editTextAddress = findViewById(R.id.edit_text_name);
+        editTextCity = findViewById(R.id.edit_text_email);
         editTextZipCode = findViewById(R.id.edit_text_zip);
-        editTextOwnerName = findViewById(R.id.edit_text_ownerName);
-        editTextOwnerPhoneNum = findViewById(R.id.edit_text_ownerPhoneNum);
-        editTextOwnerPhoneNum.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
-        editTextOwnerEmail = findViewById(R.id.edit_text_ownerEmail);
     }
 
     private void initCheckBoxes()
@@ -336,29 +339,6 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
             isValid = false;
             scrollToTop = true;
             displayError(buttonSelectBathrooms, "Must select number of bathrooms");
-        }
-
-        if (editTextOwnerName.getText().toString().isEmpty())
-        {
-            isValid = false;
-            scrollToTop = true;
-            displayError(editTextOwnerName, "Name is required");
-        }
-
-        if (editTextOwnerPhoneNum.getText().toString().length() != PHONE_NUMBER_LENGTH)
-        {
-            isValid = false;
-            scrollToTop = true;
-            String errorMessage = (editTextOwnerPhoneNum.getText().toString().length() == 0) ? "Phone number is required" : "Invalid Phone Number";
-            displayError(editTextOwnerPhoneNum, errorMessage);
-        }
-
-        if (!isValidEmail(editTextOwnerEmail.getText().toString().trim()))
-        {
-            isValid = false;
-            scrollToTop = true;
-            String errorMessage = (editTextOwnerEmail.getText().toString().length() == 0) ? "Email is required" : "Invalid Email";
-            displayError(editTextOwnerEmail, errorMessage);
         }
 
         if (editTextAddress.getText().toString().isEmpty())
@@ -513,12 +493,15 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
             public void onSuccess(Uri uri)
             {
                 photoURL = uri.toString();
+
                 //Add to photo url array (*Charles *Use to iterate through photos)
                 photoURLList.add(uri.toString());
                 if(photoURLList.size() == photoURLCounter)
                 {
                     uploadProperty();
                 }
+
+                initializeNewProperty();
             }
         }).addOnFailureListener(new OnFailureListener()
         {
@@ -533,56 +516,71 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
 
     public void uploadProperty()
     {
-        initializeNewProperty();
-
-        database.collection("properties")
-                .add(newProperty)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>()
+        DocumentReference newPropertyDocReference = database.collection("properties").document(newProperty.getDocumentReferenceID());
+        newPropertyDocReference.set(newProperty)
+                .addOnSuccessListener(new OnSuccessListener<Void>()
                 {
                     @Override
-                    public void onSuccess(DocumentReference documentReference)
+                    public void onSuccess(Void aVoid)
                     {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + newProperty.getDocumentReferenceID());
+                        database.collection("users").document(fAuth.getUid()).update("ownerProperties", FieldValue.arrayUnion(newProperty.getDocumentReferenceID()));
                         addPropertyButton.doneLoadingAnimation(getColor(R.color.success), BitmapFactory.decodeResource(getResources(), R.drawable.house_checkmark));
                         exitAfterDelay();
                     }
-                })
-                .addOnFailureListener(new OnFailureListener()
-                {
-                    @Override
-                    public void onFailure(@NonNull Exception e)
-                    {
-                        Log.w(TAG, "Error adding document", e);
-                        addPropertyButton.doneLoadingAnimation(getColor(R.color.error), BitmapFactory.decodeResource(getResources(), R.drawable.house_x));
-                        Toast.makeText(CreatePropertyActivity.this, "Failed to Create Listing", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                }).addOnFailureListener(new OnFailureListener()
+        {
+            @Override
+            public void onFailure(@NonNull Exception e)
+            {
+                Log.w(TAG, "Error adding document", e);
+                addPropertyButton.doneLoadingAnimation(getColor(R.color.error), BitmapFactory.decodeResource(getResources(), R.drawable.house_x));
+                Toast.makeText(CreatePropertyActivity.this, "Failed to Create Listing", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initializeNewProperty()
     {
-        newProperty = new Property();
-        newProperty.setHousingCategory(categorySpinner.getSelectedItem().toString());
-        newProperty.setPrice(Double.parseDouble(editTextPrice.getText().toString()));
-        newProperty.setPhotoURL(photoURL);
-        newProperty.setPhotoURLList(photoURLList);
-        newProperty.setBio(editTextBio.getText().toString());
-        newProperty.setAddress(editTextAddress.getText().toString());
-        newProperty.setCity(editTextCity.getText().toString());
-        newProperty.setZipCode(editTextZipCode.getText().toString());
-        newProperty.setState(stateSpinner.getSelectedItem().toString());
-        newProperty.setOwnerName(editTextOwnerName.getText().toString());
-        newProperty.setOwnerPhoneNum(PhoneNumberUtils.formatNumber(editTextOwnerPhoneNum.getText().toString(), Locale.getDefault().getCountry()));
-        newProperty.setOwnerEmail(editTextOwnerEmail.getText().toString());
-        newProperty.setBedrooms(bedrooms);
-        newProperty.setBathrooms(bathrooms);
-        newProperty.setPetsAllowed(petsAllowedCheckBox.isChecked());
-        newProperty.setSmokingAllowed(smokingAllowedCheckBox.isChecked());
-        newProperty.setParkingAvailable(parkingAvailableCheckBox.isChecked());
-        newProperty.setPoolAvailable(poolAvailableCheckBox.isChecked());
-        newProperty.setBackyardAvailable(backyardAvailableCheckBox.isChecked());
-        newProperty.setLaundryAvailable(laundryCheckBox.isChecked());
-        newProperty.setHandicapAccessible(handicapAccessibleCheckBox.isChecked());
+        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DocumentReference userDocRef = database.collection("users").document(userID);
+
+        userDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
+        {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot)
+            {
+                User user = documentSnapshot.toObject(User.class);
+
+                if (user != null)
+                {
+                    newProperty = new Property();
+                    newProperty.setHousingCategory(categorySpinner.getSelectedItem().toString());
+                    newProperty.setPrice(Double.parseDouble(editTextPrice.getText().toString()));
+                    newProperty.setPhotoURL(photoURL);
+                    newProperty.setPhotoURLList(photoURLList);
+                    newProperty.setBio(editTextBio.getText().toString());
+                    newProperty.setAddress(editTextAddress.getText().toString());
+                    newProperty.setCity(editTextCity.getText().toString());
+                    newProperty.setZipCode(editTextZipCode.getText().toString());
+                    newProperty.setState(stateSpinner.getSelectedItem().toString());
+                    newProperty.setOwnerName(user.getOwnerName());
+                    newProperty.setOwnerPhoneNum(user.getOwnerPhoneNum());
+                    newProperty.setOwnerEmail(user.getOwnerEmail());
+                    newProperty.setBedrooms(bedrooms);
+                    newProperty.setBathrooms(bathrooms);
+                    newProperty.setPetsAllowed(petsAllowedCheckBox.isChecked());
+                    newProperty.setSmokingAllowed(smokingAllowedCheckBox.isChecked());
+                    newProperty.setParkingAvailable(parkingAvailableCheckBox.isChecked());
+                    newProperty.setPoolAvailable(poolAvailableCheckBox.isChecked());
+                    newProperty.setBackyardAvailable(backyardAvailableCheckBox.isChecked());
+                    newProperty.setLaundryAvailable(laundryCheckBox.isChecked());
+                    newProperty.setHandicapAccessible(handicapAccessibleCheckBox.isChecked());
+
+                    uploadProperty();
+                }
+            }
+        });
     }
 
     private void exitAfterDelay()
