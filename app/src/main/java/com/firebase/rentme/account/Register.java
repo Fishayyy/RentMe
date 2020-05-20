@@ -29,6 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class Register extends AppCompatActivity
@@ -125,6 +126,8 @@ public class Register extends AppCompatActivity
                             newUser.setOwnerName(fullName);
                             newUser.setOwnerEmail(email);
                             newUser.setOwnerPhoneNum(phone);
+                            newUser.setOwnerFavorites(new ArrayList<String>());
+                            newUser.setOwnerProperties(new ArrayList<String>());
 
                             documentReference.set(newUser).addOnSuccessListener(new OnSuccessListener<Void>()
                             {

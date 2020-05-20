@@ -19,7 +19,7 @@ public class Property implements Parcelable
     private String housingCategory;
     private double price;
     private String photoURL;
-    private ArrayList<String> photoURLList;
+    private ArrayList photoURLList;
     private String bio;
     private String address;
     private String city;
@@ -56,7 +56,7 @@ public class Property implements Parcelable
         housingCategory = parcel.readString();
         price = parcel.readDouble();
         photoURL = parcel.readString();
-        photoURLList = parcel.readArrayList(ClassLoader.getSystemClassLoader());
+        photoURLList = parcel.createStringArrayList();
         bio = parcel.readString();
         address = parcel.readString();
         city = parcel.readString();
