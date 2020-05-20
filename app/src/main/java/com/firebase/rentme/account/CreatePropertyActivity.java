@@ -51,7 +51,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -71,7 +70,6 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
     private Property newProperty;
 
     private Uri imgURI;
-    private String photoURL = "";
     private ArrayList<String> photoURLList = new ArrayList<>();
     private FirebaseAuth fAuth;
 
@@ -271,6 +269,7 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
         if (resultCode == RESULT_CANCELED)
         {
             imgURI = null;
+            ImageList.clear();
             uploadImageButton.setBackgroundResource(R.drawable.border);
             uploadImageButton.setText(R.string.choose_images);
             return;
@@ -292,7 +291,7 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
                         ImageList.add(imgURI);
                         currentImageSelected = currentImageSelected + 1;
                     }
-                    uploadImageButton.setText("Selected " + ImageList.size() + " Images");
+                    uploadImageButton.setText(getResources().getString(R.string.num_images_selected, count));
                     uploadImageButton.setBackgroundResource(R.drawable.success_background);
                     Log.i("listsize", String.valueOf(ImageList.size()));
                 }
@@ -305,11 +304,12 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
         boolean isValid = true;
         boolean scrollToTop = false;
 
-        if (imgURI == null)
+        if (ImageList.size() == 0)
         {
             isValid = false;
             scrollToTop = true;
             uploadImageButton.setBackgroundResource(R.drawable.error_background);
+            uploadImageButton.setText(R.string.image_selection_error);
         }
 
         if (editTextPrice.getText().toString().isEmpty())
@@ -453,7 +453,6 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
     //upload multiple images.
     private void uploadImage()
     {
-        //photoURLCounter = ImageList.size();
         while (upload_count < ImageList.size())
         {
             storageReference.child(System.currentTimeMillis() + "." + getExtension(ImageList.get(image)))
@@ -496,8 +495,6 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
             @Override
             public void onSuccess(Uri uri)
             {
-                photoURL = uri.toString();
-
                 //Add to photo url array (*Charles *Use to iterate through photos)
                 photoURLList.add(uri.toString());
                 if (photoURLList.size() == photoURLCounter)
@@ -546,45 +543,49 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
 
     private void initializeNewProperty()
     {
-        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DocumentReference userDocRef = database.collection("users").document(userID);
-
-        userDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
+        if(upload_count == ImageList.size() )
         {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot)
+            String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            DocumentReference userDocRef = database.collection("users").document(userID);
+
+            userDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
             {
-                User user = documentSnapshot.toObject(User.class);
-
-                if (user != null)
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot)
                 {
-                    newProperty = new Property();
-                    newProperty.setHousingCategory(categorySpinner.getSelectedItem().toString());
-                    newProperty.setPrice(Double.parseDouble(editTextPrice.getText().toString()));
-                    newProperty.setPhotoURL(photoURL);
-                    newProperty.setPhotoURLList(photoURLList);
-                    newProperty.setBio(editTextBio.getText().toString());
-                    newProperty.setAddress(editTextAddress.getText().toString());
-                    newProperty.setCity(editTextCity.getText().toString());
-                    newProperty.setZipCode(editTextZipCode.getText().toString());
-                    newProperty.setState(stateSpinner.getSelectedItem().toString());
-                    newProperty.setOwnerName(user.getOwnerName());
-                    newProperty.setOwnerPhoneNum(user.getOwnerPhoneNum());
-                    newProperty.setOwnerEmail(user.getOwnerEmail());
-                    newProperty.setBedrooms(bedrooms);
-                    newProperty.setBathrooms(bathrooms);
-                    newProperty.setPetsAllowed(petsAllowedCheckBox.isChecked());
-                    newProperty.setSmokingAllowed(smokingAllowedCheckBox.isChecked());
-                    newProperty.setParkingAvailable(parkingAvailableCheckBox.isChecked());
-                    newProperty.setPoolAvailable(poolAvailableCheckBox.isChecked());
-                    newProperty.setBackyardAvailable(backyardAvailableCheckBox.isChecked());
-                    newProperty.setLaundryAvailable(laundryCheckBox.isChecked());
-                    newProperty.setHandicapAccessible(handicapAccessibleCheckBox.isChecked());
+                    User user = documentSnapshot.toObject(User.class);
 
-                    uploadProperty();
+                    if (user != null)
+                    {
+                        newProperty = Property.getPropertyInstance();
+                        newProperty.setTimeOfCreation(System.currentTimeMillis());
+                        newProperty.setHousingCategory(categorySpinner.getSelectedItem().toString());
+                        newProperty.setPrice(Double.parseDouble(editTextPrice.getText().toString()));
+                        newProperty.setPhotoURL(photoURLList.get(0));
+                        newProperty.setPhotoURLList(photoURLList);
+                        newProperty.setBio(editTextBio.getText().toString());
+                        newProperty.setAddress(editTextAddress.getText().toString());
+                        newProperty.setCity(editTextCity.getText().toString());
+                        newProperty.setZipCode(editTextZipCode.getText().toString());
+                        newProperty.setState(stateSpinner.getSelectedItem().toString());
+                        newProperty.setOwnerName(user.getOwnerName());
+                        newProperty.setOwnerPhoneNum(user.getOwnerPhoneNum());
+                        newProperty.setOwnerEmail(user.getOwnerEmail());
+                        newProperty.setBedrooms(bedrooms);
+                        newProperty.setBathrooms(bathrooms);
+                        newProperty.setPetsAllowed(petsAllowedCheckBox.isChecked());
+                        newProperty.setSmokingAllowed(smokingAllowedCheckBox.isChecked());
+                        newProperty.setParkingAvailable(parkingAvailableCheckBox.isChecked());
+                        newProperty.setPoolAvailable(poolAvailableCheckBox.isChecked());
+                        newProperty.setBackyardAvailable(backyardAvailableCheckBox.isChecked());
+                        newProperty.setLaundryAvailable(laundryCheckBox.isChecked());
+                        newProperty.setHandicapAccessible(handicapAccessibleCheckBox.isChecked());
+
+                        uploadProperty();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     private void exitAfterDelay()

@@ -184,5 +184,7 @@
     <!--    Error Messages-->
     <string name="categoryError">"You must select a housing category"</string>
     <string name="choose_images">Choose Images</string>
+    <string name="image_selection_error">Must Select An Image</string>
+    <string name="num_images_selected">Selected %d Images</string>
 
 </resources>
