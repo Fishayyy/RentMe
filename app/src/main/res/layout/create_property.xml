@@ -65,7 +65,7 @@
                 android:layout_marginBottom="10dp"
                 android:adjustViewBounds="true"
                 android:background="@drawable/border"
-                android:text="Choose Images"
+                android:text="@string/choose_images"
                 android:onClick="choosePhotoFromGallery"
                 android:padding="2dp"
                 android:scaleType="fitCenter"

@@ -271,30 +271,30 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
         if (resultCode == RESULT_CANCELED)
         {
             imgURI = null;
+            uploadImageButton.setBackgroundResource(R.drawable.border);
+            uploadImageButton.setText(R.string.choose_images);
             return;
         }
         if (requestCode == GALLERY)
         {
-            if (resultCode == MainActivity.RESULT_OK) {
-                if (data.getClipData() != null) {
+            if (resultCode == MainActivity.RESULT_OK)
+            {
+                if (data.getClipData() != null)
+                {
+                    ImageList.clear();
                     int count = data.getClipData().getItemCount();
                     Log.i("count", String.valueOf(count));
                     int currentImageSelected = 0;
-                    while (currentImageSelected < count) {
+                    while (currentImageSelected < count)
+                    {
                         imgURI = data.getClipData().getItemAt(currentImageSelected).getUri();
                         Log.i("uri", imgURI.toString());
                         ImageList.add(imgURI);
                         currentImageSelected = currentImageSelected + 1;
                     }
-                    uploadImageButton.setText("You have Selected " + ImageList.size() + " Images.");
-                    //uploadImageButton.setTextColor(0);
-                    uploadImageButton.setBackgroundColor(getResources().getColor(android.R.color.holo_purple));
-                    //uploadImageButton.setVisibility(View.GONE);
-                    //alert.setVisibility(View.VISIBLE);
+                    uploadImageButton.setText("Selected " + ImageList.size() + " Images");
+                    uploadImageButton.setBackgroundResource(R.drawable.success_background);
                     Log.i("listsize", String.valueOf(ImageList.size()));
-                } else if (data.getData() != null) {
-                    String imagePath = data.getData().getPath();
-                    Toast.makeText(this, "Please select multiple images.", Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -309,7 +309,6 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
         {
             isValid = false;
             scrollToTop = true;
-            //uploadImageButton.setImageResource(R.drawable.error_missing_photo);
             uploadImageButton.setBackgroundResource(R.drawable.error_background);
         }
 
@@ -455,19 +454,24 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
     private void uploadImage()
     {
         //photoURLCounter = ImageList.size();
-        while (upload_count < ImageList.size()) {
+        while (upload_count < ImageList.size())
+        {
             storageReference.child(System.currentTimeMillis() + "." + getExtension(ImageList.get(image)))
                     .putFile(ImageList.get(image))
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
+                    {
                         @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
+                        {
                             retrieveImageURL(taskSnapshot.getStorage().getDownloadUrl());
                             photoURLCounter = ImageList.size();
                         }
                     })
-                    .addOnFailureListener(new OnFailureListener() {
+                    .addOnFailureListener(new OnFailureListener()
+                    {
                         @Override
-                        public void onFailure(@NonNull Exception exception) {
+                        public void onFailure(@NonNull Exception exception)
+                        {
                             Toast.makeText(CreatePropertyActivity.this, "Error Uploading Image", Toast.LENGTH_LONG).show();
                         }
                     });
@@ -496,7 +500,7 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
 
                 //Add to photo url array (*Charles *Use to iterate through photos)
                 photoURLList.add(uri.toString());
-                if(photoURLList.size() == photoURLCounter)
+                if (photoURLList.size() == photoURLCounter)
                 {
                     uploadProperty();
                 }
