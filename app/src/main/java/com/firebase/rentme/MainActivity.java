@@ -204,7 +204,6 @@ public class MainActivity extends AppCompatActivity
                 property = propertyCardList.remove(0);
                 propertyCardList.add(property);
                 cardAdapter.notifyDataSetChanged();
-                Toast.makeText(getApplicationContext(), "\ud83d\udc94", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -213,7 +212,7 @@ public class MainActivity extends AppCompatActivity
                 property = propertyCardList.remove(0);
                 propertyCardList.add(property);
                 cardAdapter.notifyDataSetChanged();
-                Toast.makeText(getApplicationContext(), "\ud83d\udc93", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Added to Fravorites List", Toast.LENGTH_SHORT).show();
                 database.collection("users").document(FirebaseAuth.getInstance().getUid())
                         .update("ownerFavorites", FieldValue.arrayUnion(property.getDocumentReferenceID()));
             }
