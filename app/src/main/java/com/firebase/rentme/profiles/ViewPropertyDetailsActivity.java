@@ -23,6 +23,7 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ViewPropertyDetailsActivity extends FragmentActivity implements OnMapReadyCallback
@@ -30,6 +31,8 @@ public class ViewPropertyDetailsActivity extends FragmentActivity implements OnM
     private static final String TAG = "ViewPropertyDetails";
     private Property property;
     private GoogleMap mMap;
+    ArrayList<String> photos;
+    private int currentPhotoIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -67,15 +70,17 @@ public class ViewPropertyDetailsActivity extends FragmentActivity implements OnM
 
     private void displayCard(Property property)
     {
-        displayPropertyImage(property);
+        photos = property.getPhotoURLList();
+        currentPhotoIndex = photos.size() - 1;
+        displayPropertyImage(photos.get(currentPhotoIndex));
         displayPropertyStrings(property);
         displayPropertyBooleans(property);
     }
 
-    private void displayPropertyImage(Property property)
+    private void displayPropertyImage(String photoURL)
     {
         ImageView propertyImage = findViewById(R.id.property_image);
-        Picasso.get().load(property.getPhotoURL())
+        Picasso.get().load(photoURL)
                 .placeholder(R.drawable.animated_loading)
                 .error(R.drawable.error)
                 .noFade()
@@ -163,5 +168,31 @@ public class ViewPropertyDetailsActivity extends FragmentActivity implements OnM
     public void exitActivity(View view)
     {
         finish();
+    }
+
+    public void prevPhoto(View view)
+    {
+        if(currentPhotoIndex == 0)
+        {
+            currentPhotoIndex = photos.size() - 1;
+        }
+        else
+        {
+            currentPhotoIndex--;
+        }
+        displayPropertyImage(photos.get(currentPhotoIndex));
+    }
+
+    public void nextPhoto(View view)
+    {
+        if(currentPhotoIndex == photos.size() - 1)
+        {
+            currentPhotoIndex = 0;
+        }
+        else
+        {
+            currentPhotoIndex++;
+        }
+        displayPropertyImage(photos.get(currentPhotoIndex));
     }
 }

@@ -40,7 +40,6 @@ public class ViewListingsActivity extends AppCompatActivity
     private RecyclerView recyclerView;
     private ArrayList<Property> propertyList = new ArrayList<>();
     private ListViewAdapter adapter;
-    private RelativeLayout relativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,7 +50,6 @@ public class ViewListingsActivity extends AppCompatActivity
         Log.d(TAG, "onCreate: started");
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        relativeLayout = findViewById(R.id.relativeLayout);
 
         displayActivityName();
         getOwnedPropertiesList();

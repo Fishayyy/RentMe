@@ -82,7 +82,7 @@
         android:padding="15dp">
 
         <RelativeLayout
-            android:id="@+id/changePasswordLayout"
+            android:id="@+id/FullLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

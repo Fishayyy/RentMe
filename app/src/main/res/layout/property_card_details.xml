@@ -50,24 +50,52 @@
         android:layout_centerHorizontal="true">
 
         <RelativeLayout
-            android:id="@+id/changePasswordLayout"
+            android:id="@+id/FullLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/property_image"
+            <RelativeLayout
+                android:id="@+id/property_image_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true"
-                android:src="@color/primary" />
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/property_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:src="@color/primary" />
+
+                <Button
+                    android:id="@+id/leftButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:drawableStart="@drawable/left_arrow"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentStart="true"
+                    android:onClick="prevPhoto"/>
+
+                <Button
+                    android:id="@+id/rightButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:drawableEnd="@drawable/right_arrow"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentEnd="true"
+                    android:onClick="nextPhoto"/>
+
+            </RelativeLayout>
+
 
             <FrameLayout
                 android:id="@+id/mapContainer"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_below="@id/property_image"
+                android:layout_below="@id/property_image_layout"
                 android:layout_margin="5dp"
                 android:padding="5dp"
                 android:background="@drawable/border">
