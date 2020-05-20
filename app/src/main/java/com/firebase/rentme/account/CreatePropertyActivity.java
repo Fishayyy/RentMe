@@ -453,7 +453,6 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
     //upload multiple images.
     private void uploadImage()
     {
-        image = ImageList.size() - 1;
         if (upload_count < ImageList.size())
         {
             storageReference.child(System.currentTimeMillis() + "." + getExtension(ImageList.get(image)))
@@ -466,7 +465,7 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
                             retrieveImageURL(taskSnapshot.getStorage().getDownloadUrl());
                             photoURLCounter = ImageList.size();
                             upload_count++;
-                            image--;
+                            image++;
                             uploadImage();
                         }
                     })
@@ -559,7 +558,7 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
                     newProperty.setTimeOfCreation(System.currentTimeMillis());
                     newProperty.setHousingCategory(categorySpinner.getSelectedItem().toString());
                     newProperty.setPrice(Double.parseDouble(editTextPrice.getText().toString()));
-                    newProperty.setPhotoURL(photoURLList.get(0));
+                    newProperty.setPhotoURL(photoURLList.get(photoURLList.size()-1));
                     newProperty.setPhotoURLList(photoURLList);
                     newProperty.setBio(editTextBio.getText().toString());
                     newProperty.setAddress(editTextAddress.getText().toString());
