@@ -453,7 +453,7 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
     //upload multiple images.
     private void uploadImage()
     {
-        while (upload_count < ImageList.size())
+        if (upload_count < ImageList.size())
         {
             storageReference.child(System.currentTimeMillis() + "." + getExtension(ImageList.get(image)))
                     .putFile(ImageList.get(image))
@@ -464,6 +464,9 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
                         {
                             retrieveImageURL(taskSnapshot.getStorage().getDownloadUrl());
                             photoURLCounter = ImageList.size();
+                            upload_count++;
+                            image++;
+                            uploadImage();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener()
@@ -474,8 +477,6 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
                             Toast.makeText(CreatePropertyActivity.this, "Error Uploading Image", Toast.LENGTH_LONG).show();
                         }
                     });
-            upload_count++;
-            image++;
         }
     }
 
@@ -501,8 +502,6 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
                 {
                     initializeNewProperty();
                 }
-
-                initializeNewProperty();
             }
         }).addOnFailureListener(new OnFailureListener()
         {
@@ -559,7 +558,7 @@ public class CreatePropertyActivity extends AppCompatActivity implements SelectB
                     newProperty.setTimeOfCreation(System.currentTimeMillis());
                     newProperty.setHousingCategory(categorySpinner.getSelectedItem().toString());
                     newProperty.setPrice(Double.parseDouble(editTextPrice.getText().toString()));
-                    newProperty.setPhotoURL(photoURLList.get(0));
+                    newProperty.setPhotoURL(photoURLList.get(photoURLList.size()-1));
                     newProperty.setPhotoURLList(photoURLList);
                     newProperty.setBio(editTextBio.getText().toString());
                     newProperty.setAddress(editTextAddress.getText().toString());
