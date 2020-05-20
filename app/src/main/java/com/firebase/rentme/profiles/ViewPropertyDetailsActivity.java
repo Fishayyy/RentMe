@@ -71,7 +71,7 @@ public class ViewPropertyDetailsActivity extends FragmentActivity implements OnM
     private void displayCard(Property property)
     {
         photos = property.getPhotoURLList();
-        currentPhotoIndex = photos.size() - 1;
+        currentPhotoIndex = 0;
         displayPropertyImage(photos.get(currentPhotoIndex));
         displayPropertyStrings(property);
         displayPropertyBooleans(property);
